@@ -229,7 +229,44 @@ export class SpriteRenderer {
       ctx.stroke();
     }
 
-    if (v.isWarrior && v.isStealthed) {
+    if (v.isProtected) {
+      const shieldPulse = 18 + Math.sin(this.animTime * 5) * 1.8;
+      ctx.save();
+      ctx.beginPath();
+      ctx.ellipse(sx, sy - 10 * zoom, shieldPulse * 0.65 * zoom, (shieldPulse * 0.95) * zoom, 0, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(56, 189, 248, 0.16)';
+      ctx.fill();
+      ctx.strokeStyle = 'rgba(125, 211, 252, 0.85)';
+      ctx.lineWidth = 1.6 * zoom;
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    if (v.isInfected) {
+      const miasma = 15 + Math.cos(this.animTime * 6) * 2;
+      ctx.save();
+      ctx.beginPath();
+      ctx.ellipse(sx, sy + 1 * zoom, miasma * zoom, (miasma * 0.5) * zoom, 0, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(132, 204, 22, 0.26)';
+      ctx.fill();
+      ctx.strokeStyle = '#84cc16';
+      ctx.lineWidth = 1.5 * zoom;
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    if (v.stunTimer > 0) {
+      ctx.save();
+      ctx.setLineDash([3 * zoom, 2 * zoom]);
+      ctx.beginPath();
+      ctx.ellipse(sx, sy + 1 * zoom, 15 * zoom, 7.5 * zoom, 0, 0, Math.PI * 2);
+      ctx.strokeStyle = '#f97316';
+      ctx.lineWidth = 2.2 * zoom;
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    if ((v.isWarrior || v.role === 'pia_scout') && v.isStealthed) {
       const pulseR = 16 + Math.sin(this.animTime * 4) * 1.5;
       ctx.save();
       ctx.setLineDash([4 * zoom, 3 * zoom]);
@@ -353,7 +390,7 @@ export class SpriteRenderer {
       ctx.fillText(`${v.cargo.amount}`, badgeX, badgeY + 12 * zoom);
     }
 
-    // 6. Name Tag & Warrior Star Rank (1★ - 3★)
+    // 6. Name Tag, Role Badge & Warrior Star Rank (1★ - 3★)
     if (v.isWarrior && v.warriorStars > 0) {
       const starsStr = '★'.repeat(Math.min(3, v.warriorStars)) + '☆'.repeat(Math.max(0, 3 - v.warriorStars));
       const starY = topY - 11 * zoom;
@@ -365,11 +402,26 @@ export class SpriteRenderer {
       ctx.fillText(starsStr, sx, starY);
 
       if (v.isStealthed || isSelected) {
-        const tag = v.isStealthed ? 'STEALTH' : v.warriorMode === 'bow' ? 'BOW' : 'JAVELIN';
+        const wTag = v.weapon && v.weapon !== 'none' ? v.weapon.replace('_', ' ').toUpperCase() : (v.warriorMode === 'bow' ? 'BOW' : 'JAVELIN');
+        const tag = v.isStealthed ? 'STEALTH' : wTag;
         ctx.font = `bold ${Math.max(7, Math.floor(8 * zoom))}px sans-serif`;
         ctx.fillStyle = v.isStealthed ? '#4ade80' : '#fde047';
         ctx.fillText(tag, sx, starY - 9 * zoom);
       }
+    } else if (v.role && v.role !== 'chief') {
+      const roleLabels = { cook: 'COOK', armourer: 'ARMOURER', dj: 'DJ', shaman: 'SHAMAN', pia_scout: 'PIA SCOUT', guard: 'GUARD' };
+      const rLabel = roleLabels[v.role] || '';
+      if (rLabel) {
+        ctx.font = `bold ${Math.max(7, Math.floor(8 * zoom))}px sans-serif`;
+        ctx.textAlign = 'center';
+        ctx.fillStyle = v.role === 'shaman' ? '#c084fc' : v.role === 'pia_scout' ? '#4ade80' : '#38bdf8';
+        ctx.fillText(rLabel, sx, topY - 10 * zoom);
+      }
+    } else if (v.weapon && v.weapon !== 'none' && isSelected) {
+      ctx.font = `bold ${Math.max(7, Math.floor(8 * zoom))}px sans-serif`;
+      ctx.textAlign = 'center';
+      ctx.fillStyle = '#fde047';
+      ctx.fillText(v.weapon.replace('_', ' ').toUpperCase(), sx, topY - 10 * zoom);
     }
 
     ctx.font = `bold ${Math.max(9, Math.floor(10 * zoom))}px sans-serif`;
@@ -441,17 +493,41 @@ export class SpriteRenderer {
       ctx.fillStyle = 'rgba(0, 0, 0, 0.28)';
       ctx.fill();
 
-      // Flying Projectile Sprite (Javelin or Feathered Arrow)
-      const img = this.assets ? this.assets.get(p.type === 'bow' ? 'proj_arrow' : 'proj_javelin') : null;
+      // Flying Projectile Sprite (Javelin, Arrow, Tomahawk Stone)
+      const imgKey = p.type === 'bow' ? 'proj_arrow' : 'proj_javelin';
+      const img = this.assets ? this.assets.get(imgKey) : null;
       ctx.translate(curScreen.x, curScreen.y - (18 + arcOffset) * zoom);
-      ctx.rotate(angle);
-      if (img) {
-        const w = (p.type === 'bow' ? 22 : 28) * zoom;
-        const h = w * (img.naturalHeight / img.naturalWidth);
-        ctx.drawImage(img, -w / 2, -h / 2, w, h);
+      if (p.type === 'stone' || p.type === 'tomahawk') {
+        ctx.rotate(t * Math.PI * 6);
+        if (p.type === 'stone') {
+          ctx.fillStyle = '#94a3b8';
+          ctx.beginPath();
+          ctx.arc(0, 0, 4.5 * zoom, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.strokeStyle = '#334155';
+          ctx.lineWidth = 1;
+          ctx.stroke();
+        } else {
+          ctx.fillStyle = '#78350f';
+          ctx.fillRect(-7 * zoom, -1.5 * zoom, 14 * zoom, 3 * zoom);
+          ctx.fillStyle = '#cbd5e1';
+          ctx.beginPath();
+          ctx.moveTo(4 * zoom, -6 * zoom);
+          ctx.lineTo(9 * zoom, 0);
+          ctx.lineTo(4 * zoom, 4 * zoom);
+          ctx.closePath();
+          ctx.fill();
+        }
       } else {
-        ctx.fillStyle = p.type === 'bow' ? '#fde047' : '#d97706';
-        ctx.fillRect(-10 * zoom, -1.5 * zoom, 20 * zoom, 3 * zoom);
+        ctx.rotate(angle);
+        if (img) {
+          const w = (p.type === 'bow' ? 22 : 28) * zoom;
+          const h = w * (img.naturalHeight / img.naturalWidth);
+          ctx.drawImage(img, -w / 2, -h / 2, w, h);
+        } else {
+          ctx.fillStyle = p.type === 'bow' ? '#fde047' : '#d97706';
+          ctx.fillRect(-10 * zoom, -1.5 * zoom, 20 * zoom, 3 * zoom);
+        }
       }
       ctx.restore();
     }

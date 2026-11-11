@@ -225,7 +225,18 @@ export const ASSET_MANIFEST = {
   proj_javelin: `${HD}/proj_javelin.png`,
   proj_arrow: `${HD}/proj_arrow.png`,
 
-  // UI & Icons
+  // UI & Icons & High-Res Splash Art
+  ui_resource_banner: `${HD}/ui_resource_banner.png`,
+  ui_dialogue_panel: `${HD}/ui_dialogue_panel.png`,
+  ui_btn_frame_1: `${HD}/ui_btn_frame_1.png`,
+  ui_btn_frame_2: `${HD}/ui_btn_frame_2.png`,
+  art_splash: './assets/images/l2.png',
+  art_icon: './assets/images/icon.png',
+  art_chief: './assets/images/portrait_chief.jpg',
+  art_mumbo: './assets/images/portrait_mumbo.jpg',
+  art_hut: './assets/images/building_hut.jpg',
+  art_bush: './assets/images/nature_fruit_bush.jpg',
+  art_mammoth: './assets/images/animal_mammoth.jpg',
   icon_food: `${HD}/icon_food_meat.png`,
   icon_wood: `${HD}/icon_wood_logs.png`,
   icon_bones: `${HD}/icon_bones_crossed.png`,

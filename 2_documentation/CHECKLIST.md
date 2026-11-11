@@ -92,18 +92,18 @@ Tài liệu này định hình cấu trúc mã nguồn (Directory & Module Struc
 - [ ] **3.3** Cài đặt thuật toán tìm đường **A\* trên lưới Isometric**, tự động né chướng ngại vật phức tạp.
 - [x] **3.4** Sắp xếp chiều sâu thống nhất (Unified $Y$-Sorting) giữa cây, đá, công trình, bụi quả, thú, quân địch và dân làng.
 
-### Phase 4: Điều khiển Chuột Hiện đại RTS (HOÀN THÀNH 90%)
-- [x] **4.1** **Chuột trái**: Click chọn 1 dân làng / công trình / mỏ tài nguyên.
-- [ ] **4.2** **Quét chuột (Box Selection)**: Kéo chuột khoanh vùng chọn nhiều chiến binh cùng lúc.
+### Phase 4: Điều khiển Chuột Hiện đại RTS (HOÀN THÀNH 100%)
+- [x] **4.1** **Chuột trái**: Click chọn 1 dân làng, giữ `Shift` để chọn thêm, hoặc click chọn Công trình (`Building Inspector` xem HP, cấp độ, thợ phụ trách, rèn vũ khí/bẫy, niệm phép).
+- [x] **4.2** **Quét chuột (Box Selection) & Đội hình `[7]` / `[9]`**: Kéo chuột khoanh khung xanh chọn nhiều quân cùng lúc; bấm `Shift+7` / `Shift+9` (hoặc nút trên HUD) lưu tổ đội, bấm `7`/`9` để chọn & nhảy camera; `[G]` Form Up, `[C]` Call to Arms.
 - [x] **4.3** **Chuột phải thông minh (Context Action)**:
   - Click vào cây $\rightarrow$ Ra lệnh đốn gỗ tự động.
-  - Click vào đá $\rightarrow$ Ra lệnh khai thác đá tự động.
-  - Click vào bụi dâu $\rightarrow$ Ra lệnh hái quả dâu tự động.
+  - Click vào tảng đá (`OCC.STONE`) $\rightarrow$ Ra lệnh khai thác đá tự động.
+  - Click vào bụi dâu / thảo mộc $\rightarrow$ Ra lệnh hái quả tự động.
   - Click vào Hồ sen / Bến câu (`Pond` / `Fishing Pier`) $\rightarrow$ Ra lệnh câu cá (`fishing`) và tự vận chuyển về kho.
-  - Click vào động vật / Quân địch $\rightarrow$ Ra lệnh săn bắn hoặc chiến đấu (`hurt` / `cheer` / `defeated`).
-  - Click vào công trình $\rightarrow$ Xây dựng (nếu đang dở) hoặc Ăn (`kitchen`), Ngủ (`hut`), Khiêu vũ (`disco`), Cầu nguyện (`sanctuary` / `pia_center`), Rèn vũ khí (`armoury`), Trông trẻ (`nursery`).
-  - Click đất trống $\rightarrow$ Di chuyển 8 hướng mượt mà.
-- [x] **4.4** Phím tắt tiện dụng: `Space` (về Tộc trưởng), `WASD` / Mũi tên (di chuyển màn hình), `Esc` (hủy đặt công trình).
+  - Click vào động vật / Quân địch / Nhà địch $\rightarrow$ Ra lệnh săn bắn, giao chiến hoặc công phá công trình (kể cả phá Lều Giam giải cứu ở màn *Escape*).
+  - Click vào công trình $\rightarrow$ Xây dựng/nâng cấp/sửa chữa (nếu đang thi công) hoặc Ăn (`kitchen`), Ngủ (`hut`), Khiêu vũ (`disco`), Cầu nguyện (`sanctuary`), Rèn (`armoury`), Trông trẻ (`nursery`), Gác tháp (`tower`), Huấn luyện (`gym`/`range`/`pia_center`).
+  - Click đất trống $\rightarrow$ Di chuyển đội hình 8 hướng mượt mà.
+- [x] **4.4** Phím tắt & Tiện ích: `Space` (về Tộc trưởng), `WASD`/Mũi tên (cuộn map), `V` (Danh sách dân làng), `M` (Nhạc nền), `1` (Nhảy tới cảnh báo), `F` (Ẩn thân), `Esc`/`P` (Pause/Menu), cùng mã cheat `87391 + 1/3/7/9`.
 
 ### Phase 5: Động vật, Cây trái & Săn bắn (HOÀN THÀNH 85%)
 - [x] **5.1** Hệ sinh thái động vật hoang dã tiền sử (`Animal.js` & `WildlifeRenderer.js`):
@@ -143,34 +143,28 @@ Tài liệu này định hình cấu trúc mã nguồn (Directory & Module Struc
 - [x] **7.4** **Hiệu triệu chiến đấu (`Call to Arms` [C]) & Hào quang Tộc trưởng**: Tộc trưởng thổi tù và (`rallying`), tăng $+25\%$ tốc độ & sát thương cho dân xung quanh, huy động toàn làng đánh quân Ăn thịt người.
 - [x] **7.5** Hệ thống XP & Kỹ năng chuyên biệt (`Woodcutting`, `Mining`, `Foraging`, `Hunting`, `Building`, `Combat`) tăng cấp theo thực chiến.
 
-### Phase 8: Giao diện (HUD), Cốt truyện & Màn chơi (HOÀN THÀNH 85%)
-- [x] **8.1** Thanh tài nguyên Top HUD dùng khung đá buộc dây thừng (`ui_resource_banner.png`) cùng 5 icon vẽ tay (`Thịt`, `Gỗ`, `Đá`, `Xương chéo`, `Mặt thổ dân`), xóa sạch Emoji.
-- [x] **8.2** Thanh Build Dock dùng khung nút gỗ/đá (`ui_btn_frame_1.png`) với 9 công trình (`Hut`, `Store`, `Kitchen`, `Disco`, `Tower`, `Armoury`, `Nursery`, `Sanctuary`, `Training Ground`) + `Scaffolding` khi xây dựng.
-- [x] **8.3** Hộp thoại cốt truyện dùng khung da thú căng khung gỗ (`ui_dialogue_panel.png`) với lời thoại `campaign_en.json` và Avatar Tộc trưởng/Mumbo đồng bộ; Khung soi thông tin thực thể (`Inspector`) hiển thị ảnh đại diện và chỉ số thời gian thực.
-- [ ] **8.4** Quản lý 10 màn chơi chiến dịch (`LevelManager` chuyển cảnh từ Màn 0 `outside` đến Màn 9 `plot_of_land`).
-- [ ] **8.5** Bản đồ thu nhỏ (Minimap) hiển thị tổng quan góc nhìn.
+### Phase 8: Giao diện (HUD), Cốt truyện & Màn chơi (HOÀN THÀNH 100%)
+- [x] **8.1** Thanh tài nguyên Top HUD hiển thị tên Màn chơi, Mục tiêu, `Food (+Meals)`, `Wood`, `Stone`, `Bones`, `Pop / MaxLivingSpace`, đồng hồ Ngày/Đêm và các nút `Fog`, `Music`, `Dân [V]`, `Pause`.
+- [x] **8.2** Thanh Build Dock đầy đủ **11 công trình xây dựng** (`Hut`, `Store`, `Kitchen`, `Armoury`, `Gym`, `Range`, `Sanctuary`, `PIA`, `Disco`, `Nursery`, `Tower`) theo đúng thông số gốc + nâng cấp Lv1–Lv3, sửa chữa, phá bỏ.
+- [x] **8.3** Đầy đủ các màn hình & trạng thái (`OverlayManager.js`): Main Menu, Chọn Chương (0–6), Custom Maps (1–5), Tùy Chọn (`Easy`/`Hard`, Music, Fog), Codex Hướng Dẫn, About, Pause/Save/Load, Cutscene Cốt truyện, Bầu Tù Trưởng Kế Vị khi Chief tử trận, Danh sách Dân làng `[V]` và Bảng Điểm Results chuẩn gốc.
+- [x] **8.4** Quản lý toàn bộ **12 màn chơi chuẩn RLE** từ 10 file nhị phân `00_outside.bin .. 09_plot_of_land.bin` (`BinaryMapLoader.js` dùng `MAP_RUN_LENGTHS`, crop chuẩn *Tutorial 40×32* và *A New Home 64×96*, kèm AI địch `AISystems.js` đánh raid theo độ khó Easy/Hard).
+- [x] **8.5** Bản đồ thu nhỏ Isometric tương tác (`MinimapRenderer.js` click/drag cuộn camera) kết hợp Sương mù chiến tranh (Fog of War 3 trạng thái) & Cảnh báo nhảy nhanh `[1]`.
 
-### Phase 9: Đồ họa Nâng cao & Âm thanh (HOÀN THÀNH 85%)
+### Phase 9: Đồ họa Nâng cao, Phép Thuật, Bẫy & Âm thanh (HOÀN THÀNH 98%)
 - [x] **9.1** Hệ thống hạt hiệu ứng cao cấp (`ParticleSystem.js`):
-  - Vụn gỗ khi đốn cây / xây nhà.
-  - Tia lửa đá khi đập mỏ đá / tấn công thú dữ.
-  - Tàn lửa bập bùng và khói xám bốc lên từ bếp lò / đống lửa.
-  - Bụi bước chân khi di chuyển.
-  - **Chữ số nổi trên không gian (Floating Combat & Resource Text)**: `+5 Wood`, `+5 Berries`, `-16 HP`, `+15 Deposited!`, `✨ Hut Built!`.
-- [x] **9.2** Chu kỳ Ngày & Đêm 24h: Tông màu hoàng hôn ấm áp, màn đêm xanh huyền bí kèm quầng sáng ấm tỏa ra từ đuốc lửa quanh các công trình.
-- [x] **9.3** Hiệu ứng âm thanh tổng hợp Web Audio Synthesizer: Âm sắc chọn quân, chặt cây, đập đá, săn thú, đặt nhà, nạp tài nguyên và hoàn thành công trình.
-- [ ] **9.4** Tích hợp phát trực tiếp 5 file nhạc MIDI nền nguyên bản qua Soundfont.
-- [ ] **9.5** Hệ thống Save/Load tự động lưu vào `localStorage`.
+  - Vụn gỗ, tia lửa đá, bụi bước chân, vòng hào quang Giáp hộ mệnh (`Defence`), vầng Dịch bệnh 3×3 (`Disease`), Bẫy lưới/lò xo/hố chông (`Trap`) và **Chữ số nổi** chiến đấu/tài nguyên.
+- [x] **9.2** Chu kỳ Ngày & Đêm 24h (`DayNightCycle.js`) + Ánh sáng đuốc lửa công trình + Tint sinh thái từng vùng (`Lush`, `Jungle`, `Wastelands`, `Desert`).
+- [x] **9.3** Hệ thống Âm thanh & Nhạc nền MIDI Web Audio (`SoundEngine.js` + `MidiPlayer.js`): Giải mã trực tiếp **5 bản nhạc `.mid` gốc** (`music_track_0_8014b.mid`..`music_track_4_3234b.mid`) cho các trạng thái `Menu / Calm / Alert & Combat / Victory / Defeat` kèm hiệu ứng SFX đa âm sắc.
+- [x] **9.4** Chức năng Save / Load vào `localStorage` (`SaveManager.js`) cho cả Campaign, Custom Game, Điểm kỷ lục và Cài đặt hệ thống.
 
 ---
 
 ## 3. Tổng kết Tỷ lệ Hoàn thành Dự án
 
-$$\text{Tổng thể dự án Web Remake: } \mathbf{\approx 95\% \text{ hoàn thành}}$$
+$$\text{Tổng thể dự án Web Remake (Sau làm mới theo bản dịch ngược): } \mathbf{\approx 98\% \text{ hoàn thành}}$$
 
-- **Asset Pipeline, Bộ 135 Sprite Nhân vật (8 hướng + Chiến binh 3★) & UI Kit Đá/Gỗ:** **100%**
-- **Engine Isometric, Địa hình 3D Tiles, Ánh sáng Ngày/Đêm:** **98%**
-- **Động vật (Front/Back/Attack), Cây trái, Khai thác cạn (Stumps/Carcass):** **92%**
-- **Xây dựng (8+ công trình, Dàn giáo) & Kinh tế Vận chuyển (kể cả Câu cá):** **92%**
-- **Hệ thống Nhân vật, Sinh sản Trẻ em, Chiến đấu & Kỹ năng RPG:** **95%**
-- **Giao diện, Cốt truyện & Màn chơi:** **85%**
+- **Reverse Engineering Đặc tả & Dữ liệu gốc (`GameData.js` 12 màn, 12 nhà, 9 vũ khí/bẫy, 4 phép):** **100%**
+- **Asset Pipeline, 208 tài nguyên HD & 135 Sprite Nhân vật (8 hướng + Chiến binh 3★ + PIA Scout):** **100%**
+- **Engine Isometric, Giải mã RLE Map (12/12 màn), Fog of War, Minimap & Ngày/Đêm:** **99%**
+- **Xây dựng (Lv1–Lv3), Kinh tế `Food → Meals`, Săn bắn, Bẫy, Phép Shaman & AI Địch (`Easy`/`Hard`):** **98%**
+- **Hệ thống Giao diện, Cutscene, Bầu Chief, Squad/Box-Select & Save/Load (`localStorage`):** **100%**

@@ -46,6 +46,14 @@ export class Animal {
       this.boneYield = 80;
       this.speed = 0.8;
       this.size = 2.4;
+    } else if (type === 'trex') {
+      this.name = 'T-Rex Apex';
+      this.health = 280;
+      this.maxHealth = 280;
+      this.foodYield = 220;
+      this.boneYield = 90;
+      this.speed = 2.05;
+      this.size = 2.1;
     } else {
       // Wild Boar
       this.name = 'Wild Boar';
