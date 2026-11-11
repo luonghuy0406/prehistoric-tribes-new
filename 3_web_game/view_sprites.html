@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Original Extracted Sprites Gallery</title>
+<style>
+  body { background: #1a1a24; color: #fff; font-family: sans-serif; padding: 20px; }
+  .grid { display: flex; flex-wrap: wrap; gap: 20px; }
+  .card { background: #2a2a38; border: 1px solid #444; border-radius: 8px; padding: 12px; text-align: center; }
+  .card img { background: #374151; image-rendering: pixelated; border: 1px dashed #666; max-height: 200px; display: block; margin: 0 auto 8px auto; }
+  h2 { color: #f59e0b; border-bottom: 2px solid #444; padding-bottom: 6px; }
+</style>
+</head>
+<body>
+<h1>Prehistoric Tribes — Unpacked Native Game Sprites (45 Sheets)</h1>
+
+<h2>pi0 Sub-sheets (Buildings, Tools, Flora, Fauna, UI)</h2>
+<div class="grid" id="pi0-grid"></div>
+
+<h2>pi8 Sub-sheets (Level Terrains & Environments)</h2>
+<div class="grid" id="pi8-grid"></div>
+
+<h2>pi9 Sub-sheets (Characters & Directional Walkcycles)</h2>
+<div class="grid" id="pi9-grid"></div>
+
+<script>
+function populate(id, prefix, count) {
+  const container = document.getElementById(id);
+  for (let i = 0; i < count; i++) {
+    const pad = i < 10 ? '0' + i : '' + i;
+    const filename = `${prefix}_${pad}.png`;
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `
+      <img src="./assets/images/original_sprites/${filename}" alt="${filename}" />
+      <div><strong>${filename}</strong></div>
+    `;
+    container.appendChild(card);
+  }
+}
+populate('pi0-grid', 'pi0', 27);
+populate('pi8-grid', 'pi8', 12);
+populate('pi9-grid', 'pi9', 6);
+</script>
+</body>
+</html>

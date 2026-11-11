@@ -1,0 +1,307 @@
+{
+  "pack": "Prehistoric Dinosaur Jungle 2D Mega Props Pack (Free Sample)",
+  "version": "v1.0",
+  "status": "sample",
+  "sample_tile_count": 24,
+  "full_tile_count": 140,
+  "categories": {
+    "dinosaurs": 3,
+    "jungle_plants": 3,
+    "trees": 3,
+    "tribe_camp": 3,
+    "fossils_bones": 3,
+    "rocks_volcanic": 3,
+    "water_swamp": 3,
+    "architecture": 3
+  },
+  "assets": [
+    {
+      "name": "trex_adult",
+      "category": "dinosaurs",
+      "file": "Tiles/Dinosaurs/dino_dinosaurs_trex_adult_01.png",
+      "width": 192,
+      "height": 124,
+      "anchor": {
+        "x": 96,
+        "y": 115
+      },
+      "padding": 9
+    },
+    {
+      "name": "triceratops",
+      "category": "dinosaurs",
+      "file": "Tiles/Dinosaurs/dino_dinosaurs_triceratops_01.png",
+      "width": 192,
+      "height": 125,
+      "anchor": {
+        "x": 96,
+        "y": 115
+      },
+      "padding": 10
+    },
+    {
+      "name": "brontosaurus_longneck",
+      "category": "dinosaurs",
+      "file": "Tiles/Dinosaurs/dino_dinosaurs_brontosaurus_longneck_01.png",
+      "width": 192,
+      "height": 178,
+      "anchor": {
+        "x": 96,
+        "y": 167
+      },
+      "padding": 11
+    },
+    {
+      "name": "giant_fern",
+      "category": "jungle_plants",
+      "file": "Tiles/JunglePlants/dino_jungle_plants_giant_fern_01.png",
+      "width": 192,
+      "height": 166,
+      "anchor": {
+        "x": 96,
+        "y": 156
+      },
+      "padding": 10
+    },
+    {
+      "name": "prehistoric_flower_red",
+      "category": "jungle_plants",
+      "file": "Tiles/JunglePlants/dino_jungle_plants_prehistoric_flower_red_01.png",
+      "width": 192,
+      "height": 150,
+      "anchor": {
+        "x": 96,
+        "y": 138
+      },
+      "padding": 12
+    },
+    {
+      "name": "glowing_fungus",
+      "category": "jungle_plants",
+      "file": "Tiles/JunglePlants/dino_jungle_plants_glowing_fungus_01.png",
+      "width": 179,
+      "height": 192,
+      "anchor": {
+        "x": 89,
+        "y": 179
+      },
+      "padding": 13
+    },
+    {
+      "name": "conifer_giant",
+      "category": "trees",
+      "file": "Tiles/Trees/dino_trees_conifer_giant_01.png",
+      "width": 133,
+      "height": 192,
+      "anchor": {
+        "x": 66,
+        "y": 182
+      },
+      "padding": 10
+    },
+    {
+      "name": "fallen_log_mossy",
+      "category": "trees",
+      "file": "Tiles/Trees/dino_trees_fallen_log_mossy_01.png",
+      "width": 192,
+      "height": 127,
+      "anchor": {
+        "x": 96,
+        "y": 117
+      },
+      "padding": 10
+    },
+    {
+      "name": "prehistoric_palm_tree",
+      "category": "trees",
+      "file": "Tiles/Trees/dino_trees_prehistoric_palm_tree_01.png",
+      "width": 170,
+      "height": 192,
+      "anchor": {
+        "x": 85,
+        "y": 181
+      },
+      "padding": 11
+    },
+    {
+      "name": "hide_tent_hut",
+      "category": "tribe_camp",
+      "file": "Tiles/TribeCamp/dino_tribe_camp_hide_tent_hut_01.png",
+      "width": 192,
+      "height": 173,
+      "anchor": {
+        "x": 96,
+        "y": 163
+      },
+      "padding": 10
+    },
+    {
+      "name": "campfire_stones",
+      "category": "tribe_camp",
+      "file": "Tiles/TribeCamp/dino_tribe_camp_campfire_stones_01.png",
+      "width": 192,
+      "height": 155,
+      "anchor": {
+        "x": 96,
+        "y": 144
+      },
+      "padding": 11
+    },
+    {
+      "name": "bone_skull_totem",
+      "category": "tribe_camp",
+      "file": "Tiles/TribeCamp/dino_tribe_camp_bone_skull_totem_01.png",
+      "width": 106,
+      "height": 192,
+      "anchor": {
+        "x": 53,
+        "y": 181
+      },
+      "padding": 11
+    },
+    {
+      "name": "dino_skeleton_full",
+      "category": "fossils_bones",
+      "file": "Tiles/FossilsBones/dino_fossils_bones_dino_skeleton_full_01.png",
+      "width": 192,
+      "height": 144,
+      "anchor": {
+        "x": 96,
+        "y": 135
+      },
+      "padding": 9
+    },
+    {
+      "name": "amber_with_bug",
+      "category": "fossils_bones",
+      "file": "Tiles/FossilsBones/dino_fossils_bones_amber_with_bug_01.png",
+      "width": 190,
+      "height": 192,
+      "anchor": {
+        "x": 95,
+        "y": 180
+      },
+      "padding": 12
+    },
+    {
+      "name": "triceratops_skull_horned",
+      "category": "fossils_bones",
+      "file": "Tiles/FossilsBones/dino_fossils_bones_triceratops_skull_horned_01.png",
+      "width": 192,
+      "height": 179,
+      "anchor": {
+        "x": 96,
+        "y": 169
+      },
+      "padding": 10
+    },
+    {
+      "name": "small_smoking_volcano",
+      "category": "rocks_volcanic",
+      "file": "Tiles/RocksVolcanic/dino_rocks_volcanic_small_smoking_volcano_01.png",
+      "width": 192,
+      "height": 177,
+      "anchor": {
+        "x": 96,
+        "y": 166
+      },
+      "padding": 11
+    },
+    {
+      "name": "glowing_lava_flow",
+      "category": "rocks_volcanic",
+      "file": "Tiles/RocksVolcanic/dino_rocks_volcanic_glowing_lava_flow_01.png",
+      "width": 192,
+      "height": 168,
+      "anchor": {
+        "x": 96,
+        "y": 158
+      },
+      "padding": 10
+    },
+    {
+      "name": "cave_crystal_cluster",
+      "category": "rocks_volcanic",
+      "file": "Tiles/RocksVolcanic/dino_rocks_volcanic_cave_crystal_cluster_01.png",
+      "width": 191,
+      "height": 192,
+      "anchor": {
+        "x": 95,
+        "y": 180
+      },
+      "padding": 12
+    },
+    {
+      "name": "lily_pad_pond",
+      "category": "water_swamp",
+      "file": "Tiles/WaterSwamp/dino_water_swamp_lily_pad_pond_01.png",
+      "width": 192,
+      "height": 144,
+      "anchor": {
+        "x": 96,
+        "y": 134
+      },
+      "padding": 10
+    },
+    {
+      "name": "rock_waterfall",
+      "category": "water_swamp",
+      "file": "Tiles/WaterSwamp/dino_water_swamp_rock_waterfall_01.png",
+      "width": 192,
+      "height": 171,
+      "anchor": {
+        "x": 96,
+        "y": 161
+      },
+      "padding": 10
+    },
+    {
+      "name": "natural_log_bridge",
+      "category": "water_swamp",
+      "file": "Tiles/WaterSwamp/dino_water_swamp_natural_log_bridge_01.png",
+      "width": 192,
+      "height": 141,
+      "anchor": {
+        "x": 96,
+        "y": 131
+      },
+      "padding": 10
+    },
+    {
+      "name": "floor_jungle_grass",
+      "category": "architecture",
+      "file": "Tiles/Architecture/dino_architecture_floor_jungle_grass_01.png",
+      "width": 191,
+      "height": 192,
+      "anchor": {
+        "x": 95,
+        "y": 182
+      },
+      "padding": 10
+    },
+    {
+      "name": "wall_rock_cliff",
+      "category": "architecture",
+      "file": "Tiles/Architecture/dino_architecture_wall_rock_cliff_01.png",
+      "width": 192,
+      "height": 191,
+      "anchor": {
+        "x": 96,
+        "y": 181
+      },
+      "padding": 10
+    },
+    {
+      "name": "path_dirt_trail",
+      "category": "architecture",
+      "file": "Tiles/Architecture/dino_architecture_path_dirt_trail_01.png",
+      "width": 191,
+      "height": 192,
+      "anchor": {
+        "x": 95,
+        "y": 182
+      },
+      "padding": 10
+    }
+  ]
+}
