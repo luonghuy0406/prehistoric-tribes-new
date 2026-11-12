@@ -1,6 +1,6 @@
-# ĐẶC TẢ DỊCH NGƯỢC TOÀN DIỆN — PREHISTORIC TRIBES (WEB PORT VERCEL)
+# ĐẶC TẢ DỊCH NGƯỢC TOÀN DIỆN — PREHISTORIC TRIBES (WEB PORT VERCEL & BẢN CLONE 1:1)
 
-Tài liệu này được tổng hợp trực tiếp bằng phân tích mã nguồn JS, `res/data/game-data.json` (292 bảng dữ liệu), `res/text/en.json` (235 câu thoại + nhãn/thông báo), và `res/maps/map-0..9.bin` dịch ngược từ phiên bản web tại `https://prehistoric-tribes.vercel.app/` (cổng chuyển thể trung thực từ bản J2ME 2008 của THQ Wireless / Gear Games).
+Tài liệu này được tổng hợp trực tiếp bằng phân tích mã nguồn JS ([`index-BHVz0EiT.js`](../4_prehistoric_tribes_clone/assets/index-BHVz0EiT.js) khôi phục nguyên bản `1:1` từ `index-BHVz0EiT.orig.js`), [`res/data/game-data.json`](../4_prehistoric_tribes_clone/res/data/game-data.json) (292 bảng dữ liệu: `288 tables` + `4 shortTables`), [`res/data/sprites.json`](../4_prehistoric_tribes_clone/res/data/sprites.json) (`11 shorts` + `25 bytes`), [`res/text/en.json`](../4_prehistoric_tribes_clone/res/text/en.json) (`menu`, `pages`, `labels` [10 nhóm], `messages` [4 nhóm], `dialogue` [235 câu thoại]), và [`res/maps/map-0..9.bin`](../4_prehistoric_tribes_clone/res/maps/map-0.bin) dịch ngược từ phiên bản web `https://prehistoric-tribes.vercel.app/` (lưu cục bộ tại [`4_prehistoric_tribes_clone/`](../4_prehistoric_tribes_clone/), kiến trúc chi tiết xem [`CLONE_ARCHITECTURE.md`](../4_prehistoric_tribes_clone/CLONE_ARCHITECTURE.md)).
 
 ---
 
@@ -124,7 +124,7 @@ Bối cảnh mở đầu: Xưa kia thế giới là vùng đất xanh tươi v�
 |---|---|---:|---:|---:|---:|---:|---|
 | **`0` — Boar** | Lợn rừng (`Boar`) | **30 HP** | `6` (chậm vừa) | `5` (chủ yếu bỏ chạy, đánh trả khi bị săn) | **2** (nhân hệ số random 2..4 / 4) | **25** đơn vị | Nguồn thịt dồi dào, an toàn hơn để săn đầu game. |
 | **`1` — Tiger** | Hổ răng kiếm (`Tiger`) | **50 HP** | `4` (**rất nhanh**) | `100` (**luôn chủ động tấn công người & phá nhà gần**) | **4** | **15** đơn vị | Mối nguy hiểm tự nhiên lớn nhất; ăn thịt trẻ em đi lạc; công cụ giải cứu trại địch ở màn *Escape*. |
-| **`2` — Small Game** | Thú nhỏ / Con mồi (`Animal 2`) | **20 HP** | `5` (nhanh vừa) | `0` (**nhát, luôn bỏ chạy**) | **0** | **15** đơn vị | Mồi săn hiền lành không đánh trả. *(Bản làm mới HD giữ thêm Woolly Mammoth làm thú cỡ đại rơi nhiều thịt & xương).* |
+| **`2` — Small Game** | Thú nhỏ / Con mồi (`Animal 2`) | **20 HP** | `5` (nhanh vừa) | `0` (**nhát, luôn bỏ chạy**) | **0** | **15** đơn vị | Mồi săn hiền lành không đánh trả. *(Bản clone `4_prehistoric_tribes_clone/` dùng đúng 3 loài gốc `0..2`; bản remake `3_web_game/` bổ sung thêm Woolly Mammoth).* |
 
 > [!NOTE]
 > Xác động vật (`Pl.CARCASS`) sau khi chết tự phân hủy dần mỗi `128` tick; khi hết thịt sẽ tự chuyển hóa thành **Đống Xương (`Pl.BONES`, 15 đơn vị)** để dân tiếp tục thu thập xương nâng cấp nhà/chế vũ khí!
@@ -216,7 +216,7 @@ Bối cảnh mở đầu: Xưa kia thế giới là vùng đất xanh tươi v�
 
 ### 5.1. Kinh tế 4 Tài nguyên & Vòng lặp "Meals"
 - **4 tài nguyên kho (`Store`, giới hạn 999 mỗi loại cho Player):** `Food` (Thực phẩm thô từ quả mọng, cây thuốc/rau, thịt thú, cá), `Wood` (Gỗ đốn từ rừng `FOREST`), `Stones` (Đá khai thác từ mỏ đá), `Bones` (Xương nhặt từ đống xương sau khi thú thối rữa).
-- **Cơ chế Bếp (`Kitchen` & `Meals`):** Đầu bếp (`Cook`) ra **Store** lấy `Food` thô (tối đa 9 phần/lượt) mang về **Kitchen** nấu thành **`Meals` (Suất ăn)** trữ tối đa 40 suất. Dân làng đói sẽ chạy vào Kitchen ăn `Meals` chứ không ăn trực tiếp `Food` thô ở kho! Khi đi chiến đấu hoặc công trường, dân làng mang hàng về **Store** theo tải trọng `cargoCapacity` (`2..3` trong bảng dữ liệu gốc, hoặc `15` trong bản Web HD).
+- **Cơ chế Bếp (`Kitchen` & `Meals`):** Đầu bếp (`Cook`) ra **Store** lấy `Food` thô (tối đa 9 phần/lượt) mang về **Kitchen** nấu thành **`Meals` (Suất ăn)** trữ tối đa 40 suất. Dân làng đói sẽ chạy vào Kitchen ăn `Meals` chứ không ăn trực tiếp `Food` thô ở kho! Khi vận chuyển hoặc xây dựng, dân làng trong bản gốc & bản clone `4_prehistoric_tribes_clone/` mang hàng theo tải trọng `cargoCapacity` (`2..3` đơn vị trong bảng dữ liệu gốc; bản remake `3_web_game/` nâng lên `15`).
 
 ### 5.2. Vòng đời Nhu cầu, Hôn nhân ("Tent-time") & Sinh sản
 - **Ngưỡng nhu cầu:** Khi `energy <= 20` (hoặc `50` nếu `happiness <= 5`), dân tự về giường riêng (`bedHut`) ở **Hut** để ngủ; nếu không có lều (`bedHut <= 0`) sẽ phải ngủ ngoài trời (`SLEEP_OUTSIDE`) và báo alert **`NO_LIVING_SPACE`**. Tương tự với đói $\rightarrow$ **Kitchen** (`STARVING`), tụt tinh thần (`happiness <= 30`) $\rightarrow$ **Disco** (`DEPRESSED_TRIBE`).

@@ -103,3 +103,16 @@ The original J2ME controls were restricted to mobile keypad buttons (`2, 4, 6, 8
   - Implement weapons manufacturing, militia rallying ("Call to Arms!"), and enemy raiding waves.
   - Implement Shaman spellcasting (Healing, Ward, Love Potion, Disease).
   - Load and sequence all 10 campaign scenarios with authentic dialogue popups from `0/d0`.
+
+---
+
+## 6. Verified 1:1 Offline Web Clone & React Edition (`4_prehistoric_tribes_clone/` & `5_prehistoric_tribes_react/`)
+
+*(Note: The legacy prototype `3_web_game/` has been removed and replaced by the React + TypeScript edition `5_prehistoric_tribes_react/`.)*
+
+A faithful offline 1:1 clone of `https://prehistoric-tribes.vercel.app/` is maintained and verified at [`../../4_prehistoric_tribes_clone/`](../../4_prehistoric_tribes_clone/) (documented in [`CLONE_ARCHITECTURE.md`](../../4_prehistoric_tribes_clone/CLONE_ARCHITECTURE.md)), alongside its Vite + React + TypeScript wrapper at [`../../5_prehistoric_tribes_react/`](../../5_prehistoric_tribes_react/):
+
+- **1:1 Engine & Pixel Scaling:** [`assets/index-BHVz0EiT.js`](../../4_prehistoric_tribes_clone/assets/index-BHVz0EiT.js) and [`assets/index-DT5HQrea.css`](../../4_prehistoric_tribes_clone/assets/index-DT5HQrea.css) match `.orig.js` and `.orig.css` byte-for-byte, rendering on a logical `1x` canvas (`640×400` at `1280×800` desktop viewport) with `image-rendering: crisp-edges`.
+- **Self-Contained Local Assets:** `48` `1x` PNGs in [`res/images/`](../../4_prehistoric_tribes_clone/res/images) plus `res/icon.png`, `res/data/game-data.json` (`288 tables + 4 shortTables`), `res/data/sprites.json` (`11 shorts + 25 bytes`), `10` RLE maps (`res/maps/map-0..9.bin`), `5` JSON locales (`en, fr, it, de, es` with `235` dialogues), and `5` MP3 soundtrack files (`music/song0..4.mp3`). (`assets/hd-graphics.js` and `res/images-hd/` remain dormant backups unreferenced at runtime.)
+- **Local Dev Service Worker Hygiene:** [`registerSW.js`](../../4_prehistoric_tribes_clone/registerSW.js) unregisters stale Service Workers on page load to ensure local asset updates reflect cleanly.
+- **Runtime Validation:** Headless Chrome (`1280×800`) confirmed HTTP `200` asset loads, `0` runtime/console/network errors (`ERRS: []`), and pixel-accurate Title, Story (`OUTSIDE`), Gameplay HUD, Minimap (`3`), and Pause Menu (`RESUME / SAVE / OPTIONS / HELP / QUIT`) screens.

@@ -1,6 +1,6 @@
 # Phase 4: Narrative & Campaign Reconstruction (Verified from Web Port RE)
 
-Based on complete decompilation of `https://prehistoric-tribes.vercel.app/` (`res/text/en.json` — 235 dialogue strings, `res/data/game-data.json` — 292 tables, and engine scripts), this document accurately reconstructs the entire lore, character cast, 12-level structure (7 Campaign levels across 5 Chapters + Tutorial, plus 5 Custom Skirmish maps), and all scripted cutscenes.
+Based on complete decompilation of `https://prehistoric-tribes.vercel.app/` and its local offline 1:1 clone in [`../../4_prehistoric_tribes_clone/`](../../4_prehistoric_tribes_clone/) ([`res/text/en.json`](../../4_prehistoric_tribes_clone/res/text/en.json) — 235 dialogue strings, [`res/data/game-data.json`](../../4_prehistoric_tribes_clone/res/data/game-data.json) — 288 `tables` + 4 `shortTables`, and [`assets/index-BHVz0EiT.js`](../../4_prehistoric_tribes_clone/assets/index-BHVz0EiT.js)), this document accurately reconstructs the entire lore, character cast, 12-level structure (7 Campaign levels across 5 Chapters + Tutorial, plus 5 Custom Skirmish maps), and all scripted cutscenes.
 
 ---
 

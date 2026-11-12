@@ -1,10 +1,77 @@
-# Prehistoric Tribes Web Remake — Checklist & Architecture Blueprint
+# Prehistoric Tribes Web Clone & React Edition — Checklist & Architecture Blueprint
 
-Tài liệu này định hình cấu trúc mã nguồn (Directory & Module Structure), kiến trúc phần mềm, và bảng kiểm tra tiến độ (Checklist) từng bước để chuyển thể trọn vẹn *Prehistoric Tribes* thành phiên bản Web hiện đại.
+Tài liệu này ghi nhận cấu trúc mã nguồn (Directory & Module Structure), kiến trúc phần mềm và bảng kiểm tra tiến độ (Checklist) của **Bản Clone Nguyên Bản 1:1 (`4_prehistoric_tribes_clone/`)** và **Bản React + TypeScript (`5_prehistoric_tribes_react/`)** *(đã xóa thư mục mẫu cũ `3_web_game/`)*.
 
 ---
 
-## 1. Cấu trúc Source Code Dự án (`3_web_game`)
+## 0. Bản Clone Nguyên Bản 1:1 (`4_prehistoric_tribes_clone/` — Đã Khôi Phục Chuẩn Gốc 100%)
+
+```
+4_prehistoric_tribes_clone/
+├── index.html                           # Canvas #screen nguyên bản + registerSW.js (gỡ SW cũ khi chạy local)
+├── CLONE_ARCHITECTURE.md                # Tài liệu cấu trúc & cơ chế viewport/đồ họa bản clone 1:1
+├── manifest.webmanifest                 # Manifest PWA (fullscreen, theme #1b140c)
+├── registerSW.js / sw.js / workbox-*.js # Script hủy Service Worker cũ khi phát triển cục bộ
+├── download/index.html                  # Trang thay thế màn Install cho bản chạy local offline
+├── assets/
+│   ├── index-BHVz0EiT.js                # Khớp 100% nhị phân với index-BHVz0EiT.orig.js (bản gốc Vercel)
+│   ├── index-DT5HQrea.css               # Khớp 100% nhị phân với index-DT5HQrea.orig.css (image-rendering: crisp-edges)
+│   ├── web-DZP_SFn1.js                  # Capacitor/Web lifecycle adapter
+│   ├── tauriUpdater-uEkRXE_z.js         # Stub updater cho bản đóng gói
+│   └── hd-graphics.js                   # Bridge HD lưu trữ (không nạp tại runtime bản gốc 1:1)
+├── music/
+│   └── song0.mp3 .. song4.mp3           # 5 bản nhạc MP3 đầy đủ cho Title/Gameplay/Raid/Victory/Defeat
+└── res/
+    ├── icon.png                         # Icon ứng dụng 1x
+    ├── data/
+    │   ├── game-data.json               # 292 bảng dữ liệu (288 tables + 4 shortTables)
+    │   └── sprites.json                 # Bảng lát cắt sprite (11 shorts + 25 bytes)
+    ├── images/                          # 48 PNG nguyên bản 1x: splash-0..2, sprites/00..26, sprites-alt/00..05, story/00..11
+    ├── images-hd/                       # 49 PNG bản remaster lưu trữ thụ động (chưa dùng ở chế độ 1:1 gốc)
+    ├── maps/
+    │   └── map-0.bin .. map-9.bin       # 10 tệp bản đồ nhị phân RLE gốc (12 màn chơi)
+    └── text/
+        └── {en,fr,it,de,es}.json        # Bản địa hóa gốc (menu, pages, labels, messages, 235 dialogue)
+```
+
+### Bảng Kiểm tra Khôi phục Bản Clone (`4_prehistoric_tribes_clone`)
+- [x] **C.1** Khôi phục nguyên vẹn [`index-BHVz0EiT.js`](../4_prehistoric_tribes_clone/assets/index-BHVz0EiT.js) từ `.orig.js` và [`index-DT5HQrea.css`](../4_prehistoric_tribes_clone/assets/index-DT5HQrea.css) từ `.orig.css` (`cmp -s` xác nhận 0 byte sai lệch).
+- [x] **C.2** Tự chủ hoàn toàn offline: toàn bộ `48` PNG trong `res/images/` + `res/icon.png`, `292` bảng `game-data.json`, `sprites.json`, `10` map `.bin`, `5` ngôn ngữ JSON và `5` bản nhạc MP3 lưu trữ cục bộ, không gọi mạng ngoài.
+- [x] **C.3** Kiểm tra thực thi qua Chrome headless (`1280×800`) tại server cục bộ: Canvas logic `640×400` với `image-rendering: crisp-edges`, `0` lỗi JS (`ERRS: []`), `0` lỗi mạng, hiển thị chuẩn pixel gốc ở Menu chính, Story `OUTSIDE`, Custom Game HUD, Minimap `[3]`, và Pause Menu.
+
+---
+
+## 1. Cấu trúc Bản React Edition (`5_prehistoric_tribes_react/` — Vite + React 18 + TypeScript)
+
+```
+5_prehistoric_tribes_react/
+├── index.html                           # Entry HTML chuẩn Vite
+├── package.json                         # react 18.3.1, react-dom 18.3.1, vite 6, typescript 5.7
+├── tsconfig.json / vite.config.ts
+├── public/                              # Tài nguyên offline tự chủ từ 4_prehistoric_tribes_clone/
+│   ├── icons/{icon-192,icon-512}.png
+│   ├── music/song0.mp3 .. song4.mp3
+│   └── res/{data,images,maps,text,icon.png}
+└── src/
+    ├── main.tsx & App.tsx               # React StrictMode root & bố cục Stage + Top/Bottom React bars
+    ├── styles/app.css                   # Theme Dark-Timber / Parchment + canvas #screen crisp-edges
+    ├── components/
+    │   ├── TopShellBar.tsx              # Thanh trên: Level, Tài nguyên live, Zoom -/+, Nhạc, Ngôn ngữ, Dân [V], Menu
+    │   ├── BottomDock.tsx               # Thanh đáy RTS: Thông tin Dân/Nhà đang chọn, Chief, Xây [7], Call to Arms, Form Up, Bản đồ [3], Alert [1], Dừng
+    │   └── VillagerRosterModal.tsx      # Bảng tìm kiếm & lọc toàn bộ dân làng [V], click để chọn & pan camera
+    └── engine/
+        ├── ptCore.js & ptCore.d.ts      # Engine 1:1 gốc bọc thành mountPrehistoricTribes() an toàn với StrictMode
+        ├── bridgeTypes.ts               # Định nghĩa TypeScript cho Snapshot, VillagerRow, Controller
+        └── useGameEngine.ts             # Hook React quản lý vòng đời mount/unmount & đồng bộ telemetry
+```
+
+- [x] **R.1** Xây dựng Vite + React 18 + TypeScript bọc `mountPrehistoricTribes()` tương thích `<React.StrictMode>` (chống rò rỉ listener & clobbering state khi mount/unmount).
+- [x] **R.2** Triển khai [`TopShellBar.tsx`](../5_prehistoric_tribes_react/src/components/TopShellBar.tsx), [`BottomDock.tsx`](../5_prehistoric_tribes_react/src/components/BottomDock.tsx) và [`VillagerRosterModal.tsx`](../5_prehistoric_tribes_react/src/components/VillagerRosterModal.tsx) kết nối 2 chiều vào engine.
+- [x] **R.3** `tsc -b && vite build` thành công và kiểm thử Chrome headless (`1280×800`) qua mọi màn hình chính với `ERRS: []`, `NET_FAILS: []`.
+
+*(Ghi chú lịch sử: Mục chi tiết bên dưới lưu lại thiết kế & checklist của nhánh thử nghiệm `3_web_game/` trước khi xóa.)*
+
+## 2. Cấu trúc Tham khảo Bản Thử Nghiệm Cũ (`3_web_game` — Đã Xóa)
 
 ```
 3_web_game/
@@ -159,9 +226,11 @@ Tài liệu này định hình cấu trúc mã nguồn (Directory & Module Struc
 
 ---
 
-## 3. Tổng kết Tỷ lệ Hoàn thành Dự án
+## 3. Tổng kết Trạng thái Toàn Workspace
 
-$$\text{Tổng thể dự án Web Remake (Sau làm mới theo bản dịch ngược): } \mathbf{\approx 98\% \text{ hoàn thành}}$$
+- **Bản Clone Nguyên Bản 1:1 ([`4_prehistoric_tribes_clone/`](../4_prehistoric_tribes_clone/)):** **100% giống bản gốc `https://prehistoric-tribes.vercel.app/`** (đã khôi phục nguyên bản JS/CSS `.orig`, đồ họa `1x` pixel-crisp, đầy đủ âm thanh/map/text offline).
+
+$$\text{Tổng thể dự án Web Remake (3\_web\_game): } \mathbf{\approx 98\% \text{ hoàn thành}}$$
 
 - **Reverse Engineering Đặc tả & Dữ liệu gốc (`GameData.js` 12 màn, 12 nhà, 9 vũ khí/bẫy, 4 phép):** **100%**
 - **Asset Pipeline, 208 tài nguyên HD & 135 Sprite Nhân vật (8 hướng + Chiến binh 3★ + PIA Scout):** **100%**

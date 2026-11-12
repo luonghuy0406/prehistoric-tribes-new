@@ -1,6 +1,6 @@
 # Phase 5: Gameplay Systems & Mechanics Reconstruction (Verified from Web Port RE)
 
-All numbers, costs, combat formulas, entity states, and AI behaviors below are directly verified from `index.js`, `game-data.json` (292 tables), and `en.json` of `https://prehistoric-tribes.vercel.app/`.
+All numbers, costs, combat formulas, entity states, and AI behaviors below are directly verified from [`assets/index-BHVz0EiT.js`](../../4_prehistoric_tribes_clone/assets/index-BHVz0EiT.js), [`res/data/game-data.json`](../../4_prehistoric_tribes_clone/res/data/game-data.json) (`288 tables + 4 shortTables` = 292 tables), and [`res/text/en.json`](../../4_prehistoric_tribes_clone/res/text/en.json) of the local offline 1:1 clone [`../../4_prehistoric_tribes_clone/`](../../4_prehistoric_tribes_clone/) (matching `https://prehistoric-tribes.vercel.app/`).
 
 ---
 

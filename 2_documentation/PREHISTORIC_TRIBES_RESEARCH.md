@@ -22,12 +22,14 @@ All original assets—including full-resolution sprite atlases, UI sheets, chara
 
 | Phase | Research Document | Focus & Content |
 |---|---|---|
-| **Phase 1** | [01_initial_inspection/JAR_INSPECTION.md](file:///Users/huynguyen/Documents/revert_engeneering_game/01_initial_inspection/JAR_INSPECTION.md) | Archive manifest, entry points, class inventory, obfuscator details, packaging formats. |
-| **Phase 2** | [02_assets/ASSET_CATALOG.md](file:///Users/huynguyen/Documents/revert_engeneering_game/02_assets/ASSET_CATALOG.md) | Visual asset inventory, 2-byte PNG prefix specs, 5 extracted MIDI tracks, 10 map binary blocks, binary layout specs. |
-| **Phase 3** | [03_code_analysis/ARCHITECTURAL_ANALYSIS.md](file:///Users/huynguyen/Documents/revert_engeneering_game/03_code_analysis/ARCHITECTURAL_ANALYSIS.md) | Deobfuscated class relationships, 20 FPS game loop, SoA 101-entity simulation, 2:1 isometric diamond rendering math. |
-| **Phase 4** | [04_narrative/STORY_AND_CAMPAIGN.md](file:///Users/huynguyen/Documents/revert_engeneering_game/04_narrative/STORY_AND_CAMPAIGN.md) | Avnotaklu tribal lore, character profiles (Chief, Mumbo, Shaman, PIA Agent), comedic tropes, 10-level campaign guide. |
-| **Phase 5** | [05_gameplay/GAMEPLAY_SYSTEMS.md](file:///Users/huynguyen/Documents/revert_engeneering_game/05_gameplay/GAMEPLAY_SYSTEMS.md) | 4-resource economic flow, 12 buildings & upgrade paths, autonomous villager needs loop, reproduction, weapons, combat. |
-| **Phase 6** | [06_runtime_validation/WEB_PORTING_SPECIFICATION.md](file:///Users/huynguyen/Documents/revert_engeneering_game/06_runtime_validation/WEB_PORTING_SPECIFICATION.md) | Modern Web/TypeScript architecture, ECS structure, Canvas2D/PixiJS isometric pipeline, RTS mouse controls, audio synth. |
+| **Phase 1** | [`01_initial_inspection/JAR_INSPECTION.md`](./01_initial_inspection/JAR_INSPECTION.md) | Archive manifest, entry points, class inventory, obfuscator details, packaging formats. |
+| **Phase 2** | [`02_assets/ASSET_CATALOG.md`](./02_assets/ASSET_CATALOG.md) | Visual asset inventory, 2-byte PNG prefix specs, 5 extracted MIDI tracks, 10 map binary blocks, binary layout specs. |
+| **Phase 3** | [`03_code_analysis/ARCHITECTURAL_ANALYSIS.md`](./03_code_analysis/ARCHITECTURAL_ANALYSIS.md) | Deobfuscated class relationships, 20 FPS game loop, SoA 101-entity simulation, 2:1 isometric diamond rendering math. |
+| **Phase 4** | [`04_narrative/STORY_AND_CAMPAIGN.md`](./04_narrative/STORY_AND_CAMPAIGN.md) | Avnotaklu tribal lore, character profiles (Chief, Mumbo, Shaman, PIA Agent), comedic tropes, 12-level campaign & skirmish guide. |
+| **Phase 5** | [`05_gameplay/GAMEPLAY_SYSTEMS.md`](./05_gameplay/GAMEPLAY_SYSTEMS.md) | 4-resource economic flow, 12 buildings & upgrade paths, autonomous villager needs loop, reproduction, weapons, combat. |
+| **Phase 6** | [`06_runtime_validation/WEB_PORTING_SPECIFICATION.md`](./06_runtime_validation/WEB_PORTING_SPECIFICATION.md) | Modern Web/TypeScript architecture + 1:1 original Web clone runtime validation (`4_prehistoric_tribes_clone/`). |
+| **Web RE Spec** | [`FULL_REVERSE_ENGINEERING_SPEC.md`](./FULL_REVERSE_ENGINEERING_SPEC.md) | Đặc tả dịch ngược toàn diện (292 bảng dữ liệu, 235 thoại, 12 màn, 63 cutscene, 112 tasks) đối chiếu trực tiếp từ bản clone [`4_prehistoric_tribes_clone/`](../4_prehistoric_tribes_clone/). |
+| **Checklist** | [`CHECKLIST.md`](./CHECKLIST.md) | Kiến trúc & bảng kiểm tra tiến độ bản clone `1:1` (`4_prehistoric_tribes_clone/`) và bản React (`5_prehistoric_tribes_react/`). |
 
 ---
 
@@ -46,37 +48,33 @@ All original assets—including full-resolution sprite atlases, UI sheets, chara
 
 ---
 
-## 4. File System Artifact Tree
+## 4. File System Artifact Tree (Workspace Overview)
 
 ```
 /Users/huynguyen/Documents/revert_engeneering_game/
-├── plan.md
-├── PREHISTORIC_TRIBES_RESEARCH.md              <-- (This master index)
-├── Prehistoric_Tribes_240x320-84398-mobiles24.jar (Original untouched binary)
-├── 01_initial_inspection/
-│   └── JAR_INSPECTION.md
-├── 02_assets/
-│   ├── ASSET_CATALOG.md
-│   ├── icon.png                                (Launcher icon)
-│   ├── l0.png, l1.png, l2.png, l3.png          (Logos & splash art)
-│   ├── pi0.png                                 (UI, icons, weapons atlas)
-│   ├── pi8.png                                 (Environment banner)
-│   ├── pi9.png                                 (Unit character spritesheet)
-│   ├── music_track_0_8014b.mid                 (Main gameplay BGM)
-│   ├── music_track_1_6315b.mid                 (Title/menu BGM)
-│   ├── music_track_2_5648b.mid                 (Combat/raid BGM)
-│   ├── music_track_3_3405b.mid                 (Victory fanfare)
-│   ├── music_track_4_3234b.mid                 (Defeat stinger)
-│   └── maps/
-│       ├── 00_outside.bin ... 09_plot_of_land.bin (All 10 campaign tilemaps)
-├── 03_code_analysis/
-│   ├── ARCHITECTURAL_ANALYSIS.md
-│   ├── decompiled/                             (CFR decompiled Java sources)
-│   └── decompiled_renamed/                     (CFR with duplicate members deobfuscated)
-├── 04_narrative/
-│   └── STORY_AND_CAMPAIGN.md
-├── 05_gameplay/
-│   └── GAMEPLAY_SYSTEMS.md
-└── 06_runtime_validation/
-    └── WEB_PORTING_SPECIFICATION.md
+├── Prehistoric_Tribes_240x320-84398-mobiles24.jar (Original untouched J2ME JAR)
+├── 1_reverse_engineering/                         (Decompiled Java, extracted MIDI/maps/PNG)
+├── 2_documentation/
+│   ├── plan.md
+│   ├── PREHISTORIC_TRIBES_RESEARCH.md             <-- (This master index)
+│   ├── FULL_REVERSE_ENGINEERING_SPEC.md           (Bilingual deep-dive spec from Web port)
+│   ├── CHECKLIST.md                               (Progress for 4_prehistoric_tribes_clone & 5_prehistoric_tribes_react)
+│   ├── 01_initial_inspection/JAR_INSPECTION.md
+│   ├── 02_assets/ASSET_CATALOG.md
+│   ├── 03_code_analysis/ARCHITECTURAL_ANALYSIS.md
+│   ├── 04_narrative/STORY_AND_CAMPAIGN.md
+│   ├── 05_gameplay/GAMEPLAY_SYSTEMS.md
+│   └── 06_runtime_validation/WEB_PORTING_SPECIFICATION.md
+├── 4_prehistoric_tribes_clone/                    (Restored 1:1 Original Offline Web Clone)
+│   ├── index.html & CLONE_ARCHITECTURE.md
+│   ├── assets/{index-BHVz0EiT.js, index-DT5HQrea.css}   (100% matched to .orig.js / .orig.css)
+│   ├── music/song0.mp3 .. song4.mp3
+│   └── res/{data,images,maps,text,icon.png}       (48 1x PNGs + res/icon.png, 292 tables, 10 maps, 5 locales)
+└── 5_prehistoric_tribes_react/                    (Vite + React 18 + TypeScript Edition wrapping 4_prehistoric_tribes_clone)
+    ├── index.html, package.json, tsconfig.json, vite.config.ts
+    ├── public/{icons,music,res}                   (Self-contained 1:1 offline assets from 4_prehistoric_tribes_clone)
+    └── src/
+        ├── App.tsx, main.tsx, styles/app.css
+        ├── components/{TopShellBar,BottomDock,VillagerRosterModal}.tsx
+        └── engine/{ptCore.js,ptCore.d.ts,bridgeTypes.ts,useGameEngine.ts}
 ```
