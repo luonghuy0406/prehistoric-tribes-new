@@ -18,7 +18,7 @@ Tham chiếu nguồn luật chơi: `../2_documentation/05_gameplay/GAMEPLAY_SYST
 | T22 | Entity renderer 2D: units/animals/buildings/objects, nội suy giữa tick, sắp xếp chiều sâu theo hàng, thanh máu, chọn | T20,T21 | DOING (bản placeholder đã có trong T21; còn: unit trong nhà, công trình đang xây, fog of war, xác thú) | | Thấy dân đi lại/làm việc khớp engine gốc |
 | T23 | Input 2D: click chọn, box-select, chuột phải ra lệnh, đặt công trình (ghost), phím tắt → `Command` vào engine | T22 | REVIEW | Claude | Chọn dân, ra lệnh, xây Hut được |
 | T24 | HUD React mới (thay T10–T13 bản 3D): resource bar, inspector, build menu, roster, alert, minimap, pause/options, dialog cốt truyện | T20 | DOING (đã có: resource bar, dock lệnh, build sheet, thẻ dân/nhóm/công trình, banner đặt nhà; còn: alert/toast, minimap, roster đầy đủ, options) | Claude | Chơi hết Level 0–1 chỉ bằng HUD mới |
-| T25 | Pipeline asset 2D: `assets/hd/manifest.json`, loader sprite sheet, fallback sprite gốc phóng ×4 (nearest) khi thiếu asset HD | T21 | TODO | | Thiếu asset vẫn chạy; thay PNG HD không cần sửa code |
+| T25 | Pipeline asset 2D: `assets/hd/manifest.json`, loader sprite sheet, fallback sprite gốc phóng ×4 (nearest) khi thiếu asset HD | T21 | DOING (v1 runtime: tách nền flood-fill, trim, tách 5 hướng, building/texture; còn: hoạt ảnh nhiều frame, bước build offline atlas+webp, fallback sprite gốc) | Claude | Thiếu asset vẫn chạy; thay PNG HD không cần sửa code |
 | T26 | Menu/campaign/cutscene/save-load qua engine gốc, nhạc | T24 | TODO | | Chơi xuyên 10 level |
 
 > Các task 3D (T6–T9b) **hoãn** đến khi bản 2D kiểm thử xong.

@@ -3,9 +3,10 @@
  * (rectangular grid, 3/4 top-down art): tile (col,row) → pixel (col*22, row*16) in original
  * space, scaled by SCALE for HD (88 x 64 px per tile). See docs/DECISIONS.md D-08.
  *
- * v1 draws placeholder shapes; T25 swaps in HD sprites through the asset manifest.
+ * Entities with an HD sprite in assets/hd/manifest.json are drawn as sprites; everything else
+ * falls back to placeholder shapes, so art can be delivered piece by piece (T25).
  */
-import { Application, Container, Graphics } from 'pixi.js';
+import { Application, Container, Graphics, Sprite, TilingSprite, type Texture } from 'pixi.js';
 import {
   isEnemyUnit,
   MAX_ANIMALS,
@@ -19,6 +20,7 @@ import {
 } from '@pt3d/engine-adapter';
 import { AnimalColors, BuildingStyle, Colors, ObjectColors } from './palette.js';
 import { Camera } from './camera.js';
+import { loadHdAssets, type HdSprite } from './hdAssets.js';
 
 export const SCALE = 4;
 export const TW = TILE_W * SCALE; // 88
@@ -65,17 +67,48 @@ interface Marker {
   born: number;
 }
 
+interface SpriteSpec {
+  tex: Texture;
+  x: number;
+  y: number;
+  sx: number;
+  sy: number;
+  rot?: number;
+  tint?: number;
+}
+
+/** Either vector placeholder drawing or an HD sprite; both are depth-sorted together. */
 interface Drawable {
   depth: number;
-  draw: (g: Graphics) => void;
+  draw?: (g: Graphics) => void;
+  sprite?: SpriteSpec;
 }
+
+/** Adult villager on-screen height (HD px); a tile is 88 x 64. */
+const UNIT_HEIGHT = 104;
+const ENEMY_TINT = 0xb9a4d6;
+/** Engine direction (0=E..7=NE) → [dir5 frame index (S,SE,E,NE,N), mirrored]. */
+const DIR_TO_FRAME: readonly [number, boolean][] = [
+  [2, false],
+  [1, false],
+  [0, false],
+  [1, true],
+  [2, true],
+  [3, true],
+  [4, false],
+  [3, false],
+];
 
 export class Renderer2D {
   readonly app = new Application();
   readonly camera: Camera;
   private readonly world = new Container();
   private readonly terrainLayer = new Graphics();
-  private readonly entityLayer = new Graphics();
+  private readonly entityLayer = new Container();
+  private grassLayer: TilingSprite | null = null;
+  private hd = new Map<string, HdSprite>();
+  private gfxPool: Graphics[] = [];
+  private spritePool: Sprite[] = [];
   private readonly overlayLayer = new Graphics();
   private view: WorldView | null = null;
   private terrainSig = '';
@@ -100,9 +133,11 @@ export class Renderer2D {
     this.camera = new Camera(this.world);
   }
 
-  static async create(host: HTMLElement): Promise<Renderer2D> {
+  /** `hdBaseUrl`: folder holding manifest.json (e.g. './hd/'); missing assets fall back to placeholders. */
+  static async create(host: HTMLElement, hdBaseUrl?: string): Promise<Renderer2D> {
     const r = new Renderer2D();
     await r.app.init({ resizeTo: host, background: 0x1b140c, antialias: true, autoDensity: true, resolution: window.devicePixelRatio });
+    if (hdBaseUrl) r.hd = await loadHdAssets(hdBaseUrl);
     host.appendChild(r.app.canvas);
     r.world.addChild(r.terrainLayer, r.entityLayer, r.overlayLayer);
     r.app.stage.addChild(r.world);
@@ -114,8 +149,14 @@ export class Renderer2D {
     return r;
   }
 
+  /** Asset ids that loaded successfully (for diagnostics / HUD). */
+  get hdAssetIds(): string[] {
+    return [...this.hd.keys()];
+  }
+
   setWorld(view: WorldView, tickMs: number): void {
     this.view = view;
+    this.setupGrass(view);
     this.tickMs = tickMs;
     this.terrainSig = '';
     this.markers = [];
@@ -235,6 +276,19 @@ export class Renderer2D {
     this.drawOverlay(v);
   }
 
+  private setupGrass(v: WorldView): void {
+    const grass = this.hd.get('ter_grass');
+    this.grassLayer?.destroy();
+    this.grassLayer = null;
+    if (!grass?.frames[0]) return;
+    const tex = grass.frames[0];
+    const t = new TilingSprite({ texture: tex, width: v.mapWidth * TW, height: v.mapHeight * TH });
+    const s = (grass.worldSize ?? tex.width) / tex.width;
+    t.tileScale.set(s);
+    this.world.addChildAt(t, 0);
+    this.grassLayer = t;
+  }
+
   /** Terrain only changes when trees are cut / water is filled; rebuild when the class grid changes. */
   private rebuildTerrainIfChanged(v: WorldView): void {
     let h = 2166136261;
@@ -256,11 +310,15 @@ export class Renderer2D {
         const occ = v.occupancy[y]?.[x] ?? 0;
         const tile = (v.terrain[y]?.[x] ?? 0) & 255;
         let color: number = (x + y) % 2 === 0 ? Colors.grass : Colors.grassAlt;
+        let alpha = 1;
         if (occ === OCC_WATER) color = (tile & 1) === 0 ? Colors.water : Colors.waterDeep;
         else if (occ === OCC_SHORE) color = Colors.shore;
-        else if (occ === OCC_FOREST) color = Colors.forestFloor;
-        else if (occ === OCC_BLOCKED) color = tile >= 175 ? Colors.rockDark : Colors.rock;
-        g.rect(x * TW, y * TH, TW, TH).fill(color);
+        else if (occ === OCC_FOREST) {
+          color = Colors.forestFloor;
+          if (this.grassLayer) alpha = 0.45; // darken the grass texture under trees
+        } else if (occ === OCC_BLOCKED) color = tile >= 175 ? Colors.rockDark : Colors.rock;
+        else if (this.grassLayer) continue; // plain grass: the HD texture shows through
+        g.rect(x * TW, y * TH, TW, TH).fill({ color, alpha });
       }
     }
   }
@@ -276,8 +334,6 @@ export class Renderer2D {
   }
 
   private drawEntities(v: WorldView, alpha: number): void {
-    const g = this.entityLayer;
-    g.clear();
     const vis = this.visibleTileRect();
     const inView = (tx: number, ty: number): boolean => tx >= vis.x0 && tx <= vis.x1 && ty >= vis.y0 && ty <= vis.y1;
     const list: Drawable[] = [];
@@ -313,12 +369,26 @@ export class Renderer2D {
       const hpFrac = (v.buildings.hp[b] ?? 0) / Math.max(1, v.buildings.maxHp[b] ?? 1);
       const sel = this.selectedBuilding === b;
       const site = type >= FIRST_SITE_TYPE;
-      list.push({
-        depth: (by + size.h) * TH,
-        draw: site
-          ? (gg) => drawSite(gg, bx * TW, by * TH, size.w * TW, size.h * TH, hpFrac, sel)
-          : (gg) => drawBuilding(gg, type, bx * TW, by * TH, size.w * TW, size.h * TH, hpFrac, sel),
-      });
+      const depth = (by + size.h) * TH;
+      const art = site ? undefined : this.buildingArt(type, v.buildings.level[b] ?? 1);
+      if (art) {
+        const fw = art.sizes[0]?.w ?? 1;
+        const scale = (size.w * TW * 1.04) / fw;
+        const enemy = b > 30; // building slots 31..60 belong to the enemy tribe
+        list.push({
+          depth,
+          sprite: { tex: art.frames[0]!, x: (bx + size.w / 2) * TW, y: (by + size.h) * TH - 6, sx: scale, sy: scale, ...(enemy ? { tint: ENEMY_TINT } : {}) },
+        });
+        const topY = (by + size.h) * TH - 6 - (art.sizes[0]?.h ?? 0) * scale;
+        list.push({ depth: depth + 0.01, draw: (gg) => drawBuildingMarks(gg, bx * TW, by * TH, size.w * TW, size.h * TH, topY, hpFrac, sel) });
+      } else {
+        list.push({
+          depth,
+          draw: site
+            ? (gg) => drawSite(gg, bx * TW, by * TH, size.w * TW, size.h * TH, hpFrac, sel)
+            : (gg) => drawBuilding(gg, type, bx * TW, by * TH, size.w * TW, size.h * TH, hpFrac, sel),
+        });
+      }
     }
 
     for (let i = 0; i < MAX_ANIMALS; i++) {
@@ -340,11 +410,108 @@ export class Renderer2D {
       const color = isEnemyUnit(i) ? Colors.enemy : Colors.player;
       const sel = this.selectedUnits.has(i);
       const dir = v.units.direction[i] ?? 2;
-      list.push({ depth: y, draw: (gg) => drawUnit(gg, x, y, color, child, i === chief, dir, hpFrac, sel) });
+      const art = !child && (v.units.gender[i] ?? 0) === 0 ? this.hd.get('chr_villager_m') : undefined;
+      if (art) {
+        const moving = Math.abs(this.currX[i]! - this.prevX[i]!) + Math.abs(this.currY[i]! - this.prevY[i]!) > 0.5;
+        this.pushUnitSprite(list, art, i, x, y, dir, color, i === chief, isEnemyUnit(i), moving, hpFrac, sel);
+      } else {
+        list.push({ depth: y, draw: (gg) => drawUnit(gg, x, y, color, child, i === chief, dir, hpFrac, sel) });
+      }
     }
 
     list.sort((a, b) => a.depth - b.depth);
-    for (const d of list) d.draw(g);
+    this.flush(list);
+  }
+
+  private buildingArt(type: number, level: number): HdSprite | undefined {
+    const ids = ['bld_armoury', 'bld_gym', 'bld_hut', 'bld_chief_hut', 'bld_kitchen', 'bld_range', 'bld_store', 'bld_disco', 'bld_sanctuary', 'bld_pia', 'bld_nursery', 'bld_tower'];
+    const base = ids[type];
+    if (!base) return undefined;
+    for (let l = level; l >= 1; l--) {
+      const hit = this.hd.get(`${base}_l${l}`);
+      if (hit) return hit;
+    }
+    return this.hd.get(base);
+  }
+
+  private pushUnitSprite(
+    list: Drawable[],
+    art: HdSprite,
+    id: number,
+    x: number,
+    y: number,
+    dir: number,
+    teamColor: number,
+    chief: boolean,
+    enemy: boolean,
+    moving: boolean,
+    hpFrac: number,
+    selected: boolean,
+  ): void {
+    const [frame, mirror] = DIR_TO_FRAME[((dir % 8) + 8) % 8] ?? [0, false];
+    const tex = art.frames[frame] ?? art.frames[0]!;
+    const maxH = Math.max(...art.sizes.map((s) => s.h));
+    const scale = ((chief ? 1.12 : 1) * UNIT_HEIGHT) / maxH;
+    const now = performance.now() + id * 137;
+    // "Puppet" animation until frame-by-frame sheets exist: bob + sway when walking, breathe when idle.
+    const bob = moving ? Math.abs(Math.sin(now / 95)) * 5 : 0;
+    const rot = moving ? Math.sin(now / 95) * 0.05 : 0;
+    const breathe = moving ? 1 : 1 + Math.sin(now / 650) * 0.012;
+    list.push({ depth: y - 0.5, draw: (g) => drawFootRing(g, x, y, teamColor, selected) });
+    list.push({
+      depth: y,
+      sprite: { tex, x, y: y + 6 - bob, sx: mirror ? -scale : scale, sy: scale * breathe, rot, ...(enemy ? { tint: ENEMY_TINT } : {}) },
+    });
+    const top = y + 6 - bob - (art.sizes[frame]?.h ?? maxH) * scale;
+    if (chief || hpFrac < 1) {
+      list.push({
+        depth: y + 0.01,
+        draw: (g) => {
+          if (chief) drawCrown(g, x, top - 4);
+          if (hpFrac < 1) drawHp(g, x, top - (chief ? 22 : 10), 40, hpFrac);
+        },
+      });
+    }
+  }
+
+  /** Emit drawables in depth order, batching consecutive vector items into pooled Graphics. */
+  private flush(list: Drawable[]): void {
+    const layer = this.entityLayer;
+    layer.removeChildren();
+    let gi = 0;
+    let si = 0;
+    let current: Graphics | null = null;
+    for (const d of list) {
+      if (d.sprite) {
+        current = null;
+        let sp = this.spritePool[si];
+        if (!sp) {
+          sp = new Sprite();
+          sp.anchor.set(0.5, 1);
+          this.spritePool.push(sp);
+        }
+        si++;
+        const s = d.sprite;
+        sp.texture = s.tex;
+        sp.position.set(s.x, s.y);
+        sp.scale.set(s.sx, s.sy);
+        sp.rotation = s.rot ?? 0;
+        sp.tint = s.tint ?? 0xffffff;
+        layer.addChild(sp);
+      } else if (d.draw) {
+        if (!current) {
+          current = this.gfxPool[gi] ?? null;
+          if (!current) {
+            current = new Graphics();
+            this.gfxPool.push(current);
+          }
+          gi++;
+          current.clear();
+          layer.addChild(current);
+        }
+        d.draw(current);
+      }
+    }
   }
 
   private drawOverlay(v: WorldView): void {
@@ -445,6 +612,20 @@ function drawBuilding(
   g.roundRect(x + w / 2 - 12, y + h - inset - 34, 24, 34, 10).fill(Colors.outline);
   if (selected) g.rect(x + 2, y + 2, w - 4, h - 4).stroke({ width: 3, color: Colors.selection });
   if (hpFrac < 1) drawHp(g, x + w / 2, top + h * 0.35 - 12, Math.min(80, w - 16), hpFrac);
+}
+
+function drawFootRing(g: Graphics, x: number, y: number, team: number, selected: boolean): void {
+  g.ellipse(x, y + 2, 26, 9).fill({ color: Colors.shadow, alpha: 0.28 });
+  g.ellipse(x, y + 2, 24, 8).stroke({ width: selected ? 4 : 2, color: selected ? Colors.selection : team, alpha: selected ? 1 : 0.8 });
+}
+
+function drawCrown(g: Graphics, x: number, y: number): void {
+  g.poly([x - 16, y, x - 16, y - 14, x - 8, y - 6, x, y - 18, x + 8, y - 6, x + 16, y - 14, x + 16, y]).fill(Colors.chief).stroke({ width: 2, color: Colors.outline });
+}
+
+function drawBuildingMarks(g: Graphics, x: number, y: number, w: number, h: number, topY: number, hpFrac: number, selected: boolean): void {
+  if (selected) g.rect(x + 2, y + 2, w - 4, h - 4).stroke({ width: 3, color: Colors.selection });
+  if (hpFrac < 1) drawHp(g, x + w / 2, topY - 10, Math.min(80, w - 16), hpFrac);
 }
 
 function drawSite(g: Graphics, x: number, y: number, w: number, h: number, progress: number, selected: boolean): void {

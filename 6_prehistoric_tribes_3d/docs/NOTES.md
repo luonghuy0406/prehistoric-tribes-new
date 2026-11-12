@@ -1,6 +1,16 @@
 # NOTES — nhật ký làm việc chung (thêm mới ở đầu file)
 
 ---
+## 2026-11-12 — T25 v1: đưa 3 ảnh Gemini đầu tiên vào game (Claude)
+
+**Asset:** `chr_villager_m` (1376×768, 5 hướng), `bld_hut_l1` (896×1200), `ter_grass` (1024²) — đã duyệt làm ảnh mẫu phong cách (xem mục "Ảnh mẫu đã duyệt" trong `05_GEMINI_2D_ASSET_PROMPTS.md`). `nat_tree_broadleaf` chưa có (Gemini hết quota).
+**Pipeline (runtime, `packages/render2d/src/hdAssets.ts`):** manifest `assets/hd/manifest.json` → tải PNG → tách nền bằng flood-fill từ mép ảnh với ngưỡng độ xanh `g - max(r,b) > 70` (nền thực tế không thuần #00FF00) → làm mềm + khử ám xanh viền 1px → cắt sát nội dung → tách nhân vật theo cột trống. Thiếu asset → hình tạm.
+**Renderer:** lớp thực thể trộn sprite + vector theo chiều sâu (pool Graphics/Sprite). Dân nam trưởng thành dùng sprite (hướng 0..7 → 5 khung + lật gương), hoạt ảnh "con rối" (nhún/lắc khi đi, thở khi đứng) chờ sprite sheet thật; vòng chân màu phe; tù trưởng vương miện; phe địch tô `#B9A4D6`. Lều dùng sprite (cấp 2 tạm dùng cấp 1). Cỏ = TilingSprite dưới lớp địa hình.
+**Đã xác minh:** slot công trình 1–30 phe mình, 31–60 phe địch (`freeBuildingSlot`). E2E điều khiển chạy lại xanh; 0 lỗi console.
+**Đổi đường dẫn:** Vite phục vụ cả `assets/` → engine gốc ở `./original/`, đồ hoạ mới ở `./hd/`.
+**Còn:** dân nữ/trẻ em/động vật/cây vẫn là hình tạm; ảnh nguồn PNG 1.3–1.9 MB/ảnh → cần bước build nén (webp + atlas) trước khi phát hành.
+
+---
 ## 2026-11-12 — T23 điều khiển web/mobile + HUD mới (Claude) → REVIEW
 
 **Cách làm:** `EngineCommands` lái chính input gốc (`handleFireTap`, `orderSelectionTo`, `contextMenu.executeContextCommand`, `selection.finishBoxSelection`) với con trỏ ảo đặt vào ô được chạm → giữ nguyên luật. Bảng điều khiển: `docs/CONTROLS.md`.

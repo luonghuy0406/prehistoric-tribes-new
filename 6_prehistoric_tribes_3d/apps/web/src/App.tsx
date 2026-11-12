@@ -23,7 +23,7 @@ function useCoarsePointer(): boolean {
 function useVillagerNames(): string[] {
   const [names, setNames] = useState<string[]>([]);
   useEffect(() => {
-    fetch('./res/text/en.json')
+    fetch('./original/res/text/en.json')
       .then((r) => r.json() as Promise<{ labels?: { villagerNames?: string[] } }>)
       .then((j) => setNames(j.labels?.villagerNames ?? []))
       .catch(() => setNames([]));

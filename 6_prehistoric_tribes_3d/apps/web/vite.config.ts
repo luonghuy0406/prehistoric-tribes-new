@@ -4,8 +4,8 @@ import { defineConfig } from 'vite';
 
 export default defineConfig({
   plugins: [react()],
-  // Original game resources (res/, music/) are served as-is from assets/original.
-  publicDir: fileURLToPath(new URL('../../assets/original', import.meta.url)),
+  // assets/ is served as-is: original/ (res/, music/ for the original engine) and hd/ (new art + manifest).
+  publicDir: fileURLToPath(new URL('../../assets', import.meta.url)),
   base: './',
   build: { chunkSizeWarningLimit: 1500 },
 });

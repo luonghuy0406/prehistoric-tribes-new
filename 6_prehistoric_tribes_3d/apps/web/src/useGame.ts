@@ -120,7 +120,7 @@ export function useGame(initialLevel: number) {
     if (!host) return;
     (async () => {
       try {
-        const [adapter, renderer] = await Promise.all([EngineAdapter.create({ baseUrl: './' }), Renderer2D.create(host)]);
+        const [adapter, renderer] = await Promise.all([EngineAdapter.create({ baseUrl: './original/' }), Renderer2D.create(host, './hd/')]);
         if (disposed) {
           adapter.dispose();
           renderer.destroy();

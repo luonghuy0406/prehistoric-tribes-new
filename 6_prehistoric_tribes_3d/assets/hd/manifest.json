@@ -1,0 +1,8 @@
+{
+  "version": 1,
+  "assets": {
+    "chr_villager_m": { "src": "source/characters/chr_villager_m.png", "kind": "dir5", "frames": 5 },
+    "bld_hut_l1": { "src": "source/buildings/bld_hut_l1.png", "kind": "building" },
+    "ter_grass": { "src": "source/terrain/ter_grass.png", "kind": "texture", "key": false, "worldSize": 704 }
+  }
+}

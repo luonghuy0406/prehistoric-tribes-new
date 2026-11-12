@@ -10,6 +10,23 @@
 
 ---
 
+## ✅ Ảnh mẫu đã duyệt (style anchors) — 2026-11-12
+Đã đưa vào game và kiểm tra (`assets/hd/manifest.json`):
+
+| ID | Kết quả | Ghi chú cho lượt sau |
+|---|---|---|
+| `chr_villager_m` | **Duyệt** — tách 5 hướng tự động, thứ tự S/SE/E/NE/N đúng | Góc nhìn ngang tầm mắt (không phải 55° từ trên) — vẫn đẹp trong game; **các nhân vật sau phải theo đúng góc này** để đồng nhất. Khung 16:9 cũng được. |
+| `bld_hut_l1` | **Duyệt** — vừa khít nền 2×2, cửa đúng hướng Nam | Giữ phong cách: viền nâu đậm, dây buộc, xương trang trí. |
+| `ter_grass` | **Duyệt** — lát liền mạch | Thực chất là mẫu 512 px lặp 2×2 → nhìn thấy lặp. Khi có quota dư: thêm `ter_grass_b` (1024, không lặp bên trong). |
+
+**Lưu ý chung:** nền xanh hiện có nhiễu và tối dần ở góc (khoảng (3,255,6)…(40,226,30)) — pipeline đã xử lý được, nhưng hãy nhắc Gemini: *"perfectly flat #00FF00 background, no vignette, no gradient"*.
+
+**Câu đính kèm cho mọi prompt tiếp theo:** đính kèm `chr_villager_m.png` (nhân vật/động vật) hoặc `bld_hut_l1.png` (công trình/thiên nhiên) và thêm: *"Match the style, outline thickness, lighting, camera angle and colours of the attached approved image exactly."*
+
+**Thứ tự đề xuất cho lượt quota tiếp theo** (ảnh hưởng hình ảnh lớn nhất trước): `chr_villager_f` → `chr_child` → `chr_chief` → `nat_tree_broadleaf` → `bld_chief_hut` → `bld_store` → `ter_water` → `ter_forest_floor` → `ter_dirt` → `ani_boar` → `ani_tiger` → `bld_kitchen_l1` → `bld_armoury_l1` → `nat_berrybush` → `nat_rock_quarry`.
+
+---
+
 ## 0. GLOBAL STYLE 2D (dán đầu mỗi phiên)
 
 ```
