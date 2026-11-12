@@ -6,14 +6,15 @@ Tham chiếu nguồn luật chơi: `../2_documentation/05_gameplay/GAMEPLAY_SYST
 ## Giai đoạn A — Nền tảng
 | ID | Task | Depends | Status | Owner | Acceptance |
 |---|---|---|---|---|---|
-| T0 | Dọn & baseline: commit trạng thái git hiện tại (3_web_game bị xoá, .gitignore), bỏ `dist/`+`tsbuildinfo` khỏi git; chạy `5_react` (`npm i && npm run dev`) và ghi lại kết quả trong `docs/NOTES.md`; **xác nhận các mục [VERIFY]** ở `00_REVIEW` | – | TODO | | Game 5_react chạy; NOTES.md liệt kê: sim/render có tách được không, các hàm `update*` chính, kích thước map |
+| T0 | Dọn & baseline: commit trạng thái git hiện tại (3_web_game bị xoá, .gitignore), bỏ `dist/`+`tsbuildinfo` khỏi git; chạy `5_react` (`npm i && npm run dev`) và ghi lại kết quả trong `docs/NOTES.md`; **xác nhận các mục [VERIFY]** ở `00_REVIEW` | – | REVIEW | Claude | Game 5_react chạy; NOTES.md liệt kê: sim/render có tách được không, các hàm `update*` chính, kích thước map |
 | T1 | Scaffold monorepo pnpm + TS strict + Vitest + ESLint; package `data` đọc `game-data.json`, `sprites.json`, `maps/*.bin`, locale → type + parser; thêm `vi.json` (dịch từ en) | T0 | TODO | | `pnpm test` xanh; parser map trả `{w,h,terrain[],collision[],nodes[]}` cho cả 10 map, snapshot test; tài liệu format `.bin` trong `docs/MAP_FORMAT.md` |
 
 ## Giai đoạn B — Sim headless
 | ID | Task | Depends | Status | Owner | Acceptance |
 |---|---|---|---|---|---|
-| T2 | **Oracle harness**: script (`tools/oracle`) chạy `ptCore` headless/Playwright với seed + chuỗi lệnh cố định, dump state (tribeStats, units, buildings, animals, objects) mỗi 20 tick ra JSON | T0 | TODO | | Chạy 2 lần cùng seed → output giống nhau (hoặc ghi rõ nguồn nondeterminism, vd. Math.random → patch seed); file golden Level 0 (≥2000 tick) |
-| T3 | `sim` lõi: world, entity store (units/buildings/animals/objects), tick 20Hz, command queue, RNG seed, snapshot/event API (`SimApi` trong `docs/SIM_API.md`) | T1 | TODO | | Khởi tạo Level 0 từ data; snapshot đúng vị trí ban đầu so golden tick 0 |
+| T2 | **Oracle harness** (mở rộng từ `tools/oracle-probe`): snapshot/restore toàn bộ state + RNG tại 1 tick (không đi qua menu vì RNG menu không ổn định), chạy `updateSimulation()` với chuỗi lệnh cố định, dump state (tribeStats, units, buildings, animals, objects) mỗi 20 tick ra JSON | T0 | TODO | | Chạy 2 lần cùng seed → output giống nhau (hoặc ghi rõ nguồn nondeterminism, vd. Math.random → patch seed); file golden Level 0 (≥2000 tick) |
+| T2b | **Oracle Worker adapter**: chạy `ptCore` sim trong Web Worker, shim các lời gọi UI, xuất Snapshot theo `SIM_API.md` — để render 3D (T7–T9) chạy được trước khi sim TS xong | T2 | TODO | | Level 0 chạy trong Worker 30 phút sim không lỗi; snapshot đủ cho renderer |
+| T3 | `sim` lõi: world, entity store (units/buildings/animals/objects), tick ~8.3Hz (120ms), command queue, RNG seed, snapshot/event API (`SimApi` trong `docs/SIM_API.md`) | T1 | TODO | | Khởi tạo Level 0 từ data; snapshot đúng vị trí ban đầu so golden tick 0 |
 | T4 | Hệ thống sim #1: needs (đói/mệt/vui), gather/deposit, kitchen meal loop, nhà ở, sinh/lớn lên | T2,T3 | TODO | | So golden Level 0: tribeStats trong tolerance ±1 tại tick 500/1000/2000 (hoặc sai khác ghi DECISIONS) |
 | T5a | Sim #2: xây/nâng cấp 12 công trình, chi phí, kho, training (gym/range/PIA…) | T4 | TODO | | Unit test theo bảng chi phí GAMEPLAY_SYSTEMS §2 |
 | T5b | Sim #3: chiến đấu (melee/ranged, công thức damage, bẫy, shaman spell), Call to Arms/Form Up | T4 | TODO | | Unit test công thức §3-4; replay trận Level 1 khớp oracle |
@@ -25,7 +26,7 @@ Tham chiếu nguồn luật chơi: `../2_documentation/05_gameplay/GAMEPLAY_SYST
 |---|---|---|---|---|---|
 | T6 | Pipeline asset: `assets/manifest.json` (id sim → GLB/billboard), loader, placeholder primitive cho 12 công trình, dân (nam/nữ/trẻ/chief), động vật (boar, tiger, mammoth, dino), cây, đá, bụi quả, xác thú | T1 | TODO | | Mỗi loại entity có asset (tạm cũng được) + test "không thiếu manifest" |
 | T7 | `render3d`: terrain mesh từ map (màu theo loại ô, nước), camera RTS (pan WASD/kéo, xoay Q/E, zoom wheel/pinch, giới hạn biên), ánh sáng, bóng | T1,T6 | TODO | | Level 0 hiển thị đúng bố cục so ảnh chụp bản gốc; 60fps desktop |
-| T8 | Entity renderer: InstancedMesh cho cây/đá/vật; Skinned/animation đơn giản cho dân (idle/walk/work); nội suy giữa tick; Y theo terrain | T3,T7 | TODO | | Chạy sim (T3) → thấy dân đi lại; 101 unit + 61 building + 22 animal + 50 object ≥ 60fps |
+| T8 | Entity renderer: InstancedMesh cho cây/đá/vật; Skinned/animation đơn giản cho dân (idle/walk/work); nội suy giữa tick; Y theo terrain | T2b (hoặc T3),T7 | TODO | | Chạy sim (T3) → thấy dân đi lại; 101 unit + 61 building + 22 animal + 50 object ≥ 60fps |
 | T9 | Input 3D: raycast chọn unit/building/tile, box-select, chuột phải = lệnh ngữ cảnh, placement ghost công trình (hợp lệ/không), cảm ứng | T7,T8 | TODO | | Test e2e: chọn dân, ra lệnh đi, đặt Hut; ghost đổi màu khi vướng |
 | T9b | Minimap + fog/vision, hiệu ứng (xây, thu hoạch, đánh, spell), ngày/đêm | T8 | TODO | | |
 

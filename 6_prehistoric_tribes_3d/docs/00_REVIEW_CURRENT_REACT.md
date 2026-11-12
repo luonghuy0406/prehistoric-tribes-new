@@ -1,6 +1,6 @@
 # 00 — Review của `5_prehistoric_tribes_react` (hiện trạng)
 
-> Phạm vi: đọc `src/`, `public/res`, `package.json`, tài liệu `2_documentation/`. Chưa chạy game / test. Mục đánh dấu **[VERIFY]** là suy luận từ grep, agent phải xác nhận ở task T0.
+> Phạm vi: đọc `src/`, `public/res`, `package.json`, tài liệu `2_documentation/`. Các mục **[VERIFY]** đã được kiểm chứng ở T0 (2026-11-12) — xem `NOTES.md`.
 
 ## 1. Kiến trúc thực tế
 ```
@@ -19,13 +19,13 @@ public/res: game-data.json (292 bảng), sprites.json, maps/map-0..9.bin (RLE), 
 ## 2. Điểm mạnh (giữ lại)
 - Tài liệu RE rất đầy đủ: chi phí 12 công trình, vũ khí, công thức damage/score, AI địch, 10 level, cốt truyện (`2_documentation/05_gameplay`, `04_narrative`).
 - Dữ liệu tách rời code: `game-data.json`, `maps/*.bin`, locale JSON 5 ngôn ngữ, 5 bài nhạc.
-- Engine tách được phần nào nhờ tên thuộc tính còn đọc được (`game.tribeStats`, `units.hp`, `updateNeeds`, `updateVillagers`, `updateSimulation`, `mapWidth/mapHeight`) **[VERIFY]**.
+- Engine tách được phần nào nhờ tên thuộc tính còn đọc được (`game.tribeStats`, `units.hp`, `updateNeeds`, `updateVillagers`, `updateSimulation`, `mapWidth/mapHeight`) — **ĐÃ XÁC NHẬN T0**: `updateSimulation()` chạy headless, tất định, khớp loop thật.
 - Bridge `EngineController` + `GameSnapshot` (bridgeTypes.ts) là mẫu tốt cho ranh giới sim ↔ UI.
 
 ## 3. Vấn đề / rủi ro
 | # | Mức | Vấn đề | Hệ quả cho bản 3D |
 |---|---|---|---|
-| R1 | Cao | `ptCore.js` minified 557KB, sim và render trộn trong cùng object `game` (`drawMapObject`, `drawGameUnderMenu` gọi từ cùng lớp) | Phải **trích sim ra thành module headless** trước khi làm renderer 3D |
+| R1 | Cao | `ptCore.js` minified 557KB, sim và render trộn trong cùng object `game` (`drawMapObject`, `drawGameUnderMenu` gọi từ cùng lớp) | T0: tách được bằng cách gọi `game.updateSimulation()`; còn coupling nhỏ (sim đổi `screen`, gọi `contextMenu.build()`, cache `drawFlags/fogState`) |
 | R2 | Cao | Menu, build menu, minimap, dialog, nút chọn thực tế vẫn vẽ trong canvas & điều khiển bằng phím J2ME (`tapKey`, `tapShortcut(3)`…); React chỉ gọi lại qua "bấm phím giả" | UI mới cần API lệnh trực tiếp (`placeBuilding(type,x,y)`, `assignJob`…) thay vì giả lập phím |
 | R3 | Cao | Không có test nào, không có golden data để so sánh hành vi | Khi viết lại sim dễ sai lệch; cần replay/golden test (T2) |
 | R4 | TB | Polling 125ms + chuỗi `sig` thủ công để phát hiện thay đổi, giới hạn villager `id 1..50` cứng | Với 3D cần event/subscribe + state selector, không poll |
