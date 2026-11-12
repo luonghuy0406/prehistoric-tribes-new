@@ -1,6 +1,22 @@
 # NOTES — nhật ký làm việc chung (thêm mới ở đầu file)
 
 ---
+## 2026-11-12 — T1: monorepo + package `@pt3d/data` (Claude) → REVIEW
+
+**Kết quả:** `npm test` 48/48 xanh, `npm run typecheck` và `npm run lint` sạch.
+- `packages/data/src/javaRandom.ts`: port bit-exact `java.util.Random` (khớp giá trị tham chiếu Java `new Random(42)` và trạng thái RNG của engine).
+- `gameData.ts`: đọc theo **tên bảng** (không theo slot `S` của engine vì một số bảng chiếm nhiều slot, vd. `levelEntities` 12 slot).
+- `sprites.ts`, `locale.ts`: parser có kiểm tra kiểu cho `sprites.json` và 5 locale.
+- `maps.ts`: giải nén RLE + dựng occupancy/object/bờ cá. **Khớp từng bit với engine cho 12 level** (terrain, occupancy, object, trạng thái RNG sau khi load). Đặc tả: `docs/MAP_FORMAT.md`.
+- Đã kiểm tra test có tác dụng: cố tình sửa sai RNG thì 12 test fail, sai danh sách ô bờ thì 11 test fail.
+- Fixture: `packages/data/test/fixtures/oracle-maps.json` (408KB), tạo bằng `tools/oracle-probe/dump-maps.js`.
+- Dữ liệu gốc copy vào `assets/original/res/`.
+
+**Thay đổi so với kế hoạch:** dùng npm workspaces thay pnpm (máy không có pnpm); `vi.json` tách thành task T1b.
+**Phát hiện mới:** load map **tiêu thụ RNG** (1 lần/ô cỏ id ≤ 8) → sim TS phải gọi đúng thứ tự này để giữ tất định với oracle.
+**Môi trường:** cache `~/.npm` có file thuộc root → `npm i` lỗi EACCES; đã dùng `--cache` tạm, không sửa quyền máy.
+
+---
 ## 2026-11-12 — T0: baseline + thăm dò engine `ptCore.js` (Claude)
 
 **Git:** commit `297e990` — `.gitignore` chung (`node_modules/`, `dist/`, `*.tsbuildinfo`, `.DS_Store`), bỏ `5_prehistoric_tribes_react/dist` + `tsbuildinfo` khỏi index, thêm thư mục `6_prehistoric_tribes_3d/`.

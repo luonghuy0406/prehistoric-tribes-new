@@ -6,7 +6,7 @@ Rebuild *Prehistoric Tribes* thành game 3D web với HUD hiện đại. Bản 2
 ## Quy trình
 1. Chọn 1 task `TODO` có Depends đã `DONE` trong `docs/02_TASKS.md`; đặt `DOING(tên-agent)` và commit riêng thay đổi đó.
 2. Làm việc trên nhánh `feat/<task-id>-<slug>`; commit nhỏ, message `T4: needs system`.
-3. Hoàn thành khi đạt đủ *Acceptance*; chạy `pnpm lint && pnpm test` (và e2e nếu task đụng UI/3D); chuyển `REVIEW`, ghi tóm tắt + cách kiểm chứng vào `docs/NOTES.md`.
+3. Hoàn thành khi đạt đủ *Acceptance*; chạy `npm run lint && npm test` (và e2e nếu task đụng UI/3D); chuyển `REVIEW`, ghi tóm tắt + cách kiểm chứng vào `docs/NOTES.md`.
 4. Không tự `DONE` việc của mình nếu task yêu cầu duyệt (T10, D-01, D-05).
 
 ## Bất biến
@@ -20,5 +20,7 @@ Rebuild *Prehistoric Tribes* thành game 3D web với HUD hiện đại. Bản 2
 ## Song song hoá giữa nhiều agent
 Tách theo package để tránh xung đột: Agent-Sim (T2–T5), Agent-3D (T6–T9b), Agent-UI (T10–T13), Agent-Content (T14–T16). Hợp đồng chung duy nhất: `docs/SIM_API.md` (do T3 tạo) — đổi hợp đồng phải thông báo trong `NOTES.md`.
 
-## Lệnh chuẩn (sau T1)
-`pnpm i` · `pnpm dev` (apps/web) · `pnpm test` · `pnpm lint` · `pnpm e2e` · `pnpm oracle:dump`
+## Lệnh chuẩn
+`npm i` · `npm test` · `npm run typecheck` · `npm run lint` (sau này: `npm run dev -w apps/web`, `npm run e2e`).
+Nếu `npm i` báo EACCES ở `~/.npm` (cache có file root): dùng `npm i --cache <thư-mục-tạm>`, không dùng sudo.
+Dữ liệu gốc đã copy vào `assets/original/res/` (không sửa tay; nguồn: `5_prehistoric_tribes_react/public/res`).

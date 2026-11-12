@@ -7,7 +7,7 @@
 ## 2. Stack đề xuất
 | Lớp | Chọn | Lý do |
 |---|---|---|
-| Build | Vite + TypeScript strict, pnpm workspace | Đang dùng Vite; workspace tách package |
+| Build | Vite + TypeScript strict, npm workspaces (đổi từ pnpm ở T1) | Đang dùng Vite; workspace tách package |
 | Sim | `packages/sim` — TS thuần, **không import DOM/three/react** | Headless, test được, chạy được trong Web Worker |
 | 3D | three.js + `@react-three/fiber` + drei (hoặc three thuần nếu cần perf) | Hệ sinh thái lớn, GLB, instancing |
 | HUD | React 18 + Zustand + Tailwind/CSS vars (hoặc Radix UI) | Store nhận snapshot từ sim |

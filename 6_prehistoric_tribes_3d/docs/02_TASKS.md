@@ -7,11 +7,12 @@ Tham chiếu nguồn luật chơi: `../2_documentation/05_gameplay/GAMEPLAY_SYST
 | ID | Task | Depends | Status | Owner | Acceptance |
 |---|---|---|---|---|---|
 | T0 | Dọn & baseline: commit trạng thái git hiện tại (3_web_game bị xoá, .gitignore), bỏ `dist/`+`tsbuildinfo` khỏi git; chạy `5_react` (`npm i && npm run dev`) và ghi lại kết quả trong `docs/NOTES.md`; **xác nhận các mục [VERIFY]** ở `00_REVIEW` | – | REVIEW | Claude | Game 5_react chạy; NOTES.md liệt kê: sim/render có tách được không, các hàm `update*` chính, kích thước map |
-| T1 | Scaffold monorepo pnpm + TS strict + Vitest + ESLint; package `data` đọc `game-data.json`, `sprites.json`, `maps/*.bin`, locale → type + parser; thêm `vi.json` (dịch từ en) | T0 | TODO | | `pnpm test` xanh; parser map trả `{w,h,terrain[],collision[],nodes[]}` cho cả 10 map, snapshot test; tài liệu format `.bin` trong `docs/MAP_FORMAT.md` |
+| T1 | Scaffold monorepo (npm workspaces — máy không có pnpm) + TS strict + Vitest + ESLint; package `data` đọc `game-data.json`, `sprites.json`, `maps/*.bin`, locale → type + parser | T0 | REVIEW | Claude | `pnpm test` xanh; parser map trả `{w,h,terrain[],collision[],nodes[]}` cho cả 10 map, snapshot test; tài liệu format `.bin` trong `docs/MAP_FORMAT.md` |
 
 ## Giai đoạn B — Sim headless
 | ID | Task | Depends | Status | Owner | Acceptance |
 |---|---|---|---|---|---|
+| T1b | Thêm `vi.json` (dịch đầy đủ từ en: labels, messages, 235 dòng dialogue) + test cùng shape | T1 | TODO | | Test locales xanh với `vi` |
 | T2 | **Oracle harness** (mở rộng từ `tools/oracle-probe`): snapshot/restore toàn bộ state + RNG tại 1 tick (không đi qua menu vì RNG menu không ổn định), chạy `updateSimulation()` với chuỗi lệnh cố định, dump state (tribeStats, units, buildings, animals, objects) mỗi 20 tick ra JSON | T0 | TODO | | Chạy 2 lần cùng seed → output giống nhau (hoặc ghi rõ nguồn nondeterminism, vd. Math.random → patch seed); file golden Level 0 (≥2000 tick) |
 | T2b | **Oracle Worker adapter**: chạy `ptCore` sim trong Web Worker, shim các lời gọi UI, xuất Snapshot theo `SIM_API.md` — để render 3D (T7–T9) chạy được trước khi sim TS xong | T2 | TODO | | Level 0 chạy trong Worker 30 phút sim không lỗi; snapshot đủ cho renderer |
 | T3 | `sim` lõi: world, entity store (units/buildings/animals/objects), tick ~8.3Hz (120ms), command queue, RNG seed, snapshot/event API (`SimApi` trong `docs/SIM_API.md`) | T1 | TODO | | Khởi tạo Level 0 từ data; snapshot đúng vị trí ban đầu so golden tick 0 |
