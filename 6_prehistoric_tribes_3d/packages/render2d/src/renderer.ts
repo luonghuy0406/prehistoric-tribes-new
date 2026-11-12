@@ -30,14 +30,39 @@ const OCC_BLOCKED = -126;
 const OCC_SHORE = -127;
 const OBJECT_REF_FIRST = -61;
 const OBJECT_REF_LAST = -110;
+/** Building types >= 12 are construction sites (their payload holds the target building type). */
+const FIRST_SITE_TYPE = 12;
 /** Snap instead of interpolating when an entity jumps further than this (px, HD). */
 const TELEPORT_PX = TW * 3;
 
-export interface Selection {
-  kind: 'unit' | 'building' | 'animal' | 'tile';
-  id: number;
-  tileX: number;
-  tileY: number;
+/** What the HUD/engine currently has selected — the renderer only draws it. */
+export interface SelectionView {
+  units: readonly number[];
+  building: number;
+}
+
+export interface GhostView {
+  kind: 'building' | 'rally' | 'unit-target';
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+  valid: boolean;
+}
+
+export interface RenderProviders {
+  selection: () => SelectionView;
+  /** Placement ghost for the hovered tile (null when not placing). */
+  ghost: (tx: number, ty: number) => GhostView | null;
+  /** Rally flag position when Call to Arms / Form Up is active. */
+  rally: () => { x: number; y: number } | null;
+}
+
+interface Marker {
+  x: number;
+  y: number;
+  color: number;
+  born: number;
 }
 
 interface Drawable {
@@ -61,9 +86,15 @@ export class Renderer2D {
   private prevY = new Float32Array(UnitId.COUNT + MAX_ANIMALS);
   private currX = new Float32Array(UnitId.COUNT + MAX_ANIMALS);
   private currY = new Float32Array(UnitId.COUNT + MAX_ANIMALS);
-  private selected: Selection | null = null;
-  private hoverTile: { x: number; y: number } | null = null;
-  onSelect: ((sel: Selection | null) => void) | null = null;
+  private hover: { x: number; y: number } | null = null;
+  private markers: Marker[] = [];
+  private selectedUnits = new Set<number>();
+  private selectedBuilding = 0;
+  providers: RenderProviders = {
+    selection: () => ({ units: [], building: 0 }),
+    ghost: () => null,
+    rally: () => null,
+  };
 
   private constructor() {
     this.camera = new Camera(this.world);
@@ -76,9 +107,8 @@ export class Renderer2D {
     r.world.addChild(r.terrainLayer, r.entityLayer, r.overlayLayer);
     r.app.stage.addChild(r.world);
     r.camera.attach(r.app.canvas, () => ({ w: r.app.screen.width, h: r.app.screen.height }));
-    r.camera.onClick = (wx, wy) => r.pick(wx, wy);
-    r.camera.onHover = (wx, wy) => {
-      r.hoverTile = { x: Math.floor(wx / TW), y: Math.floor(wy / TH) };
+    r.camera.handlers.hover = (wx, wy) => {
+      r.hover = { x: wx, y: wy };
     };
     r.app.ticker.add(() => r.frame());
     return r;
@@ -88,7 +118,7 @@ export class Renderer2D {
     this.view = view;
     this.tickMs = tickMs;
     this.terrainSig = '';
-    this.selected = null;
+    this.markers = [];
     this.camera.setBounds(view.mapWidth * TW, view.mapHeight * TH);
     this.captureTick(true);
     const chief = view.tribeStats[Tribe.PLAYER]?.[Stat.CHIEF] ?? 0;
@@ -102,8 +132,48 @@ export class Renderer2D {
     this.captureTick(false);
   }
 
-  getSelection(): Selection | null {
-    return this.selected;
+  /** Move the hover/ghost to a world point (touch has no hover, so taps call this). */
+  setHover(wx: number, wy: number): void {
+    this.hover = { x: wx, y: wy };
+  }
+
+  /** Tile under a world point. */
+  tileAt(wx: number, wy: number): { x: number; y: number } {
+    return { x: Math.floor(wx / TW), y: Math.floor(wy / TH) };
+  }
+
+  /** World centre of a tile. */
+  tileCenter(tx: number, ty: number): { x: number; y: number } {
+    return { x: tx * TW + TW / 2, y: ty * TH + TH / 2 };
+  }
+
+  /** Unit (villager or enemy) drawn under a world point, using interpolated positions; 0 if none. */
+  pickUnit(wx: number, wy: number): number {
+    const v = this.view;
+    if (!v) return 0;
+    let best = 0;
+    let bestD = TW * 0.55;
+    for (let i = 1; i < UnitId.COUNT; i++) {
+      if ((v.units.hp[i] ?? 0) <= 0) continue;
+      if ((v.units.x[i] ?? 0) === 0 && (v.units.y[i] ?? 0) === 0) continue;
+      const d = Math.hypot(this.currX[i]! - wx, this.currY[i]! - 24 - wy);
+      if (d < bestD) {
+        bestD = d;
+        best = i;
+      }
+    }
+    return best;
+  }
+
+  /** Short-lived ring where an order / placement happened. */
+  flash(tx: number, ty: number, color: number = Colors.selection): void {
+    const c = this.tileCenter(tx, ty);
+    this.markers.push({ x: c.x, y: c.y + TH * 0.2, color, born: performance.now() });
+  }
+
+  focusUnit(id: number): void {
+    if (!this.view || id <= 0) return;
+    this.camera.centerOn(this.currX[id]!, this.currY[id]!);
   }
 
   destroy(): void {
@@ -158,6 +228,9 @@ export class Renderer2D {
     this.camera.update(this.app.ticker.deltaMS);
     this.rebuildTerrainIfChanged(v);
     const alpha = Math.min(1, (performance.now() - this.lastTickAt) / this.tickMs);
+    const sel = this.providers.selection();
+    this.selectedUnits = new Set(sel.units);
+    this.selectedBuilding = sel.building;
     this.drawEntities(v, alpha);
     this.drawOverlay(v);
   }
@@ -238,10 +311,13 @@ export class Renderer2D {
       if (!inView(bx + size.w, by + size.h) && !inView(bx, by)) continue;
       const type = v.buildings.type[b] ?? 0;
       const hpFrac = (v.buildings.hp[b] ?? 0) / Math.max(1, v.buildings.maxHp[b] ?? 1);
-      const sel = this.selected?.kind === 'building' && this.selected.id === b;
+      const sel = this.selectedBuilding === b;
+      const site = type >= FIRST_SITE_TYPE;
       list.push({
         depth: (by + size.h) * TH,
-        draw: (gg) => drawBuilding(gg, type, bx * TW, by * TH, size.w * TW, size.h * TH, hpFrac, sel),
+        draw: site
+          ? (gg) => drawSite(gg, bx * TW, by * TH, size.w * TW, size.h * TH, hpFrac, sel)
+          : (gg) => drawBuilding(gg, type, bx * TW, by * TH, size.w * TW, size.h * TH, hpFrac, sel),
       });
     }
 
@@ -250,8 +326,7 @@ export class Renderer2D {
       const [x, y] = this.lerp(UnitId.COUNT + i, alpha);
       if (!inView(x / TW, y / TH)) continue;
       const type = v.animals.type[i] ?? 0;
-      const sel = this.selected?.kind === 'animal' && this.selected.id === i;
-      list.push({ depth: y, draw: (gg) => drawAnimal(gg, type, x, y, sel) });
+      list.push({ depth: y, draw: (gg) => drawAnimal(gg, type, x, y, false) });
     }
 
     const chief = v.tribeStats[Tribe.PLAYER]?.[Stat.CHIEF] ?? 0;
@@ -263,7 +338,7 @@ export class Renderer2D {
       const child = (v.units.age[i] ?? 20) < 12;
       const hpFrac = (v.units.hp[i] ?? 0) / Math.max(1, v.units.maxHp[i] ?? 1);
       const color = isEnemyUnit(i) ? Colors.enemy : Colors.player;
-      const sel = this.selected?.kind === 'unit' && this.selected.id === i;
+      const sel = this.selectedUnits.has(i);
       const dir = v.units.direction[i] ?? 2;
       list.push({ depth: y, draw: (gg) => drawUnit(gg, x, y, color, child, i === chief, dir, hpFrac, sel) });
     }
@@ -275,41 +350,39 @@ export class Renderer2D {
   private drawOverlay(v: WorldView): void {
     const g = this.overlayLayer;
     g.clear();
-    const h = this.hoverTile;
-    if (h && h.x >= 0 && h.y >= 0 && h.x < v.mapWidth && h.y < v.mapHeight) {
-      g.rect(h.x * TW + 2, h.y * TH + 2, TW - 4, TH - 4).stroke({ width: 2, color: 0xffffff, alpha: 0.35 });
-    }
-  }
+    const now = performance.now();
 
-  private pick(wx: number, wy: number): void {
-    const v = this.view;
-    if (!v) return;
-    let best: Selection | null = null;
-    let bestD = TW * 0.6;
-    for (let i = 1; i < UnitId.COUNT; i++) {
-      if ((v.units.hp[i] ?? 0) <= 0) continue;
-      const d = Math.hypot(this.currX[i]! - wx, this.currY[i]! - 20 - wy);
-      if (d < bestD) {
-        bestD = d;
-        best = { kind: 'unit', id: i, tileX: v.units.x[i] ?? 0, tileY: v.units.y[i] ?? 0 };
+    // Rally flag (Call to Arms / Form Up).
+    const rally = this.providers.rally();
+    if (rally) {
+      const c = this.tileCenter(rally.x, rally.y);
+      g.rect(c.x - 3, c.y - 90, 6, 90).fill(Colors.outline);
+      const wave = Math.sin(now / 180) * 6;
+      g.poly([c.x + 3, c.y - 90, c.x + 50, c.y - 78 + wave, c.x + 3, c.y - 62]).fill(0xd94141).stroke({ width: 2, color: Colors.outline });
+    }
+
+    // Hover tile / placement ghost.
+    const h = this.hover ? this.tileAt(this.hover.x, this.hover.y) : null;
+    if (h && h.x >= 0 && h.y >= 0 && h.x < v.mapWidth && h.y < v.mapHeight) {
+      const ghost = this.providers.ghost(h.x, h.y);
+      if (ghost) {
+        const color = ghost.valid ? 0x58c75a : 0xd94141;
+        g.rect(ghost.x * TW, ghost.y * TH, ghost.w * TW, ghost.h * TH).fill({ color, alpha: 0.28 }).stroke({ width: 3, color, alpha: 0.9 });
+      } else {
+        g.rect(h.x * TW + 2, h.y * TH + 2, TW - 4, TH - 4).stroke({ width: 2, color: 0xffffff, alpha: 0.35 });
       }
     }
-    for (let i = 0; i < MAX_ANIMALS && !best; i++) {
-      if ((v.animals.hp[i] ?? 0) <= 0) continue;
-      const k = UnitId.COUNT + i;
-      if (Math.hypot(this.currX[k]! - wx, this.currY[k]! - 16 - wy) < TW * 0.6) {
-        best = { kind: 'animal', id: i, tileX: v.animals.x[i] ?? 0, tileY: v.animals.y[i] ?? 0 };
-      }
+
+    // Order markers: shrinking rings for 600 ms.
+    this.markers = this.markers.filter((m) => now - m.born < 600);
+    for (const m of this.markers) {
+      const t = (now - m.born) / 600;
+      g.ellipse(m.x, m.y, 40 * (1 - t) + 8, 15 * (1 - t) + 3).stroke({ width: 4, color: m.color, alpha: 1 - t });
     }
-    const tx = Math.floor(wx / TW);
-    const ty = Math.floor(wy / TH);
-    if (!best) {
-      const occ = v.occupancy[ty]?.[tx] ?? 0;
-      if (occ < 0 && occ > OBJECT_REF_FIRST) best = { kind: 'building', id: -occ, tileX: tx, tileY: ty };
-      else best = { kind: 'tile', id: occ, tileX: tx, tileY: ty };
-    }
-    this.selected = best;
-    this.onSelect?.(best);
+
+    // Drag-box.
+    const box = this.camera.boxDraft;
+    if (box) g.rect(box.x, box.y, box.w, box.h).fill({ color: 0xfff3a0, alpha: 0.12 }).stroke({ width: 2 / this.camera.zoom, color: 0xfff3a0 });
   }
 }
 
@@ -372,6 +445,20 @@ function drawBuilding(
   g.roundRect(x + w / 2 - 12, y + h - inset - 34, 24, 34, 10).fill(Colors.outline);
   if (selected) g.rect(x + 2, y + 2, w - 4, h - 4).stroke({ width: 3, color: Colors.selection });
   if (hpFrac < 1) drawHp(g, x + w / 2, top + h * 0.35 - 12, Math.min(80, w - 16), hpFrac);
+}
+
+function drawSite(g: Graphics, x: number, y: number, w: number, h: number, progress: number, selected: boolean): void {
+  const inset = 8;
+  g.rect(x + inset, y + inset, w - inset * 2, h - inset * 2).fill({ color: 0x8a6a45, alpha: 0.55 }).stroke({ width: 3, color: Colors.outline });
+  // scaffold poles rising with build progress
+  const poleH = 20 + 90 * progress;
+  for (const px of [x + inset + 6, x + w - inset - 6]) {
+    for (const py of [y + h * 0.45, y + h - inset - 4]) g.rect(px - 3, py - poleH, 6, poleH).fill(0x6b4423);
+  }
+  g.rect(x + inset, y + h * 0.45 - poleH, w - inset * 2, 6).fill(0x6b4423);
+  g.rect(x + inset, y + h - inset - 4 - poleH, w - inset * 2, 6).fill(0x6b4423);
+  if (selected) g.rect(x + 2, y + 2, w - 4, h - 4).stroke({ width: 3, color: Colors.selection });
+  drawHp(g, x + w / 2, y + h * 0.45 - poleH - 14, Math.min(80, w - 16), progress);
 }
 
 function drawAnimal(g: Graphics, type: number, x: number, y: number, selected: boolean): void {

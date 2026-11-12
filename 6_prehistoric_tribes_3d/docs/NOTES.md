@@ -1,6 +1,25 @@
 # NOTES — nhật ký làm việc chung (thêm mới ở đầu file)
 
 ---
+## 2026-11-12 — T23 điều khiển web/mobile + HUD mới (Claude) → REVIEW
+
+**Cách làm:** `EngineCommands` lái chính input gốc (`handleFireTap`, `orderSelectionTo`, `contextMenu.executeContextCommand`, `selection.finishBoxSelection`) với con trỏ ảo đặt vào ô được chạm → giữ nguyên luật. Bảng điều khiển: `docs/CONTROLS.md`.
+**Kiểm thử e2e (Playwright, cử chỉ thật):**
+- Desktop 1280×800: click chọn dân "Mumbo" → chuột phải vào cây → job = tiều phu; `B` → 11 thẻ công trình → Lều → click → số công trình 2→3; kéo chọn vùng → 12 dân; `C` + click → báo động bật, cờ hiện.
+- Mobile 390×844 (touch): chạm chọn dân → chạm cây → mục tiêu đúng (83,41); Xây → Kho → chạm vị trí → "Xây ở đây" → công trình 2→3.
+- Kiểm chứng thêm bằng API: thợ xây được giao khi chạm công trường; Hut trừ dần 15 gỗ + 5 đá, HP 5→20/25 — đúng luật gốc (tài nguyên trừ khi thợ mang vật liệu, không trừ lúc đặt).
+- 0 lỗi console; typecheck/lint/test sạch.
+
+**Phát hiện kỹ thuật:**
+- `placementValid` chỉ được tính trong lúc engine **vẽ** (`updatePlacement`) → adapter tự tính bằng `construction.canPlaceBuilding` (cần ô đã khám phá).
+- `placementType` của công trình là **mã công trường 12–19** (dùng chung theo kích thước); loại công trình thật lấy từ `contextItems[contextCursor]` lúc đặt và lưu vào `buildings.payload`.
+- `buildingStats` xếp theo hàng: `value(stat*26 + type)`; hàng 4/5 kích thước, 10/11/12 chi phí gỗ/đá/xương, 13/14 chi phí nâng cấp; vũ khí ở cột 12–17, bẫy 20–22.
+- Mã lệnh ngữ cảnh `y`: 10 BUILD … 29 UNLOAD (nhãn = `labels.commands[id-10]`); 0–8 là vật phẩm; âm = dân trong công trình.
+- Dân phải được giao việc; công trường cần ra lệnh cho dân tới xây (giống bản gốc).
+
+**Giả định cần xác minh:** thanh No/Sức/Vui trong thẻ dân đang lấy thang 0–100.
+
+---
 ## 2026-11-12 — Chuyển sang 2D trước (D-07) + T20/T21 bản chạy được (Claude)
 
 **Chạy thử:** `npm i --cache <tmp>` (nếu ~/.npm lỗi quyền) → `npm run dev` → http://localhost:5180 (mặc định level 7 "Custom: Great Lake"; chọn level ở thanh trên).

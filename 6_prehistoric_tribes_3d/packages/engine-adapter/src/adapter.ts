@@ -6,6 +6,7 @@
  */
 import { mountPrehistoricTribes } from './vendor/ptCore.js';
 import type { EngineController } from './vendor/bridgeTypes.js';
+import { EngineCommands, type EngineInternals } from './commands.js';
 import type { WorldView } from './world.js';
 
 /** Engine UI states (enum `ui`) and the gameplay screen id (enum `z`). */
@@ -26,6 +27,8 @@ export type AdapterEvent =
   | { kind: 'levelStarted'; level: number }
   /** The engine asked for a menu/cutscene/story screen; v1 shims it and keeps playing. */
   | { kind: 'screenRequested'; tick: number; screen: number; gameState: number }
+  /** Selection / panel / placement changed because of a player command. */
+  | { kind: 'interaction' }
   | { kind: 'error'; error: unknown };
 
 type Listener = (e: AdapterEvent) => void;
@@ -50,12 +53,27 @@ export class EngineAdapter {
   private listeners = new Set<Listener>();
   private speed = 1;
   readonly ticksPerSecond = 1000 / TICK_MS;
+  /** Pointer/touch commands routed through the original input handlers. */
+  readonly commands: EngineCommands;
 
   private constructor(
     private readonly controller: EngineController,
     private readonly game: EngineGame,
     private readonly hostEl: HTMLElement,
-  ) {}
+  ) {
+    this.commands = new EngineCommands(
+      game as unknown as EngineInternals,
+      (cmd) => controller.triggerVillageCommand(cmd),
+      () => controller.openBuildMenu(),
+    );
+  }
+
+  /** Run a command and tell listeners (HUD) that the interaction state changed. */
+  act<T>(fn: (c: EngineCommands) => T): T {
+    const r = fn(this.commands);
+    this.emit({ kind: 'interaction' });
+    return r;
+  }
 
   static async create(opts: AdapterOptions): Promise<EngineAdapter> {
     const host = opts.host ?? document.body;

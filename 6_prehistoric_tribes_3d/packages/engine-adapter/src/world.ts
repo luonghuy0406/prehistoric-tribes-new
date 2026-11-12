@@ -62,6 +62,18 @@ export interface UnitArrays {
   task: NumArray;
   job: NumArray;
   flags: NumArray;
+  food: NumArray;
+  energy: NumArray;
+  happiness: NumArray;
+  /** Index into labels.villagerNames. */
+  name: NumArray;
+  /** Item id (0..5 weapon) or <0 for none. */
+  weapon: NumArray;
+  meleeSkill: NumArray;
+  throwingSkill: NumArray;
+  gatheringSkill: NumArray;
+  buildingSkill: NumArray;
+  scoutingSkill: NumArray;
 }
 
 export interface BuildingArrays {
@@ -72,6 +84,9 @@ export interface BuildingArrays {
   type: NumArray;
   level: NumArray;
   state: NumArray;
+  /** For construction sites (type >= 12): the building type being built. */
+  payload: NumArray;
+  firstUnit: NumArray;
 }
 
 export interface AnimalArrays {

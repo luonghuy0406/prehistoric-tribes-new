@@ -16,8 +16,8 @@ Tham chiếu nguồn luật chơi: `../2_documentation/05_gameplay/GAMEPLAY_SYST
 | T21 | `packages/render2d` (PixiJS): terrain (placeholder màu theo occupancy → sau là tile HD), camera kéo/cuộn/zoom, lưới 88×64 | T1 | REVIEW | Claude |
 | T21b | Phân loại tile id → loại địa hình (cỏ/đất/cát/nước sâu/vách đá…) từ đồ hoạ gốc (`compositeFirstClip`/sprite sheet) để tô placeholder đúng và chọn texture HD. Hiện vùng BLOCKED (-126) tô xám chung | T21 | TODO | | Ảnh chụp 12 level đọc được địa hình như bản gốc | Hiển thị đủ 12 level; 60fps |
 | T22 | Entity renderer 2D: units/animals/buildings/objects, nội suy giữa tick, sắp xếp chiều sâu theo hàng, thanh máu, chọn | T20,T21 | DOING (bản placeholder đã có trong T21; còn: unit trong nhà, công trình đang xây, fog of war, xác thú) | | Thấy dân đi lại/làm việc khớp engine gốc |
-| T23 | Input 2D: click chọn, box-select, chuột phải ra lệnh, đặt công trình (ghost), phím tắt → `Command` vào engine | T22 | TODO | | Chọn dân, ra lệnh, xây Hut được |
-| T24 | HUD React mới (thay T10–T13 bản 3D): resource bar, inspector, build menu, roster, alert, minimap, pause/options, dialog cốt truyện | T20 | TODO | | Chơi hết Level 0–1 chỉ bằng HUD mới |
+| T23 | Input 2D: click chọn, box-select, chuột phải ra lệnh, đặt công trình (ghost), phím tắt → `Command` vào engine | T22 | REVIEW | Claude | Chọn dân, ra lệnh, xây Hut được |
+| T24 | HUD React mới (thay T10–T13 bản 3D): resource bar, inspector, build menu, roster, alert, minimap, pause/options, dialog cốt truyện | T20 | DOING (đã có: resource bar, dock lệnh, build sheet, thẻ dân/nhóm/công trình, banner đặt nhà; còn: alert/toast, minimap, roster đầy đủ, options) | Claude | Chơi hết Level 0–1 chỉ bằng HUD mới |
 | T25 | Pipeline asset 2D: `assets/hd/manifest.json`, loader sprite sheet, fallback sprite gốc phóng ×4 (nearest) khi thiếu asset HD | T21 | TODO | | Thiếu asset vẫn chạy; thay PNG HD không cần sửa code |
 | T26 | Menu/campaign/cutscene/save-load qua engine gốc, nhạc | T24 | TODO | | Chơi xuyên 10 level |
 
