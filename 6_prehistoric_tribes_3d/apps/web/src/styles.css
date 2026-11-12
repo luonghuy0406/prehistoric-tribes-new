@@ -1,0 +1,34 @@
+:root {
+  --bg: #1b140c;
+  --panel: rgba(36, 27, 17, 0.82);
+  --edge: rgba(242, 179, 61, 0.35);
+  --text: #f6ecd2;
+  --muted: #cbbf9b;
+  --accent: #f2b33d;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body, #root { margin: 0; height: 100%; background: var(--bg); color: var(--text); font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; overscroll-behavior: none; }
+.app { position: fixed; inset: 0; overflow: hidden; }
+.stage { position: absolute; inset: 0; touch-action: none; }
+.stage canvas { display: block; }
+.hud-top { position: absolute; top: 12px; left: 12px; right: 12px; display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; padding: 10px 14px; background: var(--panel); border: 1px solid var(--edge); border-radius: 14px; backdrop-filter: blur(6px); }
+.brand { font-weight: 800; letter-spacing: 0.02em; color: var(--accent); }
+.brand span { font-weight: 500; color: var(--muted); font-size: 12px; margin-left: 6px; }
+.resources { display: flex; flex-wrap: wrap; gap: 14px; }
+.res { display: flex; flex-direction: column; align-items: center; min-width: 52px; }
+.res-label { font-size: 11px; color: var(--muted); }
+.res-value { font-size: 17px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.controls { display: flex; gap: 8px; align-items: center; }
+.controls select, .controls button { background: #2b2014; color: var(--text); border: 1px solid var(--edge); border-radius: 8px; padding: 6px 10px; font: inherit; font-size: 13px; cursor: pointer; }
+.controls button:hover, .controls select:hover { border-color: var(--accent); }
+.tick { font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; min-width: 70px; }
+.inspector { position: absolute; left: 12px; bottom: 44px; min-width: 240px; padding: 10px 14px; background: var(--panel); border: 1px solid var(--edge); border-radius: 12px; font-size: 13px; }
+.inspector p { margin: 3px 0; }
+.hint { position: absolute; left: 0; right: 0; bottom: 10px; text-align: center; font-size: 12px; color: var(--muted); pointer-events: none; text-shadow: 0 1px 2px #000; }
+.overlay { position: absolute; inset: 0; display: grid; place-items: center; background: rgba(15, 10, 5, 0.85); font-size: 16px; }
+@media (max-width: 720px) {
+  .hud-top { top: 8px; left: 8px; right: 8px; padding: 8px 10px; }
+  .brand span { display: none; }
+  .res { min-width: 40px; }
+}

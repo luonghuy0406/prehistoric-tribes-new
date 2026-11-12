@@ -1,4 +1,20 @@
-# 01 — Kế hoạch rebuild 3D + UI hiện đại
+# 01 — Kế hoạch rebuild (2D HD trước, 3D sau)
+
+> **Cập nhật 2026-11-12 (D-07):** ưu tiên **bản 2D đồ hoạ HD + HUD hiện đại** để kiểm thử nhanh, rẻ. Kiến trúc dưới đây vẫn đúng; chỉ thay renderer 3D bằng renderer 2D (PixiJS) và lùi các task 3D. Xem mục 0.
+
+## 0. Giai đoạn 2D (đang làm)
+```
+apps/web (Vite + React)
+ ├─ HUD React mới (resource bar, inspector, build menu, roster, dialog…)
+ ├─ packages/render2d  (PixiJS/WebGL): terrain, entity, camera pan/zoom, picking, hiệu ứng
+ └─ packages/engine-adapter: bọc ptCore.js (sim gốc) → Snapshot + Command
+          └─ ptCore.js (copy từ 5_prehistoric_tribes_react, không sửa)
+packages/data: đọc game-data, sprites, map (đã xong T1)
+assets/hd/   : sprite HD từ Gemini (theo 05_GEMINI_2D_ASSET_PROMPTS.md), fallback sprite gốc phóng to
+```
+- **Phép chiếu (D-08):** lưới chữ nhật như bản gốc, ô 22×16 px gốc → 88×64 px HD (×4). Vẽ theo thứ tự hàng trên→dưới, cột phải→trái (painter's order của engine).
+- **Lợi ích:** luật chơi giống 100% bản gốc (dùng sim gốc), chỉ thay đồ hoạ + UI. Khi cần, đổi sang sim TS (T3–T5) mà renderer/HUD không đổi vì đi qua cùng `Snapshot/Command`.
+- **3D:** giữ nguyên các mục dưới làm định hướng dài hạn.
 
 ## 1. Mục tiêu & phi mục tiêu
 **Mục tiêu:** cùng luật chơi/cốt truyện/10 level như bản gốc (đã RE), nhưng camera 3D (góc nhìn RTS nghiêng, xoay/zoom), mô hình low-poly, ánh sáng ngày/đêm, HUD hiện đại, chạy trên desktop + mobile browser.

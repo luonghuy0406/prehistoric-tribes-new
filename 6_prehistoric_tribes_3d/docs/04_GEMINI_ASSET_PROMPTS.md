@@ -1,5 +1,7 @@
 # 04 — Prompt tạo tài nguyên cho Gemini (Prehistoric Tribes 3D)
 
+> ⏸ **HOÃN (D-07):** đang làm bản 2D trước — dùng `05_GEMINI_2D_ASSET_PROMPTS.md`. File này giữ cho giai đoạn 3D. Các mục 6 (texture), 8 (UI), 9 (key art) vẫn dùng được cho bản 2D.
+
 > **Cách dùng (tiếng Việt cho người vận hành)**
 > 1. Mỗi phiên chat với Gemini: **dán khối `GLOBAL STYLE` ở mục 0 trước**, sau đó dán từng prompt asset. Giữ cùng 1 cuộc hội thoại cho cùng 1 nhóm (vd. toàn bộ công trình) để phong cách đồng nhất.
 > 2. Khi prompt ghi `ATTACH:` → đính kèm ảnh gốc từ `5_prehistoric_tribes_react/public/res/images/...` làm tham chiếu.

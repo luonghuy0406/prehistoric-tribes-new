@@ -1,6 +1,25 @@
 # NOTES — nhật ký làm việc chung (thêm mới ở đầu file)
 
 ---
+## 2026-11-12 — Chuyển sang 2D trước (D-07) + T20/T21 bản chạy được (Claude)
+
+**Chạy thử:** `npm i --cache <tmp>` (nếu ~/.npm lỗi quyền) → `npm run dev` → http://localhost:5180 (mặc định level 7 "Custom: Great Lake"; chọn level ở thanh trên).
+**Đã kiểm chứng bằng Playwright (Chromium headless, 1280×800):** engine gốc load, vào thẳng level 7, sim chạy 25 tick/3 s (đúng 120 ms/tick), renderer vẽ đủ terrain/cây/object/công trình/dân/địch/động vật, click chọn tù trưởng → inspector đúng (HP 55/55, ô 85,45), không lỗi console. `npm test` 48/48, typecheck 4 package, lint, build sạch.
+
+**Phát hiện quan trọng — phép chiếu gốc (sửa tài liệu cũ):** engine KHÔNG dùng iso kim cương 44×32 như `2_documentation` ghi. Màn hình: `x = (col - cameraX) * 22`, `y = row * 16`, unit cộng `offsetX/Y` (px). Đây là lưới chữ nhật, hình vẽ phối cảnh 3/4. Vẽ theo hàng trên→dưới, cột phải→trái. → D-08: HD ×4 = 88×64 px/ô.
+**Mã hoá occupancy (bổ sung MAP_FORMAT):** `-b` = công trình id b (neo góc trên-trái, phủ W×H ô); `-61..-110` object; `-111..-123` bẫy; `-124..-127` rừng/nước/chặn/bờ.
+**Hướng (direction):** 0=E,1=SE,2=S,3=SW,4=W,5=NW,6=N,7=NE (`directionDeltas`). Sprite chỉ cần 5 hướng S,SE,E,NE,N rồi lật gương.
+**Vào thẳng level:** `game.level=L; game.levels.start(L); gameState=1; screen=28`. Level 1 không có dân phe mình (campaign mang dân từ tutorial sang) → kiểm thử nên dùng level 0 hoặc 7–11.
+**Dân không tự làm việc** khi chưa được giao việc (đúng game gốc) → cần T23 (ra lệnh) mới thấy kinh tế chạy.
+**Engine gốc tự vẽ canvas ẩn khi resize** → adapter vô hiệu `game.requestPaint`.
+
+**Còn mở:**
+- `tribeStats[16]` (LIVING_SPACE) = 1 ở level 7 dù có nhà → xác minh ý nghĩa ở T24.
+- Vùng xám = BLOCKED chung (hồ sâu? vách đá?) → T21b.
+- Cutscene/story đang bị shim (ép về gameplay) → T26.
+- Bundle web 933KB (ptCore 557KB) — chấp nhận cho bản thử.
+
+---
 ## 2026-11-12 — T1: monorepo + package `@pt3d/data` (Claude) → REVIEW
 
 **Kết quả:** `npm test` 48/48 xanh, `npm run typecheck` và `npm run lint` sạch.

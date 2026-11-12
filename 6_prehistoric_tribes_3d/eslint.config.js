@@ -1,7 +1,7 @@
 import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
-  { ignores: ['**/dist/**', '**/node_modules/**', 'assets/**', 'tools/**'] },
+  { ignores: ['**/dist/**', '**/node_modules/**', 'assets/**', 'tools/**', '**/vendor/**'] },
   ...tseslint.configs.recommended,
   {
     rules: {

@@ -9,6 +9,20 @@ Tham chiếu nguồn luật chơi: `../2_documentation/05_gameplay/GAMEPLAY_SYST
 | T0 | Dọn & baseline: commit trạng thái git hiện tại (3_web_game bị xoá, .gitignore), bỏ `dist/`+`tsbuildinfo` khỏi git; chạy `5_react` (`npm i && npm run dev`) và ghi lại kết quả trong `docs/NOTES.md`; **xác nhận các mục [VERIFY]** ở `00_REVIEW` | – | REVIEW | Claude | Game 5_react chạy; NOTES.md liệt kê: sim/render có tách được không, các hàm `update*` chính, kích thước map |
 | T1 | Scaffold monorepo (npm workspaces — máy không có pnpm) + TS strict + Vitest + ESLint; package `data` đọc `game-data.json`, `sprites.json`, `maps/*.bin`, locale → type + parser | T0 | REVIEW | Claude | `pnpm test` xanh; parser map trả `{w,h,terrain[],collision[],nodes[]}` cho cả 10 map, snapshot test; tài liệu format `.bin` trong `docs/MAP_FORMAT.md` |
 
+## ★ Giai đoạn 2D (ƯU TIÊN HIỆN TẠI — D-07)
+| ID | Task | Depends | Status | Owner | Acceptance |
+|---|---|---|---|---|---|
+| T20 | `packages/engine-adapter`: mount ptCore không hiển thị canvas gốc, vào thẳng 1 level (bỏ menu), tự chạy tick 120ms, shim UI (cutscene/menu), xuất `Snapshot` (units/buildings/animals/objects/tribeStats/terrain/occupancy) + `Command` cơ bản | T1 | REVIEW (thiếu `Command` → T23) | Claude | Level 1 chạy 10 phút sim không lỗi; snapshot đọc được từ React |
+| T21 | `packages/render2d` (PixiJS): terrain (placeholder màu theo occupancy → sau là tile HD), camera kéo/cuộn/zoom, lưới 88×64 | T1 | REVIEW | Claude |
+| T21b | Phân loại tile id → loại địa hình (cỏ/đất/cát/nước sâu/vách đá…) từ đồ hoạ gốc (`compositeFirstClip`/sprite sheet) để tô placeholder đúng và chọn texture HD. Hiện vùng BLOCKED (-126) tô xám chung | T21 | TODO | | Ảnh chụp 12 level đọc được địa hình như bản gốc | Hiển thị đủ 12 level; 60fps |
+| T22 | Entity renderer 2D: units/animals/buildings/objects, nội suy giữa tick, sắp xếp chiều sâu theo hàng, thanh máu, chọn | T20,T21 | DOING (bản placeholder đã có trong T21; còn: unit trong nhà, công trình đang xây, fog of war, xác thú) | | Thấy dân đi lại/làm việc khớp engine gốc |
+| T23 | Input 2D: click chọn, box-select, chuột phải ra lệnh, đặt công trình (ghost), phím tắt → `Command` vào engine | T22 | TODO | | Chọn dân, ra lệnh, xây Hut được |
+| T24 | HUD React mới (thay T10–T13 bản 3D): resource bar, inspector, build menu, roster, alert, minimap, pause/options, dialog cốt truyện | T20 | TODO | | Chơi hết Level 0–1 chỉ bằng HUD mới |
+| T25 | Pipeline asset 2D: `assets/hd/manifest.json`, loader sprite sheet, fallback sprite gốc phóng ×4 (nearest) khi thiếu asset HD | T21 | TODO | | Thiếu asset vẫn chạy; thay PNG HD không cần sửa code |
+| T26 | Menu/campaign/cutscene/save-load qua engine gốc, nhạc | T24 | TODO | | Chơi xuyên 10 level |
+
+> Các task 3D (T6–T9b) **hoãn** đến khi bản 2D kiểm thử xong.
+
 ## Giai đoạn B — Sim headless
 | ID | Task | Depends | Status | Owner | Acceptance |
 |---|---|---|---|---|---|
@@ -22,7 +36,7 @@ Tham chiếu nguồn luật chơi: `../2_documentation/05_gameplay/GAMEPLAY_SYST
 | T5c | Sim #4: AI địch (sửa chữa, tuần tra, wave tấn công, campPlan), điều kiện thắng/thua, score | T5a,T5b | TODO | | Level 0→3 chơi tự động (bot) không crash 10 phút sim; win/lose đúng |
 | T5d | Pathfinding A* trên lưới + tránh va chạm | T3 | TODO | | Benchmark: 50 unit tìm đường < 2ms/tick trung bình |
 
-## Giai đoạn C/D — 3D world & tương tác
+## Giai đoạn C/D — 3D world & tương tác (HOÃN — D-07)
 | ID | Task | Depends | Status | Owner | Acceptance |
 |---|---|---|---|---|---|
 | T6 | Pipeline asset: `assets/manifest.json` (id sim → GLB/billboard), loader, placeholder primitive cho 12 công trình, dân (nam/nữ/trẻ/chief), động vật (boar, tiger, mammoth, dino), cây, đá, bụi quả, xác thú | T1 | TODO | | Mỗi loại entity có asset (tạm cũng được) + test "không thiếu manifest" |
