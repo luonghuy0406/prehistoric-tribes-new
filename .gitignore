@@ -1,2 +1,4 @@
-3_web_game/node_modules/*
-5_prehistoric_tribes_react/node_modules
+node_modules/
+dist/
+*.tsbuildinfo
+.DS_Store
