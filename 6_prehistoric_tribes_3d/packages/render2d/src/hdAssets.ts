@@ -10,15 +10,18 @@
  */
 import { Texture } from 'pixi.js';
 
-export type AssetKind = 'dir5' | 'building' | 'texture' | 'sprite';
+/** dir5 = 5-direction strip (S,SE,E,NE,N); strip = N variations side by side. */
+export type AssetKind = 'dir5' | 'strip' | 'building' | 'texture' | 'sprite';
 
 export interface ManifestEntry {
   src: string;
   kind: AssetKind;
   /** Chroma-key the green background (default true except for textures). */
   key?: boolean;
-  /** dir5: expected figure count (5). */
+  /** dir5/strip: expected figure count (dir5 defaults to 5). */
   frames?: number;
+  /** File may not exist yet (queued with the art team) — skip silently. */
+  optional?: boolean;
   /** texture: world pixels covered by one repeat of the image. */
   worldSize?: number;
 }
@@ -61,7 +64,7 @@ export async function loadHdAssets(baseUrl: string): Promise<Map<string, HdSprit
       try {
         out.set(id, await loadEntry(baseUrl, entry));
       } catch (e) {
-        console.warn(`[hd] ${id}: ${String(e)} — falling back to placeholder`);
+        if (!entry.optional) console.warn(`[hd] ${id}: ${String(e)} — falling back to placeholder`);
       }
     }),
   );
@@ -90,7 +93,10 @@ async function loadEntry(baseUrl: string, entry: ManifestEntry): Promise<HdSprit
   if (entry.key !== false) chromaKey(data);
   ctx.putImageData(data, 0, 0);
 
-  const boxes = entry.kind === 'dir5' ? splitColumns(data, entry.frames ?? 5) : [contentBox(data, 0, data.width)];
+  const boxes =
+    entry.kind === 'dir5' || entry.kind === 'strip'
+      ? splitColumns(data, entry.frames ?? 5)
+      : [contentBox(data, 0, data.width)];
   const frames: Texture[] = [];
   const sizes: { w: number; h: number }[] = [];
   for (const b of boxes) {

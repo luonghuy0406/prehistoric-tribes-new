@@ -6,7 +6,7 @@
  * Entities with an HD sprite in assets/hd/manifest.json are drawn as sprites; everything else
  * falls back to placeholder shapes, so art can be delivered piece by piece (T25).
  */
-import { Application, Container, Graphics, Sprite, TilingSprite, type Texture } from 'pixi.js';
+import { Application, Container, Graphics, Matrix, Sprite, TilingSprite, type Texture } from 'pixi.js';
 import {
   isEnemyUnit,
   MAX_ANIMALS,
@@ -87,6 +87,14 @@ interface Drawable {
 /** Adult villager on-screen height (HD px); a tile is 88 x 64. */
 const UNIT_HEIGHT = 104;
 const ENEMY_TINT = 0xb9a4d6;
+const CHILD_SCALE = 0.66;
+const TREE_HEIGHT = 230;
+/** Animal type (animalHp/animalBoldness tables): 0 = boar, 1 = sabre-tooth tiger, 2 = harmless prey (unidentified). */
+const ANIMAL_ART: Record<number, { id: string; height: number }> = {
+  0: { id: 'ani_boar', height: 74 },
+  1: { id: 'ani_tiger', height: 92 },
+};
+const ENEMY_CHIEF_ID = 51;
 /** Engine direction (0=E..7=NE) → [dir5 frame index (S,SE,E,NE,N), mirrored]. */
 const DIR_TO_FRAME: readonly [number, boolean][] = [
   [2, false],
@@ -305,6 +313,8 @@ export class Renderer2D {
     this.terrainSig = sig;
     const g = this.terrainLayer;
     g.clear();
+    const water = this.terrainFill('ter_water');
+    const forest = this.terrainFill('ter_forest_floor');
     for (let y = 0; y < v.mapHeight; y++) {
       for (let x = 0; x < v.mapWidth; x++) {
         const occ = v.occupancy[y]?.[x] ?? 0;
@@ -318,9 +328,20 @@ export class Renderer2D {
           if (this.grassLayer) alpha = 0.45; // darken the grass texture under trees
         } else if (occ === OCC_BLOCKED) color = tile >= 175 ? Colors.rockDark : Colors.rock;
         else if (this.grassLayer) continue; // plain grass: the HD texture shows through
-        g.rect(x * TW, y * TH, TW, TH).fill({ color, alpha });
+        const textured = occ === OCC_WATER ? water : occ === OCC_FOREST ? forest : null;
+        if (textured) g.rect(x * TW, y * TH, TW, TH).fill(textured);
+        else g.rect(x * TW, y * TH, TW, TH).fill({ color, alpha });
       }
     }
+  }
+
+  /** World-space repeating texture fill for a terrain class, if that HD texture exists. */
+  private terrainFill(id: string): { texture: Texture; textureSpace: 'global'; matrix: Matrix } | null {
+    const art = this.hd.get(id);
+    const tex = art?.frames[0];
+    if (!art || !tex) return null;
+    const sc = (art.worldSize ?? tex.width) / tex.width;
+    return { texture: tex, textureSpace: 'global', matrix: new Matrix().scale(sc, sc) };
   }
 
   private visibleTileRect(): { x0: number; y0: number; x1: number; y1: number } {
@@ -347,8 +368,17 @@ export class Renderer2D {
         if (occ === OCC_FOREST) {
           const cx = x * TW + TW / 2;
           const base = y * TH + TH * 0.8;
-          const s = 0.85 + (((x * 7 + y * 13) % 5) / 20);
-          list.push({ depth: base, draw: (gg) => drawTree(gg, cx, base, s) });
+          const hash = (x * 7 + y * 13) % 5;
+          const s = 0.85 + hash / 20;
+          const treeArt = this.hd.get(((x * 31 + y * 17) & 3) === 0 ? 'nat_tree_conifer' : 'nat_tree_broadleaf') ?? this.hd.get('nat_tree_broadleaf');
+          if (treeArt && treeArt.frames.length > 0) {
+            const f = (x * 3 + y * 5) % treeArt.frames.length;
+            const sc = (TREE_HEIGHT * s) / (treeArt.sizes[f]?.h ?? 1);
+            const flip = (x + y) % 2 === 0 ? -1 : 1;
+            list.push({ depth: base, sprite: { tex: treeArt.frames[f]!, x: cx, y: base + 6, sx: sc * flip, sy: sc } });
+          } else {
+            list.push({ depth: base, draw: (gg) => drawTree(gg, cx, base, s) });
+          }
         } else if (occ <= OBJECT_REF_FIRST && occ >= OBJECT_REF_LAST) {
           const slot = OBJECT_REF_FIRST - occ;
           const kind = v.objects.type[slot] ?? 0;
@@ -396,7 +426,15 @@ export class Renderer2D {
       const [x, y] = this.lerp(UnitId.COUNT + i, alpha);
       if (!inView(x / TW, y / TH)) continue;
       const type = v.animals.type[i] ?? 0;
-      list.push({ depth: y, draw: (gg) => drawAnimal(gg, type, x, y, false) });
+      const spec = ANIMAL_ART[type];
+      const art = spec ? this.hd.get(spec.id) : undefined;
+      if (art && spec) {
+        const k = UnitId.COUNT + i;
+        const moving = Math.abs(this.currX[k]! - this.prevX[k]!) + Math.abs(this.currY[k]! - this.prevY[k]!) > 0.5;
+        this.pushDirSprite(list, art, 1000 + i, x, y, v.animals.direction[i] ?? 2, spec.height, moving, undefined);
+      } else {
+        list.push({ depth: y, draw: (gg) => drawAnimal(gg, type, x, y, false) });
+      }
     }
 
     const chief = v.tribeStats[Tribe.PLAYER]?.[Stat.CHIEF] ?? 0;
@@ -410,10 +448,21 @@ export class Renderer2D {
       const color = isEnemyUnit(i) ? Colors.enemy : Colors.player;
       const sel = this.selectedUnits.has(i);
       const dir = v.units.direction[i] ?? 2;
-      const art = !child && (v.units.gender[i] ?? 0) === 0 ? this.hd.get('chr_villager_m') : undefined;
-      if (art) {
+      const pick = this.unitArt(i, child, (v.units.gender[i] ?? 0) === 1, i === chief);
+      if (pick) {
         const moving = Math.abs(this.currX[i]! - this.prevX[i]!) + Math.abs(this.currY[i]! - this.prevY[i]!) > 0.5;
-        this.pushUnitSprite(list, art, i, x, y, dir, color, i === chief, isEnemyUnit(i), moving, hpFrac, sel);
+        list.push({ depth: y - 0.5, draw: (gg) => drawFootRing(gg, x, y, color, sel, child ? CHILD_SCALE : 1) });
+        const top = this.pushDirSprite(list, pick.art, i, x, y, dir, UNIT_HEIGHT * pick.scale, moving, pick.tint);
+        const crown = pick.crown;
+        if (crown || hpFrac < 1) {
+          list.push({
+            depth: y + 0.01,
+            draw: (gg) => {
+              if (crown) drawCrown(gg, x, top - 4);
+              if (hpFrac < 1) drawHp(gg, x, top - (crown ? 22 : 10), 40, hpFrac);
+            },
+          });
+        }
       } else {
         list.push({ depth: y, draw: (gg) => drawUnit(gg, x, y, color, child, i === chief, dir, hpFrac, sel) });
       }
@@ -434,44 +483,44 @@ export class Renderer2D {
     return this.hd.get(base);
   }
 
-  private pushUnitSprite(
-    list: Drawable[],
-    art: HdSprite,
-    id: number,
-    x: number,
-    y: number,
-    dir: number,
-    teamColor: number,
-    chief: boolean,
-    enemy: boolean,
-    moving: boolean,
-    hpFrac: number,
-    selected: boolean,
-  ): void {
+  /**
+   * Which HD art a unit uses. Specific art wins; otherwise fall back to the closest existing art
+   * (enemy → tinted villager art, chief → villager + crown). Returns null → vector placeholder.
+   */
+  private unitArt(id: number, child: boolean, female: boolean, chief: boolean): { art: HdSprite; scale: number; tint?: number; crown: boolean } | null {
+    const enemy = isEnemyUnit(id);
+    const scale = child ? CHILD_SCALE : chief || id === ENEMY_CHIEF_ID ? 1.12 : 1;
+    const own = (k: string): HdSprite | undefined => this.hd.get(k);
+    const base = child ? own('chr_child') : female ? own('chr_villager_f') : own('chr_villager_m');
+    if (enemy) {
+      const specific = id === ENEMY_CHIEF_ID ? (own('chr_enemy_chief') ?? own('chr_enemy_m')) : child ? undefined : female ? own('chr_enemy_f') : own('chr_enemy_m');
+      if (specific) return { art: specific, scale, crown: false };
+      return base ? { art: base, scale, tint: ENEMY_TINT, crown: false } : null;
+    }
+    if (chief) {
+      const c = own('chr_chief');
+      if (c) return { art: c, scale, crown: false };
+      return base ? { art: base, scale, crown: true } : null;
+    }
+    return base ? { art: base, scale, crown: false } : null;
+  }
+
+  /** Push a 5-direction sprite with "puppet" animation; returns the sprite's top y. */
+  private pushDirSprite(list: Drawable[], art: HdSprite, seed: number, x: number, y: number, dir: number, height: number, moving: boolean, tint: number | undefined): number {
     const [frame, mirror] = DIR_TO_FRAME[((dir % 8) + 8) % 8] ?? [0, false];
     const tex = art.frames[frame] ?? art.frames[0]!;
     const maxH = Math.max(...art.sizes.map((s) => s.h));
-    const scale = ((chief ? 1.12 : 1) * UNIT_HEIGHT) / maxH;
-    const now = performance.now() + id * 137;
-    // "Puppet" animation until frame-by-frame sheets exist: bob + sway when walking, breathe when idle.
+    const scale = height / maxH;
+    const now = performance.now() + seed * 137;
+    // Until frame-by-frame sheets exist: bob + sway when walking, breathe when idle.
     const bob = moving ? Math.abs(Math.sin(now / 95)) * 5 : 0;
     const rot = moving ? Math.sin(now / 95) * 0.05 : 0;
     const breathe = moving ? 1 : 1 + Math.sin(now / 650) * 0.012;
-    list.push({ depth: y - 0.5, draw: (g) => drawFootRing(g, x, y, teamColor, selected) });
     list.push({
       depth: y,
-      sprite: { tex, x, y: y + 6 - bob, sx: mirror ? -scale : scale, sy: scale * breathe, rot, ...(enemy ? { tint: ENEMY_TINT } : {}) },
+      sprite: { tex, x, y: y + 6 - bob, sx: mirror ? -scale : scale, sy: scale * breathe, rot, ...(tint !== undefined ? { tint } : {}) },
     });
-    const top = y + 6 - bob - (art.sizes[frame]?.h ?? maxH) * scale;
-    if (chief || hpFrac < 1) {
-      list.push({
-        depth: y + 0.01,
-        draw: (g) => {
-          if (chief) drawCrown(g, x, top - 4);
-          if (hpFrac < 1) drawHp(g, x, top - (chief ? 22 : 10), 40, hpFrac);
-        },
-      });
-    }
+    return y + 6 - bob - (art.sizes[frame]?.h ?? maxH) * scale;
   }
 
   /** Emit drawables in depth order, batching consecutive vector items into pooled Graphics. */
@@ -614,9 +663,9 @@ function drawBuilding(
   if (hpFrac < 1) drawHp(g, x + w / 2, top + h * 0.35 - 12, Math.min(80, w - 16), hpFrac);
 }
 
-function drawFootRing(g: Graphics, x: number, y: number, team: number, selected: boolean): void {
-  g.ellipse(x, y + 2, 26, 9).fill({ color: Colors.shadow, alpha: 0.28 });
-  g.ellipse(x, y + 2, 24, 8).stroke({ width: selected ? 4 : 2, color: selected ? Colors.selection : team, alpha: selected ? 1 : 0.8 });
+function drawFootRing(g: Graphics, x: number, y: number, team: number, selected: boolean, k = 1): void {
+  g.ellipse(x, y + 2, 26 * k, 9 * k).fill({ color: Colors.shadow, alpha: 0.28 });
+  g.ellipse(x, y + 2, 24 * k, 8 * k).stroke({ width: selected ? 4 : 2, color: selected ? Colors.selection : team, alpha: selected ? 1 : 0.8 });
 }
 
 function drawCrown(g: Graphics, x: number, y: number): void {

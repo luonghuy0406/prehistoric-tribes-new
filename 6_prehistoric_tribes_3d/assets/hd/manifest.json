@@ -1,8 +1,131 @@
 {
   "version": 1,
   "assets": {
-    "chr_villager_m": { "src": "source/characters/chr_villager_m.png", "kind": "dir5", "frames": 5 },
-    "bld_hut_l1": { "src": "source/buildings/bld_hut_l1.png", "kind": "building" },
-    "ter_grass": { "src": "source/terrain/ter_grass.png", "kind": "texture", "key": false, "worldSize": 704 }
+    "chr_villager_m": {
+      "src": "source/characters/chr_villager_m.png",
+      "kind": "dir5",
+      "frames": 5
+    },
+    "bld_hut_l1": {
+      "src": "source/buildings/bld_hut_l1.png",
+      "kind": "building"
+    },
+    "ter_grass": {
+      "src": "source/terrain/ter_grass.png",
+      "kind": "texture",
+      "key": false,
+      "worldSize": 704
+    },
+    "chr_villager_f": {
+      "src": "source/characters/chr_villager_f.png",
+      "kind": "dir5",
+      "optional": true,
+      "frames": 5
+    },
+    "chr_child": {
+      "src": "source/characters/chr_child.png",
+      "kind": "dir5",
+      "optional": true,
+      "frames": 5
+    },
+    "chr_chief": {
+      "src": "source/characters/chr_chief.png",
+      "kind": "dir5",
+      "optional": true,
+      "frames": 5
+    },
+    "chr_enemy_m": {
+      "src": "source/characters/chr_enemy_m.png",
+      "kind": "dir5",
+      "optional": true,
+      "frames": 5
+    },
+    "chr_enemy_f": {
+      "src": "source/characters/chr_enemy_f.png",
+      "kind": "dir5",
+      "optional": true,
+      "frames": 5
+    },
+    "chr_enemy_chief": {
+      "src": "source/characters/chr_enemy_chief.png",
+      "kind": "dir5",
+      "optional": true,
+      "frames": 5
+    },
+    "ani_boar": {
+      "src": "source/animals/ani_boar.png",
+      "kind": "dir5",
+      "optional": true,
+      "frames": 5
+    },
+    "ani_tiger": {
+      "src": "source/animals/ani_tiger.png",
+      "kind": "dir5",
+      "optional": true,
+      "frames": 5
+    },
+    "nat_tree_broadleaf": {
+      "src": "source/nature/nat_tree_broadleaf.png",
+      "kind": "strip",
+      "optional": true,
+      "frames": 4
+    },
+    "nat_tree_conifer": {
+      "src": "source/nature/nat_tree_conifer.png",
+      "kind": "strip",
+      "optional": true,
+      "frames": 4
+    },
+    "bld_chief_hut": {
+      "src": "source/buildings/bld_chief_hut.png",
+      "kind": "building",
+      "optional": true
+    },
+    "bld_store": {
+      "src": "source/buildings/bld_store.png",
+      "kind": "building",
+      "optional": true
+    },
+    "bld_kitchen_l1": {
+      "src": "source/buildings/bld_kitchen_l1.png",
+      "kind": "building",
+      "optional": true
+    },
+    "bld_armoury_l1": {
+      "src": "source/buildings/bld_armoury_l1.png",
+      "kind": "building",
+      "optional": true
+    },
+    "bld_hut_l2": {
+      "src": "source/buildings/bld_hut_l2.png",
+      "kind": "building",
+      "optional": true
+    },
+    "bld_tower_l1": {
+      "src": "source/buildings/bld_tower_l1.png",
+      "kind": "building",
+      "optional": true
+    },
+    "ter_water": {
+      "src": "source/terrain/ter_water.png",
+      "kind": "texture",
+      "key": false,
+      "worldSize": 704,
+      "optional": true
+    },
+    "ter_forest_floor": {
+      "src": "source/terrain/ter_forest_floor.png",
+      "kind": "texture",
+      "key": false,
+      "worldSize": 704,
+      "optional": true
+    },
+    "ter_dirt": {
+      "src": "source/terrain/ter_dirt.png",
+      "kind": "texture",
+      "key": false,
+      "worldSize": 704,
+      "optional": true
+    }
   }
 }

@@ -1,6 +1,18 @@
 # NOTES — nhật ký làm việc chung (thêm mới ở đầu file)
 
 ---
+## 2026-11-12 — Nối sẵn asset cho lượt Gemini tiếp theo (Claude)
+
+`assets/hd/manifest.json` đã khai sẵn (cờ `optional`, thiếu file thì bỏ qua im lặng): `chr_villager_f`, `chr_child`, `chr_chief`, `chr_enemy_m/f`, `chr_enemy_chief`, `ani_boar`, `ani_tiger`, `nat_tree_broadleaf`, `nat_tree_conifer` (kind `strip`, 4 biến thể), `bld_chief_hut`, `bld_store`, `bld_kitchen_l1`, `bld_armoury_l1`, `bld_hut_l2`, `bld_tower_l1`, `ter_water`, `ter_forest_floor`, `ter_dirt`.
+→ **Gemini chỉ cần lưu PNG đúng tên vào `assets/hd/source/<characters|animals|nature|buildings|terrain>/`** là game tự dùng, không cần sửa code.
+
+**Quy tắc chọn art cho unit:** riêng > dùng chung. Địch không có art riêng → dùng art dân phe mình tô `#B9A4D6`; tù trưởng không có `chr_chief` → art dân nam + vương miện; trẻ em = 66% kích thước. Nước/nền rừng: tô texture lặp theo toạ độ thế giới (`textureSpace: 'global'`).
+**Đã kiểm tra:** chép tạm ảnh có sẵn thành `chr_villager_f`, `nat_tree_broadleaf`, `ter_water` → cả 3 nhánh hiển thị đúng, 0 lỗi; đã xoá file giả.
+
+**Loại động vật (bảng `animalHp/animalBoldness/animalBiteDamage`):** 0 = lợn rừng (HP 30, cắn 2), 1 = hổ răng kiếm (HP 50, hung dữ 100, cắn 4), 2 = con mồi vô hại chưa nhận dạng (HP 20, không cắn) → vẫn hình tạm.
+**Chưa xác định:** object kind 1–4 tương ứng bụi quả / rau / đá / ? — thử giao việc tự động cho kết quả lẫn (task cũ còn dính); cần thử lại sạch ở T21b trước khi map `nat_berrybush`, `nat_rock_quarry`. Tile nào là "đất" để dùng `ter_dirt` cũng thuộc T21b.
+
+---
 ## 2026-11-12 — T25 v1: đưa 3 ảnh Gemini đầu tiên vào game (Claude)
 
 **Asset:** `chr_villager_m` (1376×768, 5 hướng), `bld_hut_l1` (896×1200), `ter_grass` (1024²) — đã duyệt làm ảnh mẫu phong cách (xem mục "Ảnh mẫu đã duyệt" trong `05_GEMINI_2D_ASSET_PROMPTS.md`). `nat_tree_broadleaf` chưa có (Gemini hết quota).
