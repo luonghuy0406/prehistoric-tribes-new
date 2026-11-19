@@ -9,7 +9,7 @@ import type {
   VillagerRow,
 } from './bridgeTypes';
 
-const LOCALE_CODES = ['en', 'fr', 'it', 'de', 'es'] as const;
+const LOCALE_CODES = ['en', 'fr', 'it', 'de', 'es', 'vi'] as const;
 
 const INITIAL_SNAPSHOT: GameSnapshot = {
   ready: false,

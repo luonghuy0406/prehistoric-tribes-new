@@ -3,20 +3,29 @@ import { useGameEngine } from './engine/useGameEngine';
 import { TopShellBar } from './components/TopShellBar';
 import { BottomDock } from './components/BottomDock';
 import { VillagerRosterModal } from './components/VillagerRosterModal';
+import { ControlsHelp } from './components/ControlsHelp';
 
 export function App() {
   const [rosterOpen, setRosterOpen] = useState(false);
-  const { appRef, stageRef, canvasRef, overlay, snapshot, actions } = useGameEngine(rosterOpen);
+  const [helpOpen, setHelpOpen] = useState(false);
+  const { appRef, stageRef, canvasRef, overlay, snapshot, actions } = useGameEngine(rosterOpen || helpOpen);
 
   useEffect(() => {
     const onKeyDown = (ev: KeyboardEvent) => {
-      if (ev.key === 'Escape' && rosterOpen) {
+      if (ev.key === 'Escape' && (rosterOpen || helpOpen)) {
         ev.preventDefault();
         setRosterOpen(false);
+        setHelpOpen(false);
         return;
       }
       const tag = (document.activeElement?.tagName || '').toUpperCase();
       if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
+      if (ev.key === '?' && !ev.metaKey && !ev.ctrlKey) {
+        ev.preventDefault();
+        setHelpOpen((prev) => !prev);
+        return;
+      }
+      if (helpOpen) return;
       if ((ev.key === 'v' || ev.key === 'V') && snapshot.gameState === 1 && !ev.metaKey && !ev.ctrlKey) {
         ev.preventDefault();
         setRosterOpen((prev) => !prev);
@@ -24,7 +33,7 @@ export function App() {
     };
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
-  }, [rosterOpen, snapshot.gameState]);
+  }, [rosterOpen, helpOpen, snapshot.gameState]);
 
   useEffect(() => {
     if (snapshot.gameState !== 1 && rosterOpen) {
@@ -42,6 +51,7 @@ export function App() {
         onChangeLanguage={actions.setLanguage}
         onOpenRoster={() => setRosterOpen(true)}
         onOpenPause={actions.openPauseMenu}
+        onOpenHelp={() => setHelpOpen(true)}
       />
 
       <div id="stage" ref={stageRef}>
@@ -68,6 +78,8 @@ export function App() {
         onSelectVillager={actions.selectVillager}
         onClose={() => setRosterOpen(false)}
       />
+
+      <ControlsHelp open={helpOpen} onClose={() => setHelpOpen(false)} />
 
       {overlay.visible && (
         <div id="overlay" className={overlay.isError ? 'interactive' : ''}>

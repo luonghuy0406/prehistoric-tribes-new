@@ -64,7 +64,7 @@ export const BottomDock: React.FC<BottomDockProps> = ({
           </div>
         ) : (
           <span className="pt-hint">
-            Click chọn dân/nhà · Kéo khung chọn nhóm · Phím 7 Xây, 3 Bản đồ, Space về Tộc trưởng
+            Click chọn · Kéo trái: khung chọn · Kéo phải/WASD: di camera · Space: Tộc trưởng · Tab: đổi dân · ?: phím tắt
           </span>
         )}
       </div>
@@ -80,41 +80,41 @@ export const BottomDock: React.FC<BottomDockProps> = ({
             ⚠ {snapshot.alertText} [1]
           </button>
         )}
-        <button type="button" className="pt-btn" onClick={onFocusChief} title="Chọn & nhìn về Chief">
-          Chief
+        <button type="button" className="pt-btn" onClick={onFocusChief} title="Chọn & nhìn về Chief (Space / H)">
+          Chief [Space]
         </button>
-        <button type="button" className="pt-btn" onClick={onOpenBuild} title="Mở menu xây dựng (Phím 7)">
-          Xây [7]
+        <button type="button" className="pt-btn" onClick={onOpenBuild} title="Mở menu xây dựng (Phím B)">
+          Xây [B]
         </button>
         <button
           type="button"
           className={`pt-btn ${snapshot.callToArms ? 'is-danger' : ''}`}
           onClick={onToggleCallToArms}
-          title="Hiệu triệu chiến đấu"
+          title="Hiệu triệu chiến đấu (Phím C)"
         >
-          {snapshot.callToArms ? 'Đang Call to Arms' : 'Call to Arms'}
+          {snapshot.callToArms ? 'Đang Call to Arms' : 'Call to Arms [C]'}
         </button>
         <button
           type="button"
           className={`pt-btn ${snapshot.formUp ? 'is-active' : ''}`}
           onClick={onToggleFormUp}
-          title="Tập hợp đội hình"
+          title="Tập hợp đội hình (Phím F)"
         >
-          Form Up
+          Form Up [F]
         </button>
         {(snapshot.callToArms || snapshot.formUp) && (
-          <button type="button" className="pt-btn" onClick={onBackToWork} title="Giải tán về làm việc">
-            Làm việc
+          <button type="button" className="pt-btn" onClick={onBackToWork} title="Giải tán về làm việc (Phím X)">
+            Làm việc [X]
           </button>
         )}
-        <button type="button" className="pt-btn" onClick={onOpenMinimap} title="Mở bản đồ nhỏ (Phím 3)">
-          Bản đồ [3]
+        <button type="button" className="pt-btn" onClick={onOpenMinimap} title="Mở bản đồ nhỏ (Phím M)">
+          Bản đồ [M]
         </button>
         <button
           type="button"
           className={`pt-btn ${snapshot.loopPaused ? 'is-active' : ''}`}
           onClick={onToggleFreeze}
-          title="Tạm dừng nhanh mô phỏng"
+          title="Tạm dừng nhanh mô phỏng (Phím P)"
         >
           {snapshot.loopPaused ? '▶ Tiếp' : '⏸ Dừng'}
         </button>

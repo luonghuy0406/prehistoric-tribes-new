@@ -9,6 +9,7 @@ interface TopShellBarProps {
   onChangeLanguage: (langIdx: number) => void;
   onOpenRoster: () => void;
   onOpenPause: () => void;
+  onOpenHelp: () => void;
 }
 
 const LANGUAGES = [
@@ -17,6 +18,7 @@ const LANGUAGES = [
   { id: 2, label: 'IT' },
   { id: 3, label: 'DE' },
   { id: 4, label: 'ES' },
+  { id: 5, label: 'VI' },
 ];
 
 export const TopShellBar: React.FC<TopShellBarProps> = ({
@@ -27,6 +29,7 @@ export const TopShellBar: React.FC<TopShellBarProps> = ({
   onChangeLanguage,
   onOpenRoster,
   onOpenPause,
+  onOpenHelp,
 }) => {
   const isPlaying = snapshot.gameState === 1;
 
@@ -123,6 +126,9 @@ export const TopShellBar: React.FC<TopShellBarProps> = ({
               title="Menu / Lưu game (Esc)"
             >
               Menu [Esc]
+            </button>
+            <button type="button" className="pt-btn" onClick={onOpenHelp} title="Phím tắt & điều khiển (?)">
+              ?
             </button>
           </>
         )}

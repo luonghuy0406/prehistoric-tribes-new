@@ -3,7 +3,8 @@
     "language": "langue",
     "emptySlot": "vide",
     "contacts": "contacts",
-    "install": "installer"
+    "install": "installer",
+    "vietnamese": "tiếng việt"
   },
   "pages": {
     "contacts": {
