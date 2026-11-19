@@ -1,0 +1,110 @@
+{
+ "refHeight": 212,
+ "poses": {
+  "walk_S": {
+   "frames": 6,
+   "frameWidth": 149,
+   "height": 216
+  },
+  "walk_SE": {
+   "frames": 6,
+   "frameWidth": 148,
+   "height": 214
+  },
+  "walk_E": {
+   "frames": 6,
+   "frameWidth": 147,
+   "height": 213
+  },
+  "walk_NE": {
+   "frames": 6,
+   "frameWidth": 151,
+   "height": 215
+  },
+  "walk_N": {
+   "frames": 6,
+   "frameWidth": 157,
+   "height": 234
+  },
+  "look": {
+   "frames": 4,
+   "frameWidth": 158,
+   "height": 216
+  },
+  "fidget": {
+   "frames": 3,
+   "frameWidth": 165,
+   "height": 216
+  },
+  "sit_down": {
+   "frames": 3,
+   "frameWidth": 183,
+   "height": 190
+  },
+  "sit_rest": {
+   "frames": 2,
+   "frameWidth": 163,
+   "height": 183
+  },
+  "eat": {
+   "frames": 4,
+   "frameWidth": 175,
+   "height": 190
+  },
+  "sleep": {
+   "frames": 2,
+   "frameWidth": 202,
+   "height": 133
+  },
+  "sad": {
+   "frames": 3,
+   "frameWidth": 164,
+   "height": 195
+  },
+  "dance": {
+   "frames": 4,
+   "frameWidth": 198,
+   "height": 200
+  },
+  "cheer": {
+   "frames": 3,
+   "frameWidth": 204,
+   "height": 201
+  },
+  "stagger": {
+   "frames": 3,
+   "frameWidth": 198,
+   "height": 190
+  },
+  "die": {
+   "frames": 4,
+   "frameWidth": 210,
+   "height": 162
+  },
+  "melee_E": {
+   "frames": 7,
+   "frameWidth": 237,
+   "height": 224
+  },
+  "melee_S": {
+   "frames": 7,
+   "frameWidth": 191,
+   "height": 222
+  },
+  "throw_E": {
+   "frames": 7,
+   "frameWidth": 256,
+   "height": 225
+  },
+  "work_E": {
+   "frames": 4,
+   "frameWidth": 251,
+   "height": 237
+  },
+  "gather_S": {
+   "frames": 3,
+   "frameWidth": 176,
+   "height": 221
+  }
+ }
+}

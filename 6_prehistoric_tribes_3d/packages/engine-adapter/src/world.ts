@@ -74,6 +74,12 @@ export interface UnitArrays {
   gatheringSkill: NumArray;
   buildingSkill: NumArray;
   scoutingSkill: NumArray;
+  /** Current frame inside `animation` (counts up; see animationFrameCount in sprites.json). */
+  animationFrame?: NumArray;
+  /** Thought bubble (enum `oc`): 0 hungry, 1 love, 2 tired, 4-8 mood (4 = miserable … 8 = delighted), 9 homeless, 11/12 music; -1 none. */
+  emote?: NumArray;
+  /** Carried cargo type (enum `nc`), 0 = none. */
+  cargoType?: NumArray;
 }
 
 export interface BuildingArrays {
@@ -122,6 +128,18 @@ export interface WorldView {
   readonly animals: AnimalArrays;
   readonly objects: ObjectArrays;
   readonly tribeStats: readonly NumArray[];
+  /** fogBits[layer][x >> 5][y], bit (x & 31); layer 0 = explored, 1 = currently visible. */
+  readonly fogBits: readonly (readonly NumArray[])[];
+}
+
+/** Fog levels (enum `ti`). */
+export const Fog = { VISIBLE: 0, EXPLORED: 1, UNEXPLORED: 2 } as const;
+
+/** Player fog of war at a tile, read straight from the engine bitsets. */
+export function fogAt(v: WorldView, x: number, y: number): number {
+  const bit = (layer: number): number => ((v.fogBits[layer]?.[x >> 5]?.[y] ?? 0) >>> (x & 31)) & 1;
+  if (bit(0) === 0) return Fog.UNEXPLORED;
+  return bit(1) === 1 ? Fog.VISIBLE : Fog.EXPLORED;
 }
 
 export function isEnemyUnit(id: number): boolean {

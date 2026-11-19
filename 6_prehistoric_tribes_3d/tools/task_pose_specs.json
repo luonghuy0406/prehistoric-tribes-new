@@ -1,0 +1,1175 @@
+{
+ "chief": {
+  "file": "TK_chief.png",
+  "cols": 8,
+  "rows": 6,
+  "cells": [
+   {
+    "row": 1,
+    "col": 1,
+    "pose": "chop",
+    "dir": "E",
+    "frame": 0,
+    "of": 4
+   },
+   {
+    "row": 1,
+    "col": 2,
+    "pose": "chop",
+    "dir": "E",
+    "frame": 1,
+    "of": 4
+   },
+   {
+    "row": 1,
+    "col": 3,
+    "pose": "chop",
+    "dir": "E",
+    "frame": 2,
+    "of": 4
+   },
+   {
+    "row": 1,
+    "col": 4,
+    "pose": "chop",
+    "dir": "E",
+    "frame": 3,
+    "of": 4
+   },
+   {
+    "row": 1,
+    "col": 5,
+    "pose": "mine",
+    "dir": "E",
+    "frame": 0,
+    "of": 4
+   },
+   {
+    "row": 1,
+    "col": 6,
+    "pose": "mine",
+    "dir": "E",
+    "frame": 1,
+    "of": 4
+   },
+   {
+    "row": 1,
+    "col": 7,
+    "pose": "mine",
+    "dir": "E",
+    "frame": 2,
+    "of": 4
+   },
+   {
+    "row": 1,
+    "col": 8,
+    "pose": "mine",
+    "dir": "E",
+    "frame": 3,
+    "of": 4
+   },
+   {
+    "row": 2,
+    "col": 1,
+    "pose": "build",
+    "dir": "E",
+    "frame": 0,
+    "of": 4
+   },
+   {
+    "row": 2,
+    "col": 2,
+    "pose": "build",
+    "dir": "E",
+    "frame": 1,
+    "of": 4
+   },
+   {
+    "row": 2,
+    "col": 3,
+    "pose": "build",
+    "dir": "E",
+    "frame": 2,
+    "of": 4
+   },
+   {
+    "row": 2,
+    "col": 4,
+    "pose": "build",
+    "dir": "E",
+    "frame": 3,
+    "of": 4
+   },
+   {
+    "row": 2,
+    "col": 5,
+    "pose": "forage",
+    "dir": "S",
+    "frame": 0,
+    "of": 4
+   },
+   {
+    "row": 2,
+    "col": 6,
+    "pose": "forage",
+    "dir": "S",
+    "frame": 1,
+    "of": 4
+   },
+   {
+    "row": 2,
+    "col": 7,
+    "pose": "forage",
+    "dir": "S",
+    "frame": 2,
+    "of": 4
+   },
+   {
+    "row": 2,
+    "col": 8,
+    "pose": "forage",
+    "dir": "S",
+    "frame": 3,
+    "of": 4
+   },
+   {
+    "row": 3,
+    "col": 1,
+    "pose": "butcher",
+    "dir": "E",
+    "frame": 0,
+    "of": 3
+   },
+   {
+    "row": 3,
+    "col": 2,
+    "pose": "butcher",
+    "dir": "E",
+    "frame": 1,
+    "of": 3
+   },
+   {
+    "row": 3,
+    "col": 3,
+    "pose": "butcher",
+    "dir": "E",
+    "frame": 2,
+    "of": 3
+   },
+   {
+    "row": 3,
+    "col": 4,
+    "pose": "cook",
+    "dir": "S",
+    "frame": 0,
+    "of": 3
+   },
+   {
+    "row": 3,
+    "col": 5,
+    "pose": "cook",
+    "dir": "S",
+    "frame": 1,
+    "of": 3
+   },
+   {
+    "row": 3,
+    "col": 6,
+    "pose": "cook",
+    "dir": "S",
+    "frame": 2,
+    "of": 3
+   },
+   {
+    "row": 3,
+    "col": 7,
+    "pose": "stab",
+    "dir": "E",
+    "frame": 0,
+    "of": 2
+   },
+   {
+    "row": 3,
+    "col": 8,
+    "pose": "stab",
+    "dir": "E",
+    "frame": 1,
+    "of": 2
+   },
+   {
+    "row": 4,
+    "col": 1,
+    "pose": "fish",
+    "dir": "E",
+    "frame": 0,
+    "of": 4
+   },
+   {
+    "row": 4,
+    "col": 2,
+    "pose": "fish",
+    "dir": "E",
+    "frame": 1,
+    "of": 4
+   },
+   {
+    "row": 4,
+    "col": 3,
+    "pose": "fish",
+    "dir": "E",
+    "frame": 2,
+    "of": 4
+   },
+   {
+    "row": 4,
+    "col": 4,
+    "pose": "fish",
+    "dir": "E",
+    "frame": 3,
+    "of": 4
+   },
+   {
+    "row": 4,
+    "col": 5,
+    "pose": "sneak",
+    "dir": "E",
+    "frame": 0,
+    "of": 4
+   },
+   {
+    "row": 4,
+    "col": 6,
+    "pose": "sneak",
+    "dir": "E",
+    "frame": 1,
+    "of": 4
+   },
+   {
+    "row": 4,
+    "col": 7,
+    "pose": "sneak",
+    "dir": "E",
+    "frame": 2,
+    "of": 4
+   },
+   {
+    "row": 4,
+    "col": 8,
+    "pose": "sneak",
+    "dir": "E",
+    "frame": 3,
+    "of": 4
+   },
+   {
+    "row": 5,
+    "col": 1,
+    "pose": "hide",
+    "dir": "S",
+    "frame": 0,
+    "of": 3
+   },
+   {
+    "row": 5,
+    "col": 2,
+    "pose": "hide",
+    "dir": "S",
+    "frame": 1,
+    "of": 3
+   },
+   {
+    "row": 5,
+    "col": 3,
+    "pose": "hide",
+    "dir": "S",
+    "frame": 2,
+    "of": 3
+   },
+   {
+    "row": 5,
+    "col": 4,
+    "pose": "peek",
+    "dir": "S",
+    "frame": 0,
+    "of": 1
+   },
+   {
+    "row": 5,
+    "col": 5,
+    "pose": "chat",
+    "dir": "S",
+    "frame": 0,
+    "of": 3
+   },
+   {
+    "row": 5,
+    "col": 6,
+    "pose": "chat",
+    "dir": "S",
+    "frame": 1,
+    "of": 3
+   },
+   {
+    "row": 5,
+    "col": 7,
+    "pose": "chat",
+    "dir": "S",
+    "frame": 2,
+    "of": 3
+   },
+   {
+    "row": 5,
+    "col": 8,
+    "pose": "putdown",
+    "dir": "S",
+    "frame": 0,
+    "of": 1
+   },
+   {
+    "row": 6,
+    "col": 1,
+    "pose": "carry",
+    "dir": "E",
+    "frame": 0,
+    "of": 4
+   },
+   {
+    "row": 6,
+    "col": 2,
+    "pose": "carry",
+    "dir": "E",
+    "frame": 1,
+    "of": 4
+   },
+   {
+    "row": 6,
+    "col": 3,
+    "pose": "carry",
+    "dir": "E",
+    "frame": 2,
+    "of": 4
+   },
+   {
+    "row": 6,
+    "col": 4,
+    "pose": "carry",
+    "dir": "E",
+    "frame": 3,
+    "of": 4
+   },
+   {
+    "row": 6,
+    "col": 5,
+    "pose": "trapped",
+    "dir": "S",
+    "frame": 0,
+    "of": 3
+   },
+   {
+    "row": 6,
+    "col": 6,
+    "pose": "trapped",
+    "dir": "S",
+    "frame": 1,
+    "of": 3
+   },
+   {
+    "row": 6,
+    "col": 7,
+    "pose": "trapped",
+    "dir": "S",
+    "frame": 2,
+    "of": 3
+   },
+   {
+    "row": 6,
+    "col": 8,
+    "pose": "pickup",
+    "dir": "S",
+    "frame": 0,
+    "of": 1
+   }
+  ]
+ },
+ "villager_m": {
+  "file": "TK_villager_m.png",
+  "cols": 8,
+  "rows": 6,
+  "cells": [
+   {
+    "row": 1,
+    "col": 1,
+    "pose": "chop",
+    "dir": "E",
+    "frame": 0,
+    "of": 4
+   },
+   {
+    "row": 1,
+    "col": 2,
+    "pose": "chop",
+    "dir": "E",
+    "frame": 1,
+    "of": 4
+   },
+   {
+    "row": 1,
+    "col": 3,
+    "pose": "chop",
+    "dir": "E",
+    "frame": 2,
+    "of": 4
+   },
+   {
+    "row": 1,
+    "col": 4,
+    "pose": "chop",
+    "dir": "E",
+    "frame": 3,
+    "of": 4
+   },
+   {
+    "row": 1,
+    "col": 5,
+    "pose": "mine",
+    "dir": "E",
+    "frame": 0,
+    "of": 4
+   },
+   {
+    "row": 1,
+    "col": 6,
+    "pose": "mine",
+    "dir": "E",
+    "frame": 1,
+    "of": 4
+   },
+   {
+    "row": 1,
+    "col": 7,
+    "pose": "mine",
+    "dir": "E",
+    "frame": 2,
+    "of": 4
+   },
+   {
+    "row": 1,
+    "col": 8,
+    "pose": "mine",
+    "dir": "E",
+    "frame": 3,
+    "of": 4
+   },
+   {
+    "row": 2,
+    "col": 1,
+    "pose": "build",
+    "dir": "E",
+    "frame": 0,
+    "of": 4
+   },
+   {
+    "row": 2,
+    "col": 2,
+    "pose": "build",
+    "dir": "E",
+    "frame": 1,
+    "of": 4
+   },
+   {
+    "row": 2,
+    "col": 3,
+    "pose": "build",
+    "dir": "E",
+    "frame": 2,
+    "of": 4
+   },
+   {
+    "row": 2,
+    "col": 4,
+    "pose": "build",
+    "dir": "E",
+    "frame": 3,
+    "of": 4
+   },
+   {
+    "row": 2,
+    "col": 5,
+    "pose": "forage",
+    "dir": "S",
+    "frame": 0,
+    "of": 4
+   },
+   {
+    "row": 2,
+    "col": 6,
+    "pose": "forage",
+    "dir": "S",
+    "frame": 1,
+    "of": 4
+   },
+   {
+    "row": 2,
+    "col": 7,
+    "pose": "forage",
+    "dir": "S",
+    "frame": 2,
+    "of": 4
+   },
+   {
+    "row": 2,
+    "col": 8,
+    "pose": "forage",
+    "dir": "S",
+    "frame": 3,
+    "of": 4
+   },
+   {
+    "row": 3,
+    "col": 1,
+    "pose": "butcher",
+    "dir": "E",
+    "frame": 0,
+    "of": 3
+   },
+   {
+    "row": 3,
+    "col": 2,
+    "pose": "butcher",
+    "dir": "E",
+    "frame": 1,
+    "of": 3
+   },
+   {
+    "row": 3,
+    "col": 3,
+    "pose": "butcher",
+    "dir": "E",
+    "frame": 2,
+    "of": 3
+   },
+   {
+    "row": 3,
+    "col": 4,
+    "pose": "cook",
+    "dir": "S",
+    "frame": 0,
+    "of": 3
+   },
+   {
+    "row": 3,
+    "col": 5,
+    "pose": "cook",
+    "dir": "S",
+    "frame": 1,
+    "of": 3
+   },
+   {
+    "row": 3,
+    "col": 6,
+    "pose": "cook",
+    "dir": "S",
+    "frame": 2,
+    "of": 3
+   },
+   {
+    "row": 3,
+    "col": 7,
+    "pose": "stab",
+    "dir": "E",
+    "frame": 0,
+    "of": 2
+   },
+   {
+    "row": 3,
+    "col": 8,
+    "pose": "stab",
+    "dir": "E",
+    "frame": 1,
+    "of": 2
+   },
+   {
+    "row": 4,
+    "col": 1,
+    "pose": "fish",
+    "dir": "E",
+    "frame": 0,
+    "of": 4
+   },
+   {
+    "row": 4,
+    "col": 2,
+    "pose": "fish",
+    "dir": "E",
+    "frame": 1,
+    "of": 4
+   },
+   {
+    "row": 4,
+    "col": 3,
+    "pose": "fish",
+    "dir": "E",
+    "frame": 2,
+    "of": 4
+   },
+   {
+    "row": 4,
+    "col": 4,
+    "pose": "fish",
+    "dir": "E",
+    "frame": 3,
+    "of": 4
+   },
+   {
+    "row": 4,
+    "col": 5,
+    "pose": "sneak",
+    "dir": "E",
+    "frame": 0,
+    "of": 4
+   },
+   {
+    "row": 4,
+    "col": 6,
+    "pose": "sneak",
+    "dir": "E",
+    "frame": 1,
+    "of": 4
+   },
+   {
+    "row": 4,
+    "col": 7,
+    "pose": "sneak",
+    "dir": "E",
+    "frame": 2,
+    "of": 4
+   },
+   {
+    "row": 4,
+    "col": 8,
+    "pose": "sneak",
+    "dir": "E",
+    "frame": 3,
+    "of": 4
+   },
+   {
+    "row": 5,
+    "col": 1,
+    "pose": "hide",
+    "dir": "S",
+    "frame": 0,
+    "of": 3
+   },
+   {
+    "row": 5,
+    "col": 2,
+    "pose": "hide",
+    "dir": "S",
+    "frame": 1,
+    "of": 3
+   },
+   {
+    "row": 5,
+    "col": 3,
+    "pose": "hide",
+    "dir": "S",
+    "frame": 2,
+    "of": 3
+   },
+   {
+    "row": 5,
+    "col": 4,
+    "pose": "peek",
+    "dir": "S",
+    "frame": 0,
+    "of": 1
+   },
+   {
+    "row": 5,
+    "col": 5,
+    "pose": "chat",
+    "dir": "S",
+    "frame": 0,
+    "of": 3
+   },
+   {
+    "row": 5,
+    "col": 6,
+    "pose": "chat",
+    "dir": "S",
+    "frame": 1,
+    "of": 3
+   },
+   {
+    "row": 5,
+    "col": 7,
+    "pose": "chat",
+    "dir": "S",
+    "frame": 2,
+    "of": 3
+   },
+   {
+    "row": 5,
+    "col": 8,
+    "pose": "putdown",
+    "dir": "S",
+    "frame": 0,
+    "of": 1
+   },
+   {
+    "row": 6,
+    "col": 1,
+    "pose": "carry",
+    "dir": "E",
+    "frame": 0,
+    "of": 4
+   },
+   {
+    "row": 6,
+    "col": 2,
+    "pose": "carry",
+    "dir": "E",
+    "frame": 1,
+    "of": 4
+   },
+   {
+    "row": 6,
+    "col": 3,
+    "pose": "carry",
+    "dir": "E",
+    "frame": 2,
+    "of": 4
+   },
+   {
+    "row": 6,
+    "col": 4,
+    "pose": "carry",
+    "dir": "E",
+    "frame": 3,
+    "of": 4
+   },
+   {
+    "row": 6,
+    "col": 5,
+    "pose": "trapped",
+    "dir": "S",
+    "frame": 0,
+    "of": 3
+   },
+   {
+    "row": 6,
+    "col": 6,
+    "pose": "trapped",
+    "dir": "S",
+    "frame": 1,
+    "of": 3
+   },
+   {
+    "row": 6,
+    "col": 7,
+    "pose": "trapped",
+    "dir": "S",
+    "frame": 2,
+    "of": 3
+   },
+   {
+    "row": 6,
+    "col": 8,
+    "pose": "pickup",
+    "dir": "S",
+    "frame": 0,
+    "of": 1
+   }
+  ]
+ },
+ "villager_f": {
+  "file": "TK_villager_f.png",
+  "cols": 8,
+  "rows": 6,
+  "cells": [
+   {
+    "row": 1,
+    "col": 1,
+    "pose": "chop",
+    "dir": "E",
+    "frame": 0,
+    "of": 4
+   },
+   {
+    "row": 1,
+    "col": 2,
+    "pose": "chop",
+    "dir": "E",
+    "frame": 1,
+    "of": 4
+   },
+   {
+    "row": 1,
+    "col": 3,
+    "pose": "chop",
+    "dir": "E",
+    "frame": 2,
+    "of": 4
+   },
+   {
+    "row": 1,
+    "col": 4,
+    "pose": "chop",
+    "dir": "E",
+    "frame": 3,
+    "of": 4
+   },
+   {
+    "row": 1,
+    "col": 5,
+    "pose": "mine",
+    "dir": "E",
+    "frame": 0,
+    "of": 4
+   },
+   {
+    "row": 1,
+    "col": 6,
+    "pose": "mine",
+    "dir": "E",
+    "frame": 1,
+    "of": 4
+   },
+   {
+    "row": 1,
+    "col": 7,
+    "pose": "mine",
+    "dir": "E",
+    "frame": 2,
+    "of": 4
+   },
+   {
+    "row": 1,
+    "col": 8,
+    "pose": "mine",
+    "dir": "E",
+    "frame": 3,
+    "of": 4
+   },
+   {
+    "row": 2,
+    "col": 1,
+    "pose": "build",
+    "dir": "E",
+    "frame": 0,
+    "of": 4
+   },
+   {
+    "row": 2,
+    "col": 2,
+    "pose": "build",
+    "dir": "E",
+    "frame": 1,
+    "of": 4
+   },
+   {
+    "row": 2,
+    "col": 3,
+    "pose": "build",
+    "dir": "E",
+    "frame": 2,
+    "of": 4
+   },
+   {
+    "row": 2,
+    "col": 4,
+    "pose": "build",
+    "dir": "E",
+    "frame": 3,
+    "of": 4
+   },
+   {
+    "row": 2,
+    "col": 5,
+    "pose": "forage",
+    "dir": "S",
+    "frame": 0,
+    "of": 4
+   },
+   {
+    "row": 2,
+    "col": 6,
+    "pose": "forage",
+    "dir": "S",
+    "frame": 1,
+    "of": 4
+   },
+   {
+    "row": 2,
+    "col": 7,
+    "pose": "forage",
+    "dir": "S",
+    "frame": 2,
+    "of": 4
+   },
+   {
+    "row": 2,
+    "col": 8,
+    "pose": "forage",
+    "dir": "S",
+    "frame": 3,
+    "of": 4
+   },
+   {
+    "row": 3,
+    "col": 1,
+    "pose": "butcher",
+    "dir": "E",
+    "frame": 0,
+    "of": 3
+   },
+   {
+    "row": 3,
+    "col": 2,
+    "pose": "butcher",
+    "dir": "E",
+    "frame": 1,
+    "of": 3
+   },
+   {
+    "row": 3,
+    "col": 3,
+    "pose": "butcher",
+    "dir": "E",
+    "frame": 2,
+    "of": 3
+   },
+   {
+    "row": 3,
+    "col": 4,
+    "pose": "cook",
+    "dir": "S",
+    "frame": 0,
+    "of": 3
+   },
+   {
+    "row": 3,
+    "col": 5,
+    "pose": "cook",
+    "dir": "S",
+    "frame": 1,
+    "of": 3
+   },
+   {
+    "row": 3,
+    "col": 6,
+    "pose": "cook",
+    "dir": "S",
+    "frame": 2,
+    "of": 3
+   },
+   {
+    "row": 3,
+    "col": 7,
+    "pose": "stab",
+    "dir": "E",
+    "frame": 0,
+    "of": 2
+   },
+   {
+    "row": 3,
+    "col": 8,
+    "pose": "stab",
+    "dir": "E",
+    "frame": 1,
+    "of": 2
+   },
+   {
+    "row": 4,
+    "col": 1,
+    "pose": "fish",
+    "dir": "E",
+    "frame": 0,
+    "of": 4
+   },
+   {
+    "row": 4,
+    "col": 2,
+    "pose": "fish",
+    "dir": "E",
+    "frame": 1,
+    "of": 4
+   },
+   {
+    "row": 4,
+    "col": 3,
+    "pose": "fish",
+    "dir": "E",
+    "frame": 2,
+    "of": 4
+   },
+   {
+    "row": 4,
+    "col": 4,
+    "pose": "fish",
+    "dir": "E",
+    "frame": 3,
+    "of": 4
+   },
+   {
+    "row": 4,
+    "col": 5,
+    "pose": "sneak",
+    "dir": "E",
+    "frame": 0,
+    "of": 4
+   },
+   {
+    "row": 4,
+    "col": 6,
+    "pose": "sneak",
+    "dir": "E",
+    "frame": 1,
+    "of": 4
+   },
+   {
+    "row": 4,
+    "col": 7,
+    "pose": "sneak",
+    "dir": "E",
+    "frame": 2,
+    "of": 4
+   },
+   {
+    "row": 4,
+    "col": 8,
+    "pose": "sneak",
+    "dir": "E",
+    "frame": 3,
+    "of": 4
+   },
+   {
+    "row": 5,
+    "col": 1,
+    "pose": "hide",
+    "dir": "S",
+    "frame": 0,
+    "of": 3
+   },
+   {
+    "row": 5,
+    "col": 2,
+    "pose": "hide",
+    "dir": "S",
+    "frame": 1,
+    "of": 3
+   },
+   {
+    "row": 5,
+    "col": 3,
+    "pose": "hide",
+    "dir": "S",
+    "frame": 2,
+    "of": 3
+   },
+   {
+    "row": 5,
+    "col": 4,
+    "pose": "peek",
+    "dir": "S",
+    "frame": 0,
+    "of": 1
+   },
+   {
+    "row": 5,
+    "col": 5,
+    "pose": "chat",
+    "dir": "S",
+    "frame": 0,
+    "of": 3
+   },
+   {
+    "row": 5,
+    "col": 6,
+    "pose": "chat",
+    "dir": "S",
+    "frame": 1,
+    "of": 3
+   },
+   {
+    "row": 5,
+    "col": 7,
+    "pose": "chat",
+    "dir": "S",
+    "frame": 2,
+    "of": 3
+   },
+   {
+    "row": 5,
+    "col": 8,
+    "pose": "putdown",
+    "dir": "S",
+    "frame": 0,
+    "of": 1
+   },
+   {
+    "row": 6,
+    "col": 1,
+    "pose": "carry",
+    "dir": "E",
+    "frame": 0,
+    "of": 4
+   },
+   {
+    "row": 6,
+    "col": 2,
+    "pose": "carry",
+    "dir": "E",
+    "frame": 1,
+    "of": 4
+   },
+   {
+    "row": 6,
+    "col": 3,
+    "pose": "carry",
+    "dir": "E",
+    "frame": 2,
+    "of": 4
+   },
+   {
+    "row": 6,
+    "col": 4,
+    "pose": "carry",
+    "dir": "E",
+    "frame": 3,
+    "of": 4
+   },
+   {
+    "row": 6,
+    "col": 5,
+    "pose": "trapped",
+    "dir": "S",
+    "frame": 0,
+    "of": 3
+   },
+   {
+    "row": 6,
+    "col": 6,
+    "pose": "trapped",
+    "dir": "S",
+    "frame": 1,
+    "of": 3
+   },
+   {
+    "row": 6,
+    "col": 7,
+    "pose": "trapped",
+    "dir": "S",
+    "frame": 2,
+    "of": 3
+   },
+   {
+    "row": 6,
+    "col": 8,
+    "pose": "pickup",
+    "dir": "S",
+    "frame": 0,
+    "of": 1
+   }
+  ]
+ }
+}

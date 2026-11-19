@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { LEVEL_NAMES } from '../labels';
+import { Ic } from '../skin';
 import type { HudStats } from '../useGame';
 
 interface Props {
@@ -22,22 +23,22 @@ export function TopBar({ stats: s, running, level, onToggleRun, onSpeed, onLevel
   return (
     <header className="topbar">
       <div className="resources" aria-label="Tài nguyên">
-        <Res icon="🍖" label="Thức ăn" value={s.food} />
-        <Res icon="🍲" label="Bữa ăn" value={s.meals} />
-        <Res icon="🪵" label="Gỗ" value={s.wood} />
-        <Res icon="🪨" label="Đá" value={s.stones} />
-        <Res icon="🦴" label="Xương" value={s.bones} />
-        <Res icon="👥" label="Dân số" value={s.population} />
-        <Res icon="⚔️" label="Quân địch" value={s.enemyPopulation} muted />
+        <Res icon="res_food" label="Thức ăn" value={s.food} />
+        <Res icon="cargo_meal" label="Bữa ăn" value={s.meals} />
+        <Res icon="res_wood" label="Gỗ" value={s.wood} />
+        <Res icon="res_stone" label="Đá" value={s.stones} />
+        <Res icon="res_bone" label="Xương" value={s.bones} />
+        <Res icon="stat_population" label="Dân số" value={s.population} />
+        <Res icon="skill_melee" label="Quân địch" value={s.enemyPopulation} muted />
       </div>
       <div className="top-actions">
-        <button type="button" className="chip" onClick={cycleSpeed} title="Tốc độ">
+        <button type="button" className="chip round" onClick={cycleSpeed} title="Tốc độ">
           ×{speed}
         </button>
-        <button type="button" className="chip" onClick={onToggleRun} title="Tạm dừng / chạy (P)">
+        <button type="button" className="chip round" onClick={onToggleRun} title="Tạm dừng / chạy (P)">
           {running ? '⏸' : '▶'}
         </button>
-        <button type="button" className="chip" onClick={() => setMenuOpen((v) => !v)} aria-expanded={menuOpen} title="Menu">
+        <button type="button" className="chip round" onClick={() => setMenuOpen((v) => !v)} aria-expanded={menuOpen} title="Menu">
           ☰
         </button>
       </div>
@@ -68,9 +69,7 @@ export function TopBar({ stats: s, running, level, onToggleRun, onSpeed, onLevel
 function Res({ icon, label, value, muted }: { icon: string; label: string; value: number | string; muted?: boolean }) {
   return (
     <div className={muted ? 'res muted' : 'res'} title={label}>
-      <span className="res-icon" aria-hidden="true">
-        {icon}
-      </span>
+      <Ic name={icon} size={28} className="res-icon" />
       <span className="res-value">{value}</span>
       <span className="sr-only">{label}</span>
     </div>

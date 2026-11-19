@@ -134,6 +134,7 @@ export class EngineAdapter {
     const g = this.game;
     g.level = level;
     g.levels.start(level);
+    this.commands.reset();
     this.forcePlaying();
     this.emit({ kind: 'levelStarted', level });
   }
@@ -148,6 +149,7 @@ export class EngineAdapter {
       this.emit({ kind: 'error', error });
       return;
     }
+    this.commands.onTick();
     if (g.gameState !== PLAYING || g.screen !== SCREEN_GAMEPLAY) {
       this.emit({ kind: 'screenRequested', tick: g.gameTick, screen: g.screen, gameState: g.gameState });
       this.forcePlaying(); // TODO(T26): route story/cutscene screens to the new UI instead.

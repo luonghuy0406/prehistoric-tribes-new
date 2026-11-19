@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Cmd, isEnemyUnit, type EngineCommands, type InteractionState, type WorldView } from '@pt3d/engine-adapter';
-import { BUILDING_ICONS, BUILDING_NAMES, capitalize, commandName, ITEM_NAMES, JOB_NAMES } from '../labels';
+import { BUILDING_NAMES, capitalize, commandName, ITEM_NAMES, JOB_NAMES } from '../labels';
+import { BuildingThumb, Ic } from '../skin';
 
 interface Props {
   ui: InteractionState;
@@ -54,10 +55,10 @@ function VillagerCard({ id, world, villagerNames, onFocus }: { id: number; world
           </p>
         </div>
       </header>
-      <Bar label="Máu" value={u.hp[id] ?? 0} max={u.maxHp[id] ?? 1} color="var(--hp)" />
-      <Bar label="No" value={u.food[id] ?? 0} max={100} color="var(--food)" />
-      <Bar label="Sức" value={u.energy[id] ?? 0} max={100} color="var(--energy)" />
-      <Bar label="Vui" value={u.happiness[id] ?? 0} max={100} color="var(--happy)" />
+      <Bar icon="stat_hp" label="Máu" value={u.hp[id] ?? 0} max={u.maxHp[id] ?? 1} color="var(--hp)" />
+      <Bar icon="stat_hunger" label="No" value={u.food[id] ?? 0} max={100} color="var(--food)" />
+      <Bar icon="stat_tired" label="Sức" value={u.energy[id] ?? 0} max={100} color="var(--energy)" />
+      <Bar icon="stat_happiness" label="Vui" value={u.happiness[id] ?? 0} max={100} color="var(--happy)" />
       <p className="skills">{skills.slice(0, 3).map(([k, v]) => `${k} ${v}`).join(' · ')}</p>
       <p className="tip">Chạm/click vào cây, bụi quả, đá, thú, công trình để giao việc · chạm đúp để chạy</p>
     </aside>
@@ -109,13 +110,13 @@ function BuildingCard({ id, ui, world, commands, villagerNames, onAct }: { id: n
   return (
     <aside className="card" aria-label="Công trình được chọn">
       <header className="card-head">
-        <div className="avatar">{site ? '🏗️' : BUILDING_ICONS[type]}</div>
+        <div className="avatar building">{site ? '🏗️' : <BuildingThumb type={type} size={40} />}</div>
         <div>
           <h3>{site ? `Công trường: ${name}` : name}</h3>
           <p className="sub">{site ? 'Ra lệnh cho dân tới đây để xây' : `Cấp ${b.level[id] ?? 1}`}</p>
         </div>
       </header>
-      <Bar label="Bền" value={hp} max={maxHp} color="var(--hp)" />
+      <Bar icon="stat_space" label="Bền" value={hp} max={maxHp} color="var(--hp)" />
       {items.length > 0 && (
         <div className="prod">
           <p className="section">Đặt chế tạo</p>
@@ -168,7 +169,7 @@ function BuildingCard({ id, ui, world, commands, villagerNames, onAct }: { id: n
               {it.id === Cmd.UPGRADE && (up.wood > 0 || up.stones > 0) && (
                 <small>
                   {' '}
-                  🪵{up.wood} 🪨{up.stones}
+                  <Ic name="res_wood" size={16} />{up.wood} <Ic name="res_stone" size={16} />{up.stones}
                 </small>
               )}
             </button>
@@ -179,11 +180,14 @@ function BuildingCard({ id, ui, world, commands, villagerNames, onAct }: { id: n
   );
 }
 
-function Bar({ label, value, max, color }: { label: string; value: number; max: number; color: string }) {
+function Bar({ icon, label, value, max, color }: { icon: string; label: string; value: number; max: number; color: string }) {
   const pct = Math.max(0, Math.min(100, (value / Math.max(1, max)) * 100));
   return (
     <div className="bar" title={`${label}: ${value}/${max}`}>
-      <span className="bar-label">{label}</span>
+      <span className="bar-label">
+        <Ic name={icon} size={20} />
+        <span className="sr-only">{label}</span>
+      </span>
       <span className="bar-track">
         <span className="bar-fill" style={{ width: `${pct}%`, background: color }} />
       </span>

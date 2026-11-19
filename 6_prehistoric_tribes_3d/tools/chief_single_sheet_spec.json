@@ -1,0 +1,807 @@
+{
+ "file": "ALL_chief.png",
+ "cols": 10,
+ "rows": 10,
+ "cells": [
+  {
+   "row": 1,
+   "col": 1,
+   "pose": "walk",
+   "dir": "S",
+   "frame": 0,
+   "of": 4
+  },
+  {
+   "row": 1,
+   "col": 2,
+   "pose": "walk",
+   "dir": "S",
+   "frame": 1,
+   "of": 4
+  },
+  {
+   "row": 1,
+   "col": 3,
+   "pose": "walk",
+   "dir": "S",
+   "frame": 2,
+   "of": 4
+  },
+  {
+   "row": 1,
+   "col": 4,
+   "pose": "walk",
+   "dir": "S",
+   "frame": 3,
+   "of": 4
+  },
+  {
+   "row": 1,
+   "col": 5,
+   "pose": "walk",
+   "dir": "SE",
+   "frame": 0,
+   "of": 4
+  },
+  {
+   "row": 1,
+   "col": 6,
+   "pose": "walk",
+   "dir": "SE",
+   "frame": 1,
+   "of": 4
+  },
+  {
+   "row": 1,
+   "col": 7,
+   "pose": "walk",
+   "dir": "SE",
+   "frame": 2,
+   "of": 4
+  },
+  {
+   "row": 1,
+   "col": 8,
+   "pose": "walk",
+   "dir": "SE",
+   "frame": 3,
+   "of": 4
+  },
+  {
+   "row": 1,
+   "col": 9,
+   "pose": "look",
+   "dir": "S",
+   "frame": 0,
+   "of": 2
+  },
+  {
+   "row": 1,
+   "col": 10,
+   "pose": "look",
+   "dir": "S",
+   "frame": 1,
+   "of": 2
+  },
+  {
+   "row": 2,
+   "col": 1,
+   "pose": "walk",
+   "dir": "E",
+   "frame": 0,
+   "of": 4
+  },
+  {
+   "row": 2,
+   "col": 2,
+   "pose": "walk",
+   "dir": "E",
+   "frame": 1,
+   "of": 4
+  },
+  {
+   "row": 2,
+   "col": 3,
+   "pose": "walk",
+   "dir": "E",
+   "frame": 2,
+   "of": 4
+  },
+  {
+   "row": 2,
+   "col": 4,
+   "pose": "walk",
+   "dir": "E",
+   "frame": 3,
+   "of": 4
+  },
+  {
+   "row": 2,
+   "col": 5,
+   "pose": "walk",
+   "dir": "NE",
+   "frame": 0,
+   "of": 4
+  },
+  {
+   "row": 2,
+   "col": 6,
+   "pose": "walk",
+   "dir": "NE",
+   "frame": 1,
+   "of": 4
+  },
+  {
+   "row": 2,
+   "col": 7,
+   "pose": "walk",
+   "dir": "NE",
+   "frame": 2,
+   "of": 4
+  },
+  {
+   "row": 2,
+   "col": 8,
+   "pose": "walk",
+   "dir": "NE",
+   "frame": 3,
+   "of": 4
+  },
+  {
+   "row": 2,
+   "col": 9,
+   "pose": "stand",
+   "dir": "S",
+   "frame": 0,
+   "of": 1
+  },
+  {
+   "row": 2,
+   "col": 10,
+   "pose": "stand",
+   "dir": "E",
+   "frame": 0,
+   "of": 1
+  },
+  {
+   "row": 3,
+   "col": 1,
+   "pose": "walk",
+   "dir": "N",
+   "frame": 0,
+   "of": 4
+  },
+  {
+   "row": 3,
+   "col": 2,
+   "pose": "walk",
+   "dir": "N",
+   "frame": 1,
+   "of": 4
+  },
+  {
+   "row": 3,
+   "col": 3,
+   "pose": "walk",
+   "dir": "N",
+   "frame": 2,
+   "of": 4
+  },
+  {
+   "row": 3,
+   "col": 4,
+   "pose": "walk",
+   "dir": "N",
+   "frame": 3,
+   "of": 4
+  },
+  {
+   "row": 3,
+   "col": 5,
+   "pose": "fidget",
+   "dir": "S",
+   "frame": 0,
+   "of": 2
+  },
+  {
+   "row": 3,
+   "col": 6,
+   "pose": "fidget",
+   "dir": "S",
+   "frame": 1,
+   "of": 2
+  },
+  {
+   "row": 3,
+   "col": 7,
+   "pose": "sit_down",
+   "dir": "S",
+   "frame": 0,
+   "of": 2
+  },
+  {
+   "row": 3,
+   "col": 8,
+   "pose": "sit_down",
+   "dir": "S",
+   "frame": 1,
+   "of": 2
+  },
+  {
+   "row": 3,
+   "col": 9,
+   "pose": "sit_rest",
+   "dir": "S",
+   "frame": 0,
+   "of": 1
+  },
+  {
+   "row": 3,
+   "col": 10,
+   "pose": "stand",
+   "dir": "N",
+   "frame": 0,
+   "of": 1
+  },
+  {
+   "row": 4,
+   "col": 1,
+   "pose": "eat",
+   "dir": "S",
+   "frame": 0,
+   "of": 3
+  },
+  {
+   "row": 4,
+   "col": 2,
+   "pose": "eat",
+   "dir": "S",
+   "frame": 1,
+   "of": 3
+  },
+  {
+   "row": 4,
+   "col": 3,
+   "pose": "eat",
+   "dir": "S",
+   "frame": 2,
+   "of": 3
+  },
+  {
+   "row": 4,
+   "col": 4,
+   "pose": "sleep",
+   "dir": "S",
+   "frame": 0,
+   "of": 2
+  },
+  {
+   "row": 4,
+   "col": 5,
+   "pose": "sleep",
+   "dir": "S",
+   "frame": 1,
+   "of": 2
+  },
+  {
+   "row": 4,
+   "col": 6,
+   "pose": "sad",
+   "dir": "S",
+   "frame": 0,
+   "of": 2
+  },
+  {
+   "row": 4,
+   "col": 7,
+   "pose": "sad",
+   "dir": "S",
+   "frame": 1,
+   "of": 2
+  },
+  {
+   "row": 4,
+   "col": 8,
+   "pose": "dance",
+   "dir": "S",
+   "frame": 0,
+   "of": 2
+  },
+  {
+   "row": 4,
+   "col": 9,
+   "pose": "dance",
+   "dir": "S",
+   "frame": 1,
+   "of": 2
+  },
+  {
+   "row": 4,
+   "col": 10,
+   "pose": "cheer",
+   "dir": "S",
+   "frame": 0,
+   "of": 1
+  },
+  {
+   "row": 5,
+   "col": 1,
+   "pose": "stagger",
+   "dir": "S",
+   "frame": 0,
+   "of": 2
+  },
+  {
+   "row": 5,
+   "col": 2,
+   "pose": "stagger",
+   "dir": "S",
+   "frame": 1,
+   "of": 2
+  },
+  {
+   "row": 5,
+   "col": 3,
+   "pose": "die",
+   "dir": "S",
+   "frame": 0,
+   "of": 4
+  },
+  {
+   "row": 5,
+   "col": 4,
+   "pose": "die",
+   "dir": "S",
+   "frame": 1,
+   "of": 4
+  },
+  {
+   "row": 5,
+   "col": 5,
+   "pose": "die",
+   "dir": "S",
+   "frame": 2,
+   "of": 4
+  },
+  {
+   "row": 5,
+   "col": 6,
+   "pose": "die",
+   "dir": "S",
+   "frame": 3,
+   "of": 4
+  },
+  {
+   "row": 5,
+   "col": 7,
+   "pose": "stab",
+   "dir": "E",
+   "frame": 0,
+   "of": 2
+  },
+  {
+   "row": 5,
+   "col": 8,
+   "pose": "stab",
+   "dir": "E",
+   "frame": 1,
+   "of": 2
+  },
+  {
+   "row": 5,
+   "col": 9,
+   "pose": "putdown",
+   "dir": "S",
+   "frame": 0,
+   "of": 1
+  },
+  {
+   "row": 5,
+   "col": 10,
+   "pose": "pickup",
+   "dir": "S",
+   "frame": 0,
+   "of": 1
+  },
+  {
+   "row": 6,
+   "col": 1,
+   "pose": "melee",
+   "dir": "E",
+   "frame": 0,
+   "of": 5
+  },
+  {
+   "row": 6,
+   "col": 2,
+   "pose": "melee",
+   "dir": "E",
+   "frame": 1,
+   "of": 5
+  },
+  {
+   "row": 6,
+   "col": 3,
+   "pose": "melee",
+   "dir": "E",
+   "frame": 2,
+   "of": 5
+  },
+  {
+   "row": 6,
+   "col": 4,
+   "pose": "melee",
+   "dir": "E",
+   "frame": 3,
+   "of": 5
+  },
+  {
+   "row": 6,
+   "col": 5,
+   "pose": "melee",
+   "dir": "E",
+   "frame": 4,
+   "of": 5
+  },
+  {
+   "row": 6,
+   "col": 6,
+   "pose": "melee",
+   "dir": "S",
+   "frame": 0,
+   "of": 3
+  },
+  {
+   "row": 6,
+   "col": 7,
+   "pose": "melee",
+   "dir": "S",
+   "frame": 1,
+   "of": 3
+  },
+  {
+   "row": 6,
+   "col": 8,
+   "pose": "melee",
+   "dir": "S",
+   "frame": 2,
+   "of": 3
+  },
+  {
+   "row": 6,
+   "col": 9,
+   "pose": "trapped",
+   "dir": "S",
+   "frame": 0,
+   "of": 2
+  },
+  {
+   "row": 6,
+   "col": 10,
+   "pose": "trapped",
+   "dir": "S",
+   "frame": 1,
+   "of": 2
+  },
+  {
+   "row": 7,
+   "col": 1,
+   "pose": "throw",
+   "dir": "E",
+   "frame": 0,
+   "of": 4
+  },
+  {
+   "row": 7,
+   "col": 2,
+   "pose": "throw",
+   "dir": "E",
+   "frame": 1,
+   "of": 4
+  },
+  {
+   "row": 7,
+   "col": 3,
+   "pose": "throw",
+   "dir": "E",
+   "frame": 2,
+   "of": 4
+  },
+  {
+   "row": 7,
+   "col": 4,
+   "pose": "throw",
+   "dir": "E",
+   "frame": 3,
+   "of": 4
+  },
+  {
+   "row": 7,
+   "col": 5,
+   "pose": "chop",
+   "dir": "E",
+   "frame": 0,
+   "of": 3
+  },
+  {
+   "row": 7,
+   "col": 6,
+   "pose": "chop",
+   "dir": "E",
+   "frame": 1,
+   "of": 3
+  },
+  {
+   "row": 7,
+   "col": 7,
+   "pose": "chop",
+   "dir": "E",
+   "frame": 2,
+   "of": 3
+  },
+  {
+   "row": 7,
+   "col": 8,
+   "pose": "mine",
+   "dir": "E",
+   "frame": 0,
+   "of": 3
+  },
+  {
+   "row": 7,
+   "col": 9,
+   "pose": "mine",
+   "dir": "E",
+   "frame": 1,
+   "of": 3
+  },
+  {
+   "row": 7,
+   "col": 10,
+   "pose": "mine",
+   "dir": "E",
+   "frame": 2,
+   "of": 3
+  },
+  {
+   "row": 8,
+   "col": 1,
+   "pose": "build",
+   "dir": "E",
+   "frame": 0,
+   "of": 3
+  },
+  {
+   "row": 8,
+   "col": 2,
+   "pose": "build",
+   "dir": "E",
+   "frame": 1,
+   "of": 3
+  },
+  {
+   "row": 8,
+   "col": 3,
+   "pose": "build",
+   "dir": "E",
+   "frame": 2,
+   "of": 3
+  },
+  {
+   "row": 8,
+   "col": 4,
+   "pose": "forage",
+   "dir": "S",
+   "frame": 0,
+   "of": 3
+  },
+  {
+   "row": 8,
+   "col": 5,
+   "pose": "forage",
+   "dir": "S",
+   "frame": 1,
+   "of": 3
+  },
+  {
+   "row": 8,
+   "col": 6,
+   "pose": "forage",
+   "dir": "S",
+   "frame": 2,
+   "of": 3
+  },
+  {
+   "row": 8,
+   "col": 7,
+   "pose": "butcher",
+   "dir": "E",
+   "frame": 0,
+   "of": 3
+  },
+  {
+   "row": 8,
+   "col": 8,
+   "pose": "butcher",
+   "dir": "E",
+   "frame": 1,
+   "of": 3
+  },
+  {
+   "row": 8,
+   "col": 9,
+   "pose": "butcher",
+   "dir": "E",
+   "frame": 2,
+   "of": 3
+  },
+  {
+   "row": 8,
+   "col": 10,
+   "pose": "peek",
+   "dir": "S",
+   "frame": 0,
+   "of": 1
+  },
+  {
+   "row": 9,
+   "col": 1,
+   "pose": "cook",
+   "dir": "S",
+   "frame": 0,
+   "of": 2
+  },
+  {
+   "row": 9,
+   "col": 2,
+   "pose": "cook",
+   "dir": "S",
+   "frame": 1,
+   "of": 2
+  },
+  {
+   "row": 9,
+   "col": 3,
+   "pose": "fish",
+   "dir": "E",
+   "frame": 0,
+   "of": 4
+  },
+  {
+   "row": 9,
+   "col": 4,
+   "pose": "fish",
+   "dir": "E",
+   "frame": 1,
+   "of": 4
+  },
+  {
+   "row": 9,
+   "col": 5,
+   "pose": "fish",
+   "dir": "E",
+   "frame": 2,
+   "of": 4
+  },
+  {
+   "row": 9,
+   "col": 6,
+   "pose": "fish",
+   "dir": "E",
+   "frame": 3,
+   "of": 4
+  },
+  {
+   "row": 9,
+   "col": 7,
+   "pose": "sneak",
+   "dir": "E",
+   "frame": 0,
+   "of": 4
+  },
+  {
+   "row": 9,
+   "col": 8,
+   "pose": "sneak",
+   "dir": "E",
+   "frame": 1,
+   "of": 4
+  },
+  {
+   "row": 9,
+   "col": 9,
+   "pose": "sneak",
+   "dir": "E",
+   "frame": 2,
+   "of": 4
+  },
+  {
+   "row": 9,
+   "col": 10,
+   "pose": "sneak",
+   "dir": "E",
+   "frame": 3,
+   "of": 4
+  },
+  {
+   "row": 10,
+   "col": 1,
+   "pose": "hide",
+   "dir": "S",
+   "frame": 0,
+   "of": 3
+  },
+  {
+   "row": 10,
+   "col": 2,
+   "pose": "hide",
+   "dir": "S",
+   "frame": 1,
+   "of": 3
+  },
+  {
+   "row": 10,
+   "col": 3,
+   "pose": "hide",
+   "dir": "S",
+   "frame": 2,
+   "of": 3
+  },
+  {
+   "row": 10,
+   "col": 4,
+   "pose": "carry",
+   "dir": "E",
+   "frame": 0,
+   "of": 4
+  },
+  {
+   "row": 10,
+   "col": 5,
+   "pose": "carry",
+   "dir": "E",
+   "frame": 1,
+   "of": 4
+  },
+  {
+   "row": 10,
+   "col": 6,
+   "pose": "carry",
+   "dir": "E",
+   "frame": 2,
+   "of": 4
+  },
+  {
+   "row": 10,
+   "col": 7,
+   "pose": "carry",
+   "dir": "E",
+   "frame": 3,
+   "of": 4
+  },
+  {
+   "row": 10,
+   "col": 8,
+   "pose": "chat",
+   "dir": "S",
+   "frame": 0,
+   "of": 3
+  },
+  {
+   "row": 10,
+   "col": 9,
+   "pose": "chat",
+   "dir": "S",
+   "frame": 1,
+   "of": 3
+  },
+  {
+   "row": 10,
+   "col": 10,
+   "pose": "chat",
+   "dir": "S",
+   "frame": 2,
+   "of": 3
+  }
+ ]
+}

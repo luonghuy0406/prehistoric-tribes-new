@@ -1,0 +1,145 @@
+/* ====================================================================================================
+   Stone-Age skin for the HUD — art from assets/hd/source/ui (S09 chrome + S10 icons, sliced by
+   tools/slice_sheets.py). Wood = actions/resources, stone = selection cards, parchment = menus.
+   ==================================================================================================== */
+:root {
+  --ui: '/hd/source/ui/chrome';
+  --ink: #3a2713;          /* text on parchment / stone */
+  --ink-soft: #6a4f33;
+  --cream: #fbefd0;        /* text on wood */
+  --wood-shadow: 0 1px 0 #2b1a0c, 0 2px 3px rgba(0, 0, 0, .55);
+  --plank: url('/hd/source/ui/chrome/btn_wide_normal.png');
+  --plank-hover: url('/hd/source/ui/chrome/btn_wide_hover.png');
+  --plank-down: url('/hd/source/ui/chrome/btn_wide_pressed.png');
+}
+html, body, #root, .app { cursor: var(--cursor-default, default); }
+
+.ic { display: inline-block; object-fit: contain; image-rendering: auto; filter: drop-shadow(0 1px 1px rgba(0, 0, 0, .45)); pointer-events: none; }
+
+/* ---------- top bar ---------- */
+.res {
+  gap: 4px; padding: 0 8px 0 4px; min-height: 46px; background: none; backdrop-filter: none; border-radius: 0;
+  border: 13px solid transparent; border-image: url('/hd/source/ui/chrome/btn_small_normal.png') 26 fill / 13px stretch;
+  margin: -5px -3px; color: var(--cream); text-shadow: var(--wood-shadow);
+}
+.res.muted { opacity: .82; filter: saturate(.7) hue-rotate(-12deg); }
+.res-icon { margin: -6px -2px -6px -8px; }
+.res-value { font-size: 17px; font-weight: 800; min-width: 22px; }
+.resources { gap: 8px; }
+
+.chip { background: none; border: 0; border-radius: 0; color: var(--cream); text-shadow: var(--wood-shadow); font-weight: 800; }
+.chip.round {
+  width: 50px; height: 50px; min-width: 0; min-height: 0; padding: 0; display: grid; place-items: center; font-size: 17px;
+  background: url('/hd/source/ui/chrome/btn_round_normal.png') center / 100% 100% no-repeat; color: #2f2a22; text-shadow: 0 1px 0 rgba(255, 255, 255, .5);
+}
+.chip.round:hover { background-image: url('/hd/source/ui/chrome/btn_round_hover.png'); }
+.chip.round:active { background-image: url('/hd/source/ui/chrome/btn_round_pressed.png'); }
+.chip.small {
+  min-height: 34px; padding: 0 6px; font-size: 13px; border: 10px solid transparent; border-image: var(--plank) 30 fill / 10px stretch; margin: -4px 0;
+}
+.chip.small:hover { border-image-source: var(--plank-hover); }
+.chip.small:active { border-image-source: var(--plank-down); }
+
+/* ---------- parchment: level menu, build sheet ---------- */
+.menu-pop, .sheet {
+  background: none; backdrop-filter: none; border-radius: 0; box-shadow: none; color: var(--ink);
+  border: 34px solid transparent; border-image: url('/hd/source/ui/chrome/panel_menu.png') 80 fill / 34px stretch;
+  filter: drop-shadow(0 8px 14px rgba(0, 0, 0, .55));
+}
+.menu-pop { width: 290px; padding: 0 2px; }
+.menu-title, .menu-foot, .sheet-note, .sheet .sub { color: var(--ink-soft); }
+.menu-title { font-weight: 800; }
+.menu-item { color: var(--ink); font-weight: 600; }
+.menu-item span { color: var(--ink-soft); }
+.menu-item:hover, .menu-item.active { background: rgba(120, 78, 30, .18); }
+.sheet { width: min(620px, calc(100vw - 24px)); padding: 0 4px 2px; }
+.sheet h2 { font-size: 20px; color: #4a2f12; text-shadow: 0 1px 0 rgba(255, 245, 220, .7); }
+
+/* ---------- dock ---------- */
+.dock {
+  background: none; backdrop-filter: none; border-radius: 0; gap: 2px; padding: 0;
+  border: 20px solid transparent; border-image: url('/hd/source/ui/chrome/plank_title.png') 44 84 fill / 20px 40px stretch;
+  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, .55)); margin: 0 -6px;
+}
+.dock-btn { min-width: 72px; min-height: 66px; border-radius: 14px; color: var(--cream); }
+.dock-btn:hover:not(:disabled) { background: rgba(255, 233, 170, .20); }
+.dock-btn.active { background: radial-gradient(closest-side, rgba(255, 224, 120, .55), rgba(255, 224, 120, 0) 92%); border-color: rgba(255, 225, 130, .6); }
+.dock-btn:active:not(:disabled) { transform: translateY(1px) scale(.97); }
+.dock-btn:disabled { opacity: .42; filter: grayscale(.6); }
+.dock-icon { display: grid; place-items: center; height: 38px; }
+.dock-label { color: var(--cream); font-size: 12px; font-weight: 700; text-shadow: var(--wood-shadow); }
+.dock-btn kbd { color: #f2dba0; opacity: .95; font-weight: 700; text-shadow: var(--wood-shadow); }
+
+/* ---------- banner (placing a building) ---------- */
+.banner {
+  background: none; border-radius: 0; color: var(--cream); text-shadow: var(--wood-shadow);
+  border: 22px solid transparent; border-image: url('/hd/source/ui/chrome/plank_title.png') 44 84 fill / 22px 40px stretch; filter: drop-shadow(0 6px 10px rgba(0, 0, 0, .5));
+}
+.banner-hint { color: #f2dba0; }
+
+/* ---------- stone selection cards ---------- */
+.card {
+  background: none; backdrop-filter: none; border-radius: 0; color: var(--ink); padding: 0 2px 2px;
+  border: 30px solid transparent; border-image: url('/hd/source/ui/chrome/panel_stone.png') 70 fill / 30px stretch; filter: drop-shadow(0 8px 14px rgba(0, 0, 0, .55));
+}
+.card h3 { font-size: 18px; color: #2b2014; }
+.sub, .skills, .tip { color: var(--ink-soft); }
+.avatar {
+  width: 62px; height: 62px; font-size: 28px; border: 0; border-radius: 0; background: url('/hd/source/ui/chrome/frame_round.png') center / 100% 100% no-repeat; position: relative;
+}
+.avatar.building { padding: 10px; border-radius: 0; }
+.avatar .bthumb { max-width: 36px; max-height: 36px; }
+.bar { grid-template-columns: 26px 1fr 34px; gap: 6px; margin: 3px 0; color: var(--ink); }
+.bar-label { display: grid; place-items: center; }
+.bar-track { height: 16px; padding: 3px 4px; border-radius: 0; overflow: visible; background: url('/hd/source/ui/chrome/bar_frame.png') center / 100% 100% no-repeat; }
+.bar-fill { border-radius: 99px; box-shadow: inset 0 3px 0 rgba(255, 255, 255, .38), inset 0 -2px 0 rgba(0, 0, 0, .25); }
+.bar-num { font-weight: 800; }
+
+/* ---------- wooden buttons (actions, +/-) ---------- */
+.action, .icon-btn {
+  background: none; border-radius: 0; color: var(--cream); text-shadow: var(--wood-shadow); font-weight: 700;
+  border: 12px solid transparent; border-image: var(--plank) 30 fill / 12px stretch; min-height: 44px; padding: 0 6px;
+}
+.action:hover, .icon-btn:hover { border-image-source: var(--plank-hover); }
+.action:active, .icon-btn:active { border-image-source: var(--plank-down); }
+.action.primary { filter: saturate(1.25) brightness(1.08); color: #3a2410; text-shadow: 0 1px 0 rgba(255, 245, 220, .7); }
+.action.danger { filter: hue-rotate(-28deg) saturate(1.9) brightness(.95); }
+.action small { color: #f2dba0; }
+.icon-btn { min-width: 44px; }
+.prod-row, .section { color: var(--ink); }
+.section { font-weight: 800; color: var(--ink-soft); }
+.actions { gap: 4px 8px; }
+
+/* ---------- build cards ---------- */
+.build-grid { gap: 10px; }
+.build-card {
+  background: none; border-radius: 0; color: var(--cream); text-shadow: var(--wood-shadow); gap: 2px;
+  border: 14px solid transparent; border-image: var(--plank) 30 fill / 14px stretch; padding: 0 2px 2px;
+}
+.build-card:hover { border-image-source: var(--plank-hover); background: none; color: #3a2410; text-shadow: 0 1px 0 rgba(255, 245, 220, .7); }
+.build-card:active { border-image-source: var(--plank-down); }
+.build-card.short { opacity: .82; filter: saturate(.75); }
+.build-icon { display: grid; place-items: center; height: 68px; margin-top: -6px; }
+.build-icon .bthumb { filter: drop-shadow(0 3px 3px rgba(0, 0, 0, .5)); }
+.build-name { font-size: 14px; font-weight: 800; }
+.build-cost { gap: 8px; font-weight: 800; }
+.cost { display: inline-flex; align-items: center; gap: 2px; }
+.cost.lack { color: #ffb0a0; }
+.build-card:hover .cost.lack { color: #a3221a; }
+.build-size { color: #f2dba0; }
+.build-card:hover .build-size { color: #5b4126; }
+
+.hint { color: #f2dba0; text-shadow: var(--wood-shadow); font-weight: 600; bottom: calc(112px + var(--safe-b)); }
+.overlay { background: radial-gradient(circle at 50% 40%, #3b2a16, #150e07); color: var(--cream); }
+
+@media (max-width: 720px) {
+  .res { min-height: 38px; border-width: 11px; margin: -4px -3px; }
+  .res-icon { width: 22px; height: 22px; }
+  .res-value { font-size: 14px; }
+  .chip.round { width: 42px; height: 42px; }
+  .dock { border-width: 16px 22px; border-image-width: 16px 28px; margin: 0; }
+  .dock-btn { min-height: 56px; }
+  .dock-icon { height: 30px; }
+  .dock-icon .ic { height: 30px; width: auto; }
+  .card, .sheet { border-radius: 0; }
+}

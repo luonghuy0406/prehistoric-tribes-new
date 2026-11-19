@@ -1,3 +1,4 @@
+import { applyCursors } from './skin';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import {
   Cmd,
@@ -128,6 +129,7 @@ export function useGame(initialLevel: number) {
         }
         adapterRef.current = adapter;
         rendererRef.current = renderer;
+        void applyCursors(renderer);
         const c = adapter.commands;
         renderer.providers = {
           selection: () => {

@@ -11,7 +11,8 @@
 import { Texture } from 'pixi.js';
 
 /** dir5 = 5-direction strip (S,SE,E,NE,N); strip = N variations side by side. */
-export type AssetKind = 'dir5' | 'strip' | 'building' | 'texture' | 'sprite';
+/** anim = animation strip: `frames` equal-width frames, same size, feet on the bottom edge, body centred (pre-keyed). */
+export type AssetKind = 'dir5' | 'strip' | 'building' | 'texture' | 'sprite' | 'anim';
 
 export interface ManifestEntry {
   src: string;
@@ -24,6 +25,8 @@ export interface ManifestEntry {
   optional?: boolean;
   /** texture: world pixels covered by one repeat of the image. */
   worldSize?: number;
+  /** anim: standing height (px) of the character in these frames, used to scale every pose consistently. */
+  ref?: number;
 }
 
 export interface Manifest {
@@ -38,10 +41,14 @@ export interface HdSprite {
   sizes: { w: number; h: number }[];
   /** For textures: world pixels per repeat. */
   worldSize?: number;
+  /** For anim strips: standing height in source px (see ManifestEntry.ref). */
+  ref?: number;
 }
 
 /** A pixel counts as background when green dominates red and blue by this much. */
 const KEY_STRONG = 70;
+/** Enclosed background pockets: dominance this high can only be the chroma backdrop, never art. */
+const KEY_POCKET = 100;
 /** Fringe pixels with green dominance above this get softened alpha + de-spill. */
 const KEY_SOFT = 25;
 
@@ -87,6 +94,23 @@ async function loadEntry(baseUrl: string, entry: ManifestEntry): Promise<HdSprit
     const tex = Texture.from(canvas);
     tex.source.addressMode = 'repeat';
     return { frames: [tex], sizes: [{ w: canvas.width, h: canvas.height }], ...(entry.worldSize ? { worldSize: entry.worldSize } : {}) };
+  }
+
+  if (entry.kind === 'anim') {
+    // Pre-keyed strip of equal frames: slice without trimming so the anchor (bottom-centre) stays put.
+    const n = Math.max(1, entry.frames ?? 1);
+    const fw = Math.floor(canvas.width / n);
+    const frames: Texture[] = [];
+    const sizes: { w: number; h: number }[] = [];
+    for (let i = 0; i < n; i++) {
+      const c = document.createElement('canvas');
+      c.width = fw;
+      c.height = canvas.height;
+      c.getContext('2d')?.drawImage(canvas, i * fw, 0, fw, canvas.height, 0, 0, fw, canvas.height);
+      frames.push(Texture.from(c));
+      sizes.push({ w: fw, h: canvas.height });
+    }
+    return { frames, sizes, ...(entry.ref ? { ref: entry.ref } : {}) };
   }
 
   const data = ctx.getImageData(0, 0, canvas.width, canvas.height);
@@ -140,6 +164,11 @@ export function chromaKey(img: ImageData): void {
     if (x < w - 1) push(p + 1);
     if (p >= w) push(p - w);
     if (p < w * (h - 1)) push(p + w);
+  }
+  // Background "pockets" fully enclosed by the object (between trunk and branches, under a roof…)
+  // are not reachable from the border; very strongly green pixels there are background too.
+  for (let p = 0; p < w * h; p++) {
+    if (bg[p] === 0 && greenDominance(d, p * 4) > KEY_POCKET) bg[p] = 1;
   }
   for (let p = 0; p < w * h; p++) {
     const i = p * 4;

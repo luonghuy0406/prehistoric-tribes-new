@@ -1,5 +1,6 @@
 import type { EngineCommands } from '@pt3d/engine-adapter';
-import { BUILDING_HINTS, BUILDING_ICONS, BUILDING_NAMES } from '../labels';
+import { BUILDING_HINTS, BUILDING_NAMES } from '../labels';
+import { BuildingThumb, Ic } from '../skin';
 import type { HudStats } from '../useGame';
 
 interface Props {
@@ -34,13 +35,13 @@ export function BuildSheet({ options, commands, stats, onChoose, onClose }: Prop
               title={BUILDING_HINTS[type]}
             >
               <span className="build-icon" aria-hidden="true">
-                {BUILDING_ICONS[type]}
+                <BuildingThumb type={type} size={64} />
               </span>
               <span className="build-name">{BUILDING_NAMES[type]}</span>
               <span className="build-cost">
-                {cost.wood > 0 && <Cost icon="🪵" n={cost.wood} lack={cost.wood > stats.wood} />}
-                {cost.stones > 0 && <Cost icon="🪨" n={cost.stones} lack={cost.stones > stats.stones} />}
-                {cost.bones > 0 && <Cost icon="🦴" n={cost.bones} lack={cost.bones > stats.bones} />}
+                {cost.wood > 0 && <Cost icon="res_wood" n={cost.wood} lack={cost.wood > stats.wood} />}
+                {cost.stones > 0 && <Cost icon="res_stone" n={cost.stones} lack={cost.stones > stats.stones} />}
+                {cost.bones > 0 && <Cost icon="res_bone" n={cost.bones} lack={cost.bones > stats.bones} />}
               </span>
               <span className="build-size">
                 {size.w}×{size.h} ô
@@ -57,7 +58,7 @@ export function BuildSheet({ options, commands, stats, onChoose, onClose }: Prop
 function Cost({ icon, n, lack }: { icon: string; n: number; lack: boolean }) {
   return (
     <span className={lack ? 'cost lack' : 'cost'}>
-      {icon}
+      <Ic name={icon} size={18} />
       {n}
     </span>
   );

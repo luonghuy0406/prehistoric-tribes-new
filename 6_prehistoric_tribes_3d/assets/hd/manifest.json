@@ -126,6 +126,530 @@
       "key": false,
       "worldSize": 704,
       "optional": true
+    },
+    "chr_warrior": {
+      "src": "source/characters/chr_warrior.png",
+      "kind": "dir5",
+      "optional": true,
+      "frames": 5
+    },
+    "chr_shaman": {
+      "src": "source/characters/chr_shaman.png",
+      "kind": "dir5",
+      "optional": true,
+      "frames": 5
+    },
+    "chr_scout": {
+      "src": "source/characters/chr_scout.png",
+      "kind": "dir5",
+      "optional": true,
+      "frames": 5
+    },
+    "chr_jafar": {
+      "src": "source/characters/chr_jafar.png",
+      "kind": "dir5",
+      "optional": true,
+      "frames": 5
+    },
+    "bld_gym_l1": {
+      "src": "source/buildings/bld_gym_l1.png",
+      "kind": "building",
+      "optional": true
+    },
+    "bld_range_l1": {
+      "src": "source/buildings/bld_range_l1.png",
+      "kind": "building",
+      "optional": true
+    },
+    "bld_disco_l1": {
+      "src": "source/buildings/bld_disco_l1.png",
+      "kind": "building",
+      "optional": true
+    },
+    "bld_sanctuary_l1": {
+      "src": "source/buildings/bld_sanctuary_l1.png",
+      "kind": "building",
+      "optional": true
+    },
+    "bld_pia_l1": {
+      "src": "source/buildings/bld_pia_l1.png",
+      "kind": "building",
+      "optional": true
+    },
+    "bld_nursery_l1": {
+      "src": "source/buildings/bld_nursery_l1.png",
+      "kind": "building",
+      "optional": true
+    },
+    "bld_campfire": {
+      "src": "source/buildings/bld_campfire.png",
+      "kind": "sprite",
+      "optional": true
+    },
+    "bld_kitchen_l2": {
+      "src": "source/buildings/bld_kitchen_l2.png",
+      "kind": "building",
+      "optional": true
+    },
+    "bld_armoury_l2": {
+      "src": "source/buildings/bld_armoury_l2.png",
+      "kind": "building",
+      "optional": true
+    },
+    "bld_gym_l2": {
+      "src": "source/buildings/bld_gym_l2.png",
+      "kind": "building",
+      "optional": true
+    },
+    "bld_range_l2": {
+      "src": "source/buildings/bld_range_l2.png",
+      "kind": "building",
+      "optional": true
+    },
+    "bld_disco_l2": {
+      "src": "source/buildings/bld_disco_l2.png",
+      "kind": "building",
+      "optional": true
+    },
+    "bld_sanctuary_l2": {
+      "src": "source/buildings/bld_sanctuary_l2.png",
+      "kind": "building",
+      "optional": true
+    },
+    "bld_pia_l2": {
+      "src": "source/buildings/bld_pia_l2.png",
+      "kind": "building",
+      "optional": true
+    },
+    "bld_nursery_l2": {
+      "src": "source/buildings/bld_nursery_l2.png",
+      "kind": "building",
+      "optional": true
+    },
+    "bld_tower_l2": {
+      "src": "source/buildings/bld_tower_l2.png",
+      "kind": "building",
+      "optional": true
+    },
+    "bld_hut_l3": {
+      "src": "source/buildings/bld_hut_l3.png",
+      "kind": "building",
+      "optional": true
+    },
+    "bld_site_s_plot": {
+      "src": "source/buildings/bld_site_s_plot.png",
+      "kind": "sprite",
+      "optional": true
+    },
+    "bld_site_m_frame": {
+      "src": "source/buildings/bld_site_m_frame.png",
+      "kind": "sprite",
+      "optional": true
+    },
+    "bld_site_l_rubble": {
+      "src": "source/buildings/bld_site_l_rubble.png",
+      "kind": "sprite",
+      "optional": true
+    },
+    "bld_site_m_plot": {
+      "src": "source/buildings/bld_site_m_plot.png",
+      "kind": "sprite",
+      "optional": true
+    },
+    "bld_site_l_frame": {
+      "src": "source/buildings/bld_site_l_frame.png",
+      "kind": "sprite",
+      "optional": true
+    },
+    "nat_stump": {
+      "src": "source/nature/nat_stump.png",
+      "kind": "sprite",
+      "optional": true
+    },
+    "nat_felled": {
+      "src": "source/nature/nat_felled.png",
+      "kind": "sprite",
+      "optional": true
+    },
+    "nat_boulder_a": {
+      "src": "source/nature/nat_boulder_a.png",
+      "kind": "sprite",
+      "optional": true
+    },
+    "nat_boulder_b": {
+      "src": "source/nature/nat_boulder_b.png",
+      "kind": "sprite",
+      "optional": true
+    },
+    "nat_tree_jungle": {
+      "src": "source/nature/nat_tree_jungle.png",
+      "kind": "strip",
+      "optional": true,
+      "frames": 3
+    },
+    "nat_tree_acacia": {
+      "src": "source/nature/nat_tree_acacia.png",
+      "kind": "sprite",
+      "optional": true
+    },
+    "nat_tree_dead": {
+      "src": "source/nature/nat_tree_dead.png",
+      "kind": "sprite",
+      "optional": true
+    },
+    "nat_shrub": {
+      "src": "source/nature/nat_shrub.png",
+      "kind": "sprite",
+      "optional": true
+    },
+    "nat_berrybush": {
+      "src": "source/nature/nat_berrybush.png",
+      "kind": "strip",
+      "optional": true,
+      "frames": 3
+    },
+    "nat_plants": {
+      "src": "source/nature/nat_plants.png",
+      "kind": "strip",
+      "optional": true,
+      "frames": 3
+    },
+    "nat_rock_quarry": {
+      "src": "source/nature/nat_rock_quarry.png",
+      "kind": "strip",
+      "optional": true,
+      "frames": 3
+    },
+    "nat_bones": {
+      "src": "source/nature/nat_bones.png",
+      "kind": "strip",
+      "optional": true,
+      "frames": 3
+    },
+    "nat_rock_pillar": {
+      "src": "source/nature/nat_rock_pillar.png",
+      "kind": "sprite",
+      "optional": true
+    },
+    "nat_cactus": {
+      "src": "source/nature/nat_cactus.png",
+      "kind": "strip",
+      "optional": true,
+      "frames": 2
+    },
+    "nat_reeds": {
+      "src": "source/nature/nat_reeds.png",
+      "kind": "strip",
+      "optional": true,
+      "frames": 2
+    },
+    "nat_love_nest": {
+      "src": "source/nature/nat_love_nest.png",
+      "kind": "sprite",
+      "optional": true
+    },
+    "ani_boar_carcass": {
+      "src": "source/animals/ani_boar_carcass.png",
+      "kind": "strip",
+      "optional": true,
+      "frames": 3
+    },
+    "ani_tiger_carcass": {
+      "src": "source/animals/ani_tiger_carcass.png",
+      "kind": "sprite",
+      "optional": true
+    },
+    "ani_mammoth": {
+      "src": "source/animals/ani_mammoth.png",
+      "kind": "sprite",
+      "optional": true
+    },
+    "ter_grass_dry": {
+      "src": "source/terrain/ter_grass_dry.png",
+      "kind": "texture",
+      "key": false,
+      "worldSize": 704,
+      "optional": true
+    },
+    "ter_sand": {
+      "src": "source/terrain/ter_sand.png",
+      "kind": "texture",
+      "key": false,
+      "worldSize": 704,
+      "optional": true
+    },
+    "ter_wasteland": {
+      "src": "source/terrain/ter_wasteland.png",
+      "kind": "texture",
+      "key": false,
+      "worldSize": 704,
+      "optional": true
+    },
+    "ter_rock": {
+      "src": "source/terrain/ter_rock.png",
+      "kind": "texture",
+      "key": false,
+      "worldSize": 704,
+      "optional": true
+    },
+    "ter_shore": {
+      "src": "source/terrain/ter_shore.png",
+      "kind": "texture",
+      "key": false,
+      "worldSize": 704,
+      "optional": true
+    },
+    "emote_hungry": {
+      "src": "source/ui/icons/stat_hunger.png",
+      "kind": "sprite",
+      "key": false,
+      "optional": true
+    },
+    "emote_love": {
+      "src": "source/ui/icons/stat_hp.png",
+      "kind": "sprite",
+      "key": false,
+      "optional": true
+    },
+    "emote_tired": {
+      "src": "source/ui/icons/stat_tired.png",
+      "kind": "sprite",
+      "key": false,
+      "optional": true
+    },
+    "emote_mood": {
+      "src": "source/ui/icons/stat_happiness.png",
+      "kind": "sprite",
+      "key": false,
+      "optional": true
+    },
+    "emote_home": {
+      "src": "source/ui/icons/stat_space.png",
+      "kind": "sprite",
+      "key": false,
+      "optional": true
+    },
+    "emote_music": {
+      "src": "source/ui/icons/skill_dj.png",
+      "kind": "sprite",
+      "key": false,
+      "optional": true
+    },
+    "chr_chief@walk_S": {
+      "src": "source/characters/chief/walk_S.png",
+      "kind": "anim",
+      "key": false,
+      "optional": true,
+      "frames": 6,
+      "ref": 212
+    },
+    "chr_chief@walk_SE": {
+      "src": "source/characters/chief/walk_SE.png",
+      "kind": "anim",
+      "key": false,
+      "optional": true,
+      "frames": 6,
+      "ref": 212
+    },
+    "chr_chief@walk_E": {
+      "src": "source/characters/chief/walk_E.png",
+      "kind": "anim",
+      "key": false,
+      "optional": true,
+      "frames": 6,
+      "ref": 212
+    },
+    "chr_chief@walk_NE": {
+      "src": "source/characters/chief/walk_NE.png",
+      "kind": "anim",
+      "key": false,
+      "optional": true,
+      "frames": 6,
+      "ref": 212
+    },
+    "chr_chief@walk_N": {
+      "src": "source/characters/chief/walk_N.png",
+      "kind": "anim",
+      "key": false,
+      "optional": true,
+      "frames": 6,
+      "ref": 212
+    },
+    "chr_chief@look": {
+      "src": "source/characters/chief/look.png",
+      "kind": "anim",
+      "key": false,
+      "optional": true,
+      "frames": 4,
+      "ref": 212
+    },
+    "chr_chief@fidget": {
+      "src": "source/characters/chief/fidget.png",
+      "kind": "anim",
+      "key": false,
+      "optional": true,
+      "frames": 3,
+      "ref": 212
+    },
+    "chr_chief@sit_down": {
+      "src": "source/characters/chief/sit_down.png",
+      "kind": "anim",
+      "key": false,
+      "optional": true,
+      "frames": 3,
+      "ref": 212
+    },
+    "chr_chief@sit_rest": {
+      "src": "source/characters/chief/sit_rest.png",
+      "kind": "anim",
+      "key": false,
+      "optional": true,
+      "frames": 2,
+      "ref": 212
+    },
+    "chr_chief@eat": {
+      "src": "source/characters/chief/eat.png",
+      "kind": "anim",
+      "key": false,
+      "optional": true,
+      "frames": 4,
+      "ref": 212
+    },
+    "chr_chief@sleep": {
+      "src": "source/characters/chief/sleep.png",
+      "kind": "anim",
+      "key": false,
+      "optional": true,
+      "frames": 2,
+      "ref": 212
+    },
+    "chr_chief@sad": {
+      "src": "source/characters/chief/sad.png",
+      "kind": "anim",
+      "key": false,
+      "optional": true,
+      "frames": 3,
+      "ref": 212
+    },
+    "chr_chief@dance": {
+      "src": "source/characters/chief/dance.png",
+      "kind": "anim",
+      "key": false,
+      "optional": true,
+      "frames": 4,
+      "ref": 212
+    },
+    "chr_chief@cheer": {
+      "src": "source/characters/chief/cheer.png",
+      "kind": "anim",
+      "key": false,
+      "optional": true,
+      "frames": 3,
+      "ref": 212
+    },
+    "chr_chief@stagger": {
+      "src": "source/characters/chief/stagger.png",
+      "kind": "anim",
+      "key": false,
+      "optional": true,
+      "frames": 3,
+      "ref": 212
+    },
+    "chr_chief@die": {
+      "src": "source/characters/chief/die.png",
+      "kind": "anim",
+      "key": false,
+      "optional": true,
+      "frames": 4,
+      "ref": 212
+    },
+    "chr_chief@melee_E": {
+      "src": "source/characters/chief/melee_E.png",
+      "kind": "anim",
+      "key": false,
+      "optional": true,
+      "frames": 7,
+      "ref": 212
+    },
+    "chr_chief@melee_S": {
+      "src": "source/characters/chief/melee_S.png",
+      "kind": "anim",
+      "key": false,
+      "optional": true,
+      "frames": 7,
+      "ref": 212
+    },
+    "chr_chief@throw_E": {
+      "src": "source/characters/chief/throw_E.png",
+      "kind": "anim",
+      "key": false,
+      "optional": true,
+      "frames": 7,
+      "ref": 212
+    },
+    "chr_chief@work_E": {
+      "src": "source/characters/chief/work_E.png",
+      "kind": "anim",
+      "key": false,
+      "optional": true,
+      "frames": 4,
+      "ref": 212
+    },
+    "chr_chief@gather_S": {
+      "src": "source/characters/chief/gather_S.png",
+      "kind": "anim",
+      "key": false,
+      "optional": true,
+      "frames": 3,
+      "ref": 212
+    },
+    "chr_chief@stab_E": {
+      "src": "source/characters/chief/stab_E.png",
+      "kind": "anim",
+      "key": false,
+      "optional": true,
+      "frames": 2,
+      "ref": 114
+    },
+    "chr_chief@carry_E": {
+      "src": "source/characters/chief/carry_E.png",
+      "kind": "anim",
+      "key": false,
+      "optional": true,
+      "frames": 4,
+      "ref": 114
+    },
+    "chr_chief@sneak_E": {
+      "src": "source/characters/chief/sneak_E.png",
+      "kind": "anim",
+      "key": false,
+      "optional": true,
+      "frames": 4,
+      "ref": 114
+    },
+    "chr_chief@hide_S": {
+      "src": "source/characters/chief/hide_S.png",
+      "kind": "anim",
+      "key": false,
+      "optional": true,
+      "frames": 3,
+      "ref": 114
+    },
+    "chr_chief@peek_S": {
+      "src": "source/characters/chief/peek_S.png",
+      "kind": "anim",
+      "key": false,
+      "optional": true,
+      "frames": 1,
+      "ref": 114
+    },
+    "chr_chief@chat_S": {
+      "src": "source/characters/chief/chat_S.png",
+      "kind": "anim",
+      "key": false,
+      "optional": true,
+      "frames": 2,
+      "ref": 114
     }
   }
 }

@@ -42,6 +42,21 @@ const Stat = { WIDTH: 4, HEIGHT: 5, COST_WOOD: 10, COST_STONES: 11, COST_BONES: 
  */
 const RALLY_POINT = 100;
 const LAST_VILLAGER = 50;
+/** Fog level VISIBLE (enum `ti`). */
+const FOG_VISIBLE = 0;
+/** Unit tasks (enum `U`) that mean "standing around": IDLE, INTERLUDE_START/INTERLUDE/INTERLUDE_END, WALK_TO_TARGET. */
+const IDLE_TASKS = new Set([69, 83, 84, 85, 87]);
+/** Give up re-issuing a fogged order after this many ticks. */
+const SMART_ORDER_TTL = 3000;
+
+interface PendingOrder {
+  unit: number;
+  tx: number;
+  ty: number;
+  /** Occupancy code of the target when ordered (object ref, forest, unit…). */
+  code: number;
+  ticksLeft: number;
+}
 const FIRST_ENEMY = 51;
 const LAST_ENEMY = 100;
 const MAX_UNITS = 101;
@@ -88,12 +103,13 @@ export interface EngineInternals {
   contextItemCounts: ArrayLike<number>;
   panelVisible: ArrayLike<boolean>;
   occupancy: readonly (ArrayLike<number> & { [i: number]: number })[];
-  units: { hp: ArrayLike<number>; age: ArrayLike<number>; x: ArrayLike<number>; y: ArrayLike<number> };
   buildings: { type: ArrayLike<number> };
   groups: (ArrayLike<number> & { [i: number]: number })[];
   rallyPoint: ArrayLike<number>;
   data: { buildingStat(stat: number, type: number): number };
-  input: { handleFireTap: Fn; selectVillager: Fn };
+  input: { handleFireTap: Fn; selectVillager: Fn; orderVillagerTo: Fn };
+  mapObjects: { fogAt(x: number, y: number): number };
+  units: { hp: ArrayLike<number>; age: ArrayLike<number>; x: ArrayLike<number>; y: ArrayLike<number>; task: ArrayLike<number>; targetX: ArrayLike<number> & { [i: number]: number }; targetTile: ArrayLike<number> };
   selection: { finishBoxSelection: Fn; clearBoxGroup: Fn; cancelBox: Fn };
   contextMenu: { build: Fn; executeContextCommand: Fn; adjustContextQuantity: Fn; setTargetingMode: Fn; close: Fn };
   construction: { canPlaceBuilding(type: number, x: number, y: number, needVisible: boolean): boolean };
@@ -142,6 +158,13 @@ export class EngineCommands {
   /** Building type chosen in the build menu, kept for the whole placement. */
   private chosenBuilding = -1;
   private chosenIndex = -1;
+  /**
+   * D-10: in the original, ordering a villager onto a target still under fog only makes it walk
+   * there (the task is decided at order time, and an unexplored tile has no known target), so it
+   * idles on arrival. Players could not see such targets in the original; with modern controls we
+   * remember the order and re-issue it once the villager stands next to the now-visible target.
+   */
+  private pending = new Map<number, PendingOrder>();
 
   constructor(
     private readonly g: EngineInternals,
@@ -235,12 +258,60 @@ export class EngineCommands {
       g.contextMenu.close();
       if (g.selectedVillager === 0 && g.selectedGroup === -1) g.deselectEverything();
     }
+    const commanding = g.interactionMode === Mode.COMMANDING;
+    const ordered = commanding ? this.state().selectedUnits : [];
     g.firePressCount = run ? 2 : 1;
     if (unitHint > 0 && unitHint <= LAST_VILLAGER && g.interactionMode !== Mode.COMMANDING && g.interactionMode !== Mode.PLACING) {
       g.firePressCount = 0; // selectVillager() treats >1 as "select everyone in view"
     }
     g.input.handleFireTap();
     g.firePressCount = 0;
+    if (commanding) this.rememberFoggedOrder(ordered, tx, ty);
+  }
+
+  /** Call once per simulation tick: re-issues fogged orders when their target became visible. */
+  onTick(): void {
+    if (this.pending.size === 0) return;
+    const g = this.g;
+    for (const [unit, p] of this.pending) {
+      p.ticksLeft--;
+      const gone = (g.units.hp[unit] ?? 0) <= 0 || p.ticksLeft <= 0;
+      // Player gave this villager another order meanwhile → forget ours.
+      const redirected = (g.units.targetTile[unit] ?? 0) !== p.code;
+      if (gone || redirected) {
+        this.pending.delete(unit);
+        continue;
+      }
+      if (g.mapObjects.fogAt(p.tx, p.ty) !== FOG_VISIBLE) continue;
+      const near = Math.abs((g.units.x[unit] ?? 0) - p.tx) <= 1 && Math.abs((g.units.y[unit] ?? 0) - p.ty) <= 1;
+      if (!near || !IDLE_TASKS.has(g.units.task[unit] ?? 0)) continue;
+      this.pending.delete(unit);
+      if ((g.occupancy[p.ty]?.[p.tx] ?? 0) !== p.code) continue; // target used up / gone
+      this.pinCursor(p.tx, p.ty);
+      g.firePressCount = 1;
+      g.units.targetX[unit] = -1; // not a "same target twice" order (that would make it run)
+      g.input.orderVillagerTo(unit, p.code);
+      g.firePressCount = 0;
+    }
+  }
+
+  private rememberFoggedOrder(units: number[], tx: number, ty: number): void {
+    const g = this.g;
+    if (g.mapObjects.fogAt(tx, ty) === FOG_VISIBLE) {
+      for (const u of units) this.pending.delete(u);
+      return;
+    }
+    const code = g.occupancy[ty]?.[tx] ?? 0;
+    for (const u of units) {
+      if ((g.units.targetTile[u] ?? 0) === code) this.pending.set(u, { unit: u, tx, ty, code, ticksLeft: SMART_ORDER_TTL });
+    }
+  }
+
+  /** Forget all remembered orders (level change). */
+  reset(): void {
+    this.pending.clear();
+    this.chosenBuilding = -1;
+    this.chosenIndex = -1;
   }
 
   /** Right-click / long-press: order the current selection to a tile (never changes the selection). */
